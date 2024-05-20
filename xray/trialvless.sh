@@ -38,76 +38,59 @@ export CYAN='\033[0;36m'
 export LIGHT='\033[0;37m'
 export NC='\033[0m'
 
-dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
-biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
-#########################
-
-clear
-source /var/lib/SIJA/ipvps.conf  > /dev/null 2>&1
-if [[ "$IP" = "" ]]; then
 domain=$(cat /etc/xray/domain)
-else
-domain=$IP
-fi
-tr="$(cat ~/log-install.txt | grep -w "Trojan WS " | cut -d: -f2|sed 's/ //g')"
-until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${user_EXISTS} == '0' ]]; do
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-
-		read -rp "   User: " -e user
-		user_EXISTS=$(grep -w $user /etc/xray/config.json | wc -l)
-
-		if [[ ${user_EXISTS} == '1' ]]; then
-clear
-		echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-			echo ""
-			echo "   A client with the specified name was already created, please choose another name."
-			echo ""
-			echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-			read -n 1 -s -r -p "   Press any key to back on menu"
-			menu-trojan
-		fi
-	done
-
+tls="$(cat ~/log-install.txt | grep -w "Vless TLS" | cut -d: -f2|sed 's/ //g')"
+none="$(cat ~/log-install.txt | grep -w "Vless None TLS" | cut -d: -f2|sed 's/ //g')"
+user=trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 uuid=$(cat /proc/sys/kernel/random/uuid)
-read -p "   Expired ( DAYS ): " masaaktif
-read -p "   Limit IP ( DEVIC ) : " limit
-read -p "   Limit Bandwith ( GB ) :  " bw 
+masaaktif=1
 exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
-sed -i '/#trojanws$/a\#! '"$user $exp"'\
-},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
-sed -i '/#trojangrpc$/a\#! '"$user $exp"'\
-},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
-
-systemctl restart xray
-trojanlink1="trojan://${uuid}@${domain}:${tr}?mode=gun&security=tls&type=grpc&serviceName=trojan-grpc&sni=bug.com#${user}"
-trojanlink="trojan://${uuid}@isi_bug_disini:${tr}?path=%2Ftrojan-ws&security=tls&host=${domain}&type=ws&sni=${domain}#${user}"
+uuid=$(cat /proc/sys/kernel/random/uuid)
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
+echo -e "                 ${BIWhite}${UWhite}VLESS TRIAL ACCOUNT ${NC}"
+echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+echo -e "   Generat user for 1 day ....."
+sleep 3
+sed -i '/#vless$/a\#& '"$user $exp"'\
+},{"id": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
+sed -i '/#vlessgrpc$/a\#& '"$user $exp"'\
+},{"id": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
+vlesslink1="vless://${uuid}@${domain}:$tls?path=/vless&security=tls&encryption=none&type=ws#${user}"
+vlesslink2="vless://${uuid}@${domain}:$none?path=/vless&encryption=none&type=ws#${user}"
+vlesslink3="vless://${uuid}@${domain}:$tls?mode=gun&security=tls&encryption=none&type=grpc&serviceName=vless-grpc&sni=bug.com#${user}"
+systemctl restart xray
+clear
+echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "                    ${BIWhite}${UWhite}VLESS ACCOUNT ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "  ${BICyan} Remarks      :${NC} ${BIWhite}${user}${NC}"
-echo -e "  ${BICyan} Limit IP     :${NC} ${BIWhite}${limit}${NC}"
-echo -e "  ${BICyan} Limit BW     :${NC} ${BIWhite}${bw}${NC}"
-echo -e "  ${BICyan} Host/IP      :${NC} ${BIWhite}${domain}${NC}"
-echo -e "  ${BICyan} Port         :${NC} ${BIWhite}443/80${NC}"
-echo -e "  ${BICyan} Key          :${NC} ${BIWhite}${uuid}${NC}"
-echo -e "  ${BICyan} Path         :${NC} ${BIWhite}/trojan-ws${NC}"
-echo -e "  ${BICyan} ServiceName  :${NC} ${BIWhite}trojan-grpc${NC}"
+echo -e "  ${BICyan} Remarks       :${NC} ${BIWhite}${user}${NC}"
+echo -e "  ${BICyan} Host/IP       :${NC} ${BIWhite}${domain}${NC}"
+echo -e "  ${BICyan} Port TLS      :${NC} ${BIWhite}$tls${NC}"
+echo -e "  ${BICyan} Port None TLS :${NC} ${BIWhite}$none${NC}"
+echo -e "  ${BICyan} Port GRPC     :${NC} ${BIWhite}$tls${NC}"
+echo -e "  ${BICyan} ID            :${NC} ${BIWhite}${uuid}${NC}"
+echo -e "  ${BICyan} Encryption    :${NC} ${BIWhite}none${NC}"
+echo -e "  ${BICyan} Network       :${NC} ${BIWhite}WS${NC}"
+echo -e "  ${BICyan} Path          :${NC} ${BIWhite}/vless${NC}"
+echo -e "  ${BICyan} ServiceName  :${NC} ${BIWhite}vless-grpc${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} 
 ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "  ${BICyan} Link WS      :${NC}"
-echo -e "  ${BIWhite} ${trojanlink}${NC}"
+echo -e "  ${BICyan} Link TLS     :${NC}"
+echo -e "  ${BIWhite} ${vlesslink1}${NC}"
+echo ""
+echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+echo -e "${BICyan} 
+┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "  ${BICyan} Link None TLS:${NC}"
+echo -e "  ${BIWhite} ${vlesslink2}${NC}"
 echo ""
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "  ${BICyan} Link GRPC    :${NC}"
-echo -e "  ${BIWhite} ${trojanlink1}${NC}"
+echo -e "  ${BIWhite} ${vlesslink3}${NC}"
 echo ""
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
@@ -116,4 +99,4 @@ echo -e " ${BICyan}└───────────────────�
 echo ""
 read -n 1 -s -r -p "   Press any key to back on menu"
 
-menu-trojan
+menu-vless

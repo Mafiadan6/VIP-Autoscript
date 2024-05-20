@@ -38,44 +38,12 @@ export CYAN='\033[0;36m'
 export LIGHT='\033[0;37m'
 export NC='\033[0m'
 
-dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
-biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
-#########################
 
-clear
-source /var/lib/SIJA/ipvps.conf  > /dev/null 2>&1
-if [[ "$IP" = "" ]]; then
 domain=$(cat /etc/xray/domain)
-else
-domain=$IP
-fi
-tr="$(cat ~/log-install.txt | grep -w "Trojan WS " | cut -d: -f2|sed 's/ //g')"
-until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${user_EXISTS} == '0' ]]; do
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-
-		read -rp "   User: " -e user
-		user_EXISTS=$(grep -w $user /etc/xray/config.json | wc -l)
-
-		if [[ ${user_EXISTS} == '1' ]]; then
-clear
-		echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-			echo ""
-			echo "   A client with the specified name was already created, please choose another name."
-			echo ""
-			echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-			read -n 1 -s -r -p "   Press any key to back on menu"
-			menu-trojan
-		fi
-	done
-
+tr="$(cat ~/log-install.txt | grep -w "Trojan WS" | cut -d: -f2|sed 's/ //g')"
+user=trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 uuid=$(cat /proc/sys/kernel/random/uuid)
-read -p "   Expired ( DAYS ): " masaaktif
-read -p "   Limit IP ( DEVIC ) : " limit
-read -p "   Limit Bandwith ( GB ) :  " bw 
+masaaktif=1
 exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
 sed -i '/#trojanws$/a\#! '"$user $exp"'\
 },{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
@@ -89,10 +57,14 @@ clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+echo -e "   Generat user for 1 day ....."
+sleep 3
+clear
+echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
+echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "  ${BICyan} Remarks      :${NC} ${BIWhite}${user}${NC}"
-echo -e "  ${BICyan} Limit IP     :${NC} ${BIWhite}${limit}${NC}"
-echo -e "  ${BICyan} Limit BW     :${NC} ${BIWhite}${bw}${NC}"
 echo -e "  ${BICyan} Host/IP      :${NC} ${BIWhite}${domain}${NC}"
 echo -e "  ${BICyan} Port         :${NC} ${BIWhite}443/80${NC}"
 echo -e "  ${BICyan} Key          :${NC} ${BIWhite}${uuid}${NC}"

@@ -38,37 +38,42 @@ export CYAN='\033[0;36m'
 export LIGHT='\033[0;37m'
 export NC='\033[0m'
 
+
 dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 #########################
 
+
+
 clear
-source /var/lib/SIJA/ipvps.conf  > /dev/null 2>&1
+source /var/lib/SIJA/ipvps.conf > /dev/null 2>&1
 if [[ "$IP" = "" ]]; then
 domain=$(cat /etc/xray/domain)
 else
 domain=$IP
 fi
-tr="$(cat ~/log-install.txt | grep -w "Trojan WS " | cut -d: -f2|sed 's/ //g')"
-until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${user_EXISTS} == '0' ]]; do
+
+tls="$(cat ~/log-install.txt | grep -w "Vmess TLS" | cut -d: -f2|sed 's/ //g')"
+none="$(cat ~/log-install.txt | grep -w "Vmess None TLS" | cut -d: -f2|sed 's/ //g')"
+until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
+echo -e "                    ${BIWhite}${UWhite}VMESS ACCOUNT ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 
 		read -rp "   User: " -e user
-		user_EXISTS=$(grep -w $user /etc/xray/config.json | wc -l)
+		CLIENT_EXISTS=$(grep -w $user /etc/xray/config.json | wc -l)
 
-		if [[ ${user_EXISTS} == '1' ]]; then
+		if [[ ${CLIENT_EXISTS} == '1' ]]; then
 clear
-		echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
+            echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "                    ${BIWhite}${UWhite}VMESS ACCOUNT ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 			echo ""
 			echo "   A client with the specified name was already created, please choose another name."
 			echo ""
 			echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 			read -n 1 -s -r -p "   Press any key to back on menu"
-			menu-trojan
+v2ray-menu
 		fi
 	done
 
@@ -76,38 +81,100 @@ uuid=$(cat /proc/sys/kernel/random/uuid)
 read -p "   Expired ( DAYS ): " masaaktif
 read -p "   Limit IP ( DEVIC ) : " limit
 read -p "   Limit Bandwith ( GB ) :  " bw 
-exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
-sed -i '/#trojanws$/a\#! '"$user $exp"'\
-},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
-sed -i '/#trojangrpc$/a\#! '"$user $exp"'\
-},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
 
-systemctl restart xray
-trojanlink1="trojan://${uuid}@${domain}:${tr}?mode=gun&security=tls&type=grpc&serviceName=trojan-grpc&sni=bug.com#${user}"
-trojanlink="trojan://${uuid}@isi_bug_disini:${tr}?path=%2Ftrojan-ws&security=tls&host=${domain}&type=ws&sni=${domain}#${user}"
+
+exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
+sed -i '/#vmess$/a\### '"$user $exp"'\
+},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/config.json
+exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
+sed -i '/#vmessgrpc$/a\### '"$user $exp"'\
+},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/config.json
+acs=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "443",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "ws",
+      "path": "/vmess",
+      "type": "none",
+      "host": "",
+      "tls": "tls"
+}
+EOF`
+ask=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "80",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "ws",
+      "path": "/vmess",
+      "type": "none",
+      "host": "",
+      "tls": "none"
+}
+EOF`
+grpc=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "443",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "grpc",
+      "path": "vmess-grpc",
+      "type": "none",
+      "host": "",
+      "tls": "tls"
+}
+EOF`
+vmess_base641=$( base64 -w 0 <<< $vmess_json1)
+vmess_base642=$( base64 -w 0 <<< $vmess_json2)
+vmess_base643=$( base64 -w 0 <<< $vmess_json3)
+vmesslink1="vmess://$(echo $acs | base64 -w 0)"
+vmesslink2="vmess://$(echo $ask | base64 -w 0)"
+vmesslink3="vmess://$(echo $grpc | base64 -w 0)"
+systemctl restart xray > /dev/null 2>&1
+service cron restart > /dev/null 2>&1
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                   ${BIWhite}${UWhite}TROJAN ACCOUNT ${NC}"
+echo -e "                    ${BIWhite}${UWhite}VMESS ACCOUNT ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "  ${BICyan} Remarks      :${NC} ${BIWhite}${user}${NC}"
-echo -e "  ${BICyan} Limit IP     :${NC} ${BIWhite}${limit}${NC}"
-echo -e "  ${BICyan} Limit BW     :${NC} ${BIWhite}${bw}${NC}"
-echo -e "  ${BICyan} Host/IP      :${NC} ${BIWhite}${domain}${NC}"
-echo -e "  ${BICyan} Port         :${NC} ${BIWhite}443/80${NC}"
-echo -e "  ${BICyan} Key          :${NC} ${BIWhite}${uuid}${NC}"
-echo -e "  ${BICyan} Path         :${NC} ${BIWhite}/trojan-ws${NC}"
-echo -e "  ${BICyan} ServiceName  :${NC} ${BIWhite}trojan-grpc${NC}"
+echo -e "  ${BICyan} Remarks       :${NC} ${BIWhite}${user}${NC}"
+echo -e "  ${BICyan} Limit IP      :${NC} ${BIWhite}${limit}${NC}"
+echo -e "  ${BICyan} Limit BW      :${NC} ${BIWhite}${bw}${NC}"
+echo -e "  ${BICyan} Host/IP       :${NC} ${BIWhite}${domain}${NC}"
+echo -e "  ${BICyan} Port TLS      :${NC} ${BIWhite}443${NC}"
+echo -e "  ${BICyan} Port None TLS :${NC} ${BIWhite}80${NC}"
+echo -e "  ${BICyan} Port GRPC     :${NC} ${BIWhite}443${NC}"
+echo -e "  ${BICyan} ID            :${NC} ${BIWhite}${uuid}${NC}"
+echo -e "  ${BICyan} Alterid       :${NC} ${BIWhite}0${NC}"
+echo -e "  ${BICyan} Security      :${NC} ${BIWhite}Auto${NC}"
+echo -e "  ${BICyan} Network       :${NC} ${BIWhite}WS${NC}"
+echo -e "  ${BICyan} Path          :${NC} ${BIWhite}/vmess${NC}"
+echo -e "  ${BICyan} ServiceName  :${NC} ${BIWhite}vmess-grpc${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} 
 ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "  ${BICyan} Link WS      :${NC}"
-echo -e "  ${BIWhite} ${trojanlink}${NC}"
+echo -e "  ${BICyan} Link TLS     :${NC}"
+echo -e "  ${BIWhite} ${vmesslink1}${NC}"
+echo ""
+echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+echo -e "${BICyan} 
+┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "  ${BICyan} Link None TLS:${NC}"
+echo -e "  ${BIWhite} ${vmesslink2}${NC}"
 echo ""
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "  ${BICyan} Link GRPC    :${NC}"
-echo -e "  ${BIWhite} ${trojanlink1}${NC}"
+echo -e "  ${BIWhite} ${vmesslink3}${NC}"
 echo ""
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
@@ -116,4 +183,4 @@ echo -e " ${BICyan}└───────────────────�
 echo ""
 read -n 1 -s -r -p "   Press any key to back on menu"
 
-menu-trojan
+menu-vmess
