@@ -43,24 +43,28 @@ dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Dat
 biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 #########################
 
-cekray=`cat /root/log-install.txt | grep -ow "XRAY" | sort | uniq`
-
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                      ${BIWhite}${UWhite} ADD HOST ${NC}"
+echo -e "      ${BIWhite}${UWhite}USERNAME${NC}          ${BIWhite}${UWhite}EXP DATE${NC}          ${BIWhite}${UWhite}STATUS${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-read -rp "   Domain/Host : " -e host
-if [ -z $host ]; then
-echo "????"
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-read -n 1 -s -r -p "   Press any key to back on menu"
-menu-ssh
+while read expired
+do
+USER="$(echo $expired | cut -d: -f1)"
+ID="$(echo $expired | grep -v nobody | cut -d: -f3)"
+exp="$(chage -l $USER | grep "Account expires" | awk -F": " '{print $2}')"
+status="$(passwd -S $USER | awk '{print $2}' )"
+if [[ $ID -ge 1000 ]]; then
+if [[ "$status" = "L" ]]; then
+echo -e "       ${BIWhite}$USER${NC}            ${BIYellow}$exp${NC}            ${BIRed}LOCKED${NC}"
 else
-echo "IP=$host" > /var/lib/SIJA/ipvps.conf
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-echo "   Dont forget to renew cert"
-echo ""
-read -n 1 -s -r -p "   Press any key to back on menu"
-menu-ssh
+echo -e "       ${BIWhite}$USER${NC}            ${BIYellow}$exp${NC}            ${BIGreen}UNLOCKED${NC}"
 fi
+fi
+done < /etc/passwd
+JUMLAH="$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
+echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "                ${BIWhite}${UWhite}Account${NC} ${BIWhite}${UWhite}Number:${NC} ${BIYellow}$JUMLAH${NC} ${BIWhite}${UWhite}User${NC}"
+echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+read -n 1 -s -r -p "    Press any key to back on menu"
+
+menu-ssh

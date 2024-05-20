@@ -43,24 +43,32 @@ dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Dat
 biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 #########################
 
-cekray=`cat /root/log-install.txt | grep -ow "XRAY" | sort | uniq`
+
 
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                      ${BIWhite}${UWhite} ADD HOST ${NC}"
+echo -e "                    ${BIWhite}${UWhite}DELETE USER ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-read -rp "   Domain/Host : " -e host
-if [ -z $host ]; then
-echo "????"
+read -p "    Username SSH to Delete : " deluser
+
+if getent passwd $deluser > /dev/null 2>&1; then
+        userdel $deluser > /dev/null 2>&1
+        clear
+        echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "                    ${BIWhite}${UWhite}DELETE USER ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-read -n 1 -s -r -p "   Press any key to back on menu"
-menu-ssh
+echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+        echo -e "    ${BIWhite}User ${BIYellow}$deluser${NC} ${BIWhite}was removed${NC} ${BIGreen}Successfully.${NC}"
 else
-echo "IP=$host" > /var/lib/SIJA/ipvps.conf
+clear
+echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+echo -e "                    ${BIWhite}${UWhite}DELETE USER ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-echo "   Dont forget to renew cert"
-echo ""
-read -n 1 -s -r -p "   Press any key to back on menu"
-menu-ssh
+echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
+        echo -e "    ${BIWhite}Failure: User${NC} ${BIYellow}$deluser${NC} ${BIRed}Not Exist.${NC}"
 fi
+echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+read -n 1 -s -r -p "   Press any key to back on menu"
+
+menu-ssh

@@ -43,24 +43,29 @@ dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Dat
 biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 #########################
 
-cekray=`cat /root/log-install.txt | grep -ow "XRAY" | sort | uniq`
+
+
+
 
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "                      ${BIWhite}${UWhite} ADD HOST ${NC}"
+echo -e "                  ${BIWhite}${UWhite}USER MULTI LOGIN${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-read -rp "   Domain/Host : " -e host
-if [ -z $host ]; then
-echo "????"
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-read -n 1 -s -r -p "   Press any key to back on menu"
-menu-ssh
-else
-echo "IP=$host" > /var/lib/SIJA/ipvps.conf
-echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
-echo "   Dont forget to renew cert"
+if [ -e "/root/log-limit.txt" ]; then
+echo -e "    ${BICyan} User Who Violate The Maximum Limit${NC}"
+echo "";
+echo -e "    ${BICyan} Time   -   Username   -   Number of Multilogin${NC}"
 echo ""
+cat /root/log-limit.txt
+else
+echo -e "     ${BICyan} No user has committed a violation${NC}"
+echo " "
+echo -e "     ${BICyan} Or${NC}"
+echo " "
+echo -e "     ${BICyan} The user-limit script not been executed.${NC}"
+fi
+echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+echo " ";
 read -n 1 -s -r -p "   Press any key to back on menu"
 menu-ssh
-fi
