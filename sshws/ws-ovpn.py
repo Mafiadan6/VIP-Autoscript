@@ -1,20 +1,18 @@
-#!/usr/bin/python2
+#!/usr/bin/python
 import socket, threading, thread, select, signal, sys, time, getopt
 
 # Listen
-LISTENING_ADDR = '127.0.0.1'
-if sys.argv[1:]:
-  LISTENING_PORT = sys.argv[1]
-else:
-  LISTENING_PORT = 700  
+LISTENING_ADDR = '0.0.0.0'
+#LISTENING_PORT = sys.argv[1]
+LISTENING_PORT = sys.argv[1]  
 #Pass
 PASS = ''
 
 # CONST
 BUFLEN = 4096 * 4
 TIMEOUT = 60
-DEFAULT_HOST = '127.0.0.1:22'
-RESPONSE = 'HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: foo\r\n\r\n'
+DEFAULT_HOST = '127.0.0.1:1194'
+RESPONSE = 'HTTP/1.1 101 Switching Protocols\r\nContent-Length: 104857600000\r\n\r\n'
 
 class Server(threading.Thread):
     def __init__(self, host, port):
@@ -226,7 +224,7 @@ class ConnectionHandler(threading.Thread):
 def print_usage():
     print 'Usage: proxy.py -p <port>'
     print '       proxy.py -b <bindAddr> -p <port>'
-    print '       proxy.py -b 0.0.0.0 -p 1080'
+    print '       proxy.py -b 0.0.0.0 -p 8080'
 
 def parse_args(argv):
     global LISTENING_ADDR
