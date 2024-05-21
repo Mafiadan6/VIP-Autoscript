@@ -258,7 +258,7 @@ wget -O menu-webmin "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/
 wget -O speedtest "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/speedtest_cli.py"
 wget -O about "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu/about.sh"
 wget -O auto-reboot "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu/auto-reboot.sh"
-wget -O udp-custom "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu/udp-custom.sh"
+wget -O wsport "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu/wsport.sh"
 wget -O restart "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu/restart.sh"
 wget -O bw "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu/bw.sh"
 wget -O menu-theme "https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/theme/menu-theme.sh"
@@ -316,7 +316,7 @@ chmod +x menu-webmin
 chmod +x speedtest
 chmod +x about
 chmod +x auto-reboot
-chmod +x udp-custom
+chmod +x wsport
 chmod +x restart
 chmod +x bw
 chmod +x port-ssl
