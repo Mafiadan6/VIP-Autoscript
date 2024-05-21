@@ -105,8 +105,6 @@ mesg n || true
 clear
 END
 chmod 644 /root/.profile
-echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install Index Page${NC}${BIYellow} ★ ${NC}"
-wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/apache.sh; bash apache.sh
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install TOOLS${NC}${BIYellow} ★ ${NC}"
 sleep 2
 wget -q https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/tools.sh;chmod +x tools.sh;./tools.sh
@@ -242,6 +240,8 @@ gg="PM"
 else
 gg="AM"
 fi
+echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install Index Page${NC}${BIYellow} ★ ${NC}"
+wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/apache.sh; bash apache.sh
 curl -sS ifconfig.me > /etc/myipvps
 clear
 echo -e "${BIWhite}┌─────────────────────────────────────────────────────────┐${NC}"
