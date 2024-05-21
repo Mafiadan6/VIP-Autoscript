@@ -2,7 +2,8 @@
 #installer Websocker tunneling 
 
 cd
-
+apt install python
+apt install python3
 #Install Script Websocket-SSH Python
 #wget -O /usr/local/bin/ws-openssh https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/sshws/openssh-socket.py
 wget -O /usr/local/bin/ws-dropbear https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/sshws/dropbear-ws.py
