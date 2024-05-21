@@ -128,19 +128,16 @@ echo -e "   ${BICyan}[${NC}${BIWhite}02${NC}${BICyan}]${NC} ${BIWhite}Use Random
 echo -e "${BICyan}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$NC"
 read -rp "  Select 1 or 2 : " dns
 if test $dns -eq 1; then
-    read -rp "   Enter Your Domain : " dom
-    read -rp "   Enter Your Cloudflare Domain : " cfd
-    read -rp "   Enter Your NS Domain : " nsdomen
-    echo "IP=$dom" > /var/lib/SIJA/ipvps.conf
-    echo "$dom" > /root/scdomain
-    echo "$dom" > /etc/xray/scdomain
-    echo "$dom" > /etc/xray/domain
-    echo "$dom" > /etc/v2ray/domain
-    echo "$dom" > /root/domain
-    echo "$nsdomen" > /etc/xray/nsdomain
-    echo "$nsdomen" > /root/nsdomain
-    echo "$cfd" > /etc/xray/cf-domain
-    echo "$cfd" > /etc/domain/cf-domain
+    read -rp "   Enter Your Domain : " WS_DOMAIN
+    read -rp "   Enter Your Cloudflare Domain : " FLARE_DOMAIN
+    read -rp "   Enter Your NS Domain : " NS_DOMAIN
+echo $FLARE_DOMAIN >> /root/xray/flare-domain
+echo $NS_DOMAIN >> /root/nsdomain
+echo $WS_DOMAIN >> /root/domain
+echo $FLARE_DOMAIN >> /etc/xray/flare-domain
+echo $WS_DOMAIN >> /etc/xray/domain
+echo $WS_DOMAIN >> /root/scdomain
+echo $WS_DOMAIN >> /root/xray/scdomain
 elif test $dns -eq 2; then
     clear
     apt install jq curl -y
