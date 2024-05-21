@@ -42,7 +42,9 @@ NOW=$(cat /etc/ws/status)
 function ssh() {
 mkdir /etc/ws > /dev/null 2>&1
 rm /etc/ws/status
+rm /etc/ws/status2
 echo 'SSH ' >> /etc/ws/status
+echo 'SSH' >> /etc/ws/status2
 sudo sed -i "16s/.*/DEFAULT_HOST = '127.0.0.1:143'/" /usr/local/bin/ws-stunnel
 sudo systemctl restart ws-stunnel
 read -n 1 -s -r -p "  Press any key to back on menu"
@@ -53,7 +55,9 @@ menu
 function ovpn() {
 mkdir /etc/ws > /dev/null 2>&1
 rm /etc/ws/status
+rm /etc/ws/status2
 echo 'OVPN' >> /etc/ws/status
+echo 'OVPN' >> /etc/ws/status2
 sudo sed -i "16s/.*/DEFAULT_HOST = '127.0.0.1:1194'/" /usr/local/bin/ws-stunnel
 sudo systemctl restart ws-stunnel
 read -n 1 -s -r -p "  Press any key to back on menu"
