@@ -151,7 +151,7 @@ fi
 
 
 MYIP=$(curl -sS ipv4.icanhazip.com)
-register="https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/register"
+register="https://raw.githubusercontent.com/FasterExE/permission/main/register"
 rm -f /usr/bin/user
 username=$(curl $register | grep $MYIP | awk '{print $2}')
 echo "$username" >/usr/bin/user
