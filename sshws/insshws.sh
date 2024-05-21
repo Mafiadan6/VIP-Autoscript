@@ -52,4 +52,6 @@ systemctl start ws-ovpn.service
 systemctl restart ws-ovpn.service
 mkdir /etc/ws > /dev/null 2>&1
 rm /etc/ws/status
+rm /etc/ws/status2
 echo 'SSH ' >> /etc/ws/status
+echo 'SSH' >> /etc/ws/status2
