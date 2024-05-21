@@ -26,16 +26,6 @@ if [ "$CekOne" = "$CekTwo" ]; then
 res="Expired"
 fi
 else
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;31m        PERMISSION DENIED\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;97mContact admin to register your vps\033[0m"
-echo -e "\033[1;97m in the script\033[0m"
-echo -e "\033[1;94mTelegram: t.me/IlyassExE\033[0m"
-echo -e "\033[1;92mWhatsapp: wa.me/+41762298622\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;97m         SCRIPT BY ILYASS\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
 fi
 }
 PERMISSION () {
@@ -44,16 +34,6 @@ IZIN=$(curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/regi
 if [ "$MYIP" = "$IZIN" ]; then
 Bloman
 else
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;31m        PERMISSION DENIED\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;97mContact admin to register your vps\033[0m"
-echo -e "\033[1;97m in the script\033[0m"
-echo -e "\033[1;94mTelegram: t.me/IlyassExE\033[0m"
-echo -e "\033[1;92mWhatsapp: wa.me/+41762298622\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;97m         SCRIPT BY ILYASS\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
 fi
 BURIQ
 }
