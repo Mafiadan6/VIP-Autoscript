@@ -40,7 +40,7 @@ export NC='\033[0m'
 
 
 date
-domain=$(cat /root/domain)
+domain=$(cat /etc/xray/domain)
 mkdir -p /etc/xray 
 apt install iptables iptables-persistent -y
 ntpdate pool.ntp.org 
