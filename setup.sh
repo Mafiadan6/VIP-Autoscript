@@ -246,6 +246,7 @@ fi
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install Index Page${NC}${BIYellow} ★ ${NC}"
 wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/apache.sh; bash apache.sh
 curl -sS ifconfig.me > /etc/myipvps
+touch /root/log-install.txt
 clear
 echo -e "${BIWhite}┌─────────────────────────────────────────────────────────┐${NC}"
 echo -e "${BIWhite}│${NC}  ${BIGreen}██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗${NC}      ${BIWhite}│${NC}"
