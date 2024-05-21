@@ -63,11 +63,11 @@ cd
 echo '<ca>' >> /etc/openvpn/tcp.ovpn
 cat /etc/openvpn/server/ca.crt >> /etc/openvpn/tcp.ovpn
 echo '</ca>' >> /etc/openvpn/tcp.ovpn
-cp /etc/openvpn/tcp.ovpn -t /var/www/html
+sudo cp /etc/openvpn/tcp.ovpn -t /var/www/html
 echo '<ca>' >> /etc/openvpn/udp.ovpn
 cat /etc/openvpn/server/ca.crt >> /etc/openvpn/udp.ovpn
 echo '</ca>' >> /etc/openvpn/udp.ovpn
-cp /etc/openvpn/udp.ovpn -t /var/www/html
+sudo cp /etc/openvpn/udp.ovpn -t /var/www/html
 
 iptables -t nat -I POSTROUTING -s 10.6.0.0/24 -o $ANU -j MASQUERADE
 iptables -t nat -I POSTROUTING -s 10.7.0.0/24 -o $ANU -j MASQUERADE
