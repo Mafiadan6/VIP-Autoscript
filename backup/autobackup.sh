@@ -53,7 +53,7 @@ function start() {
 email=$(cat /home/email)
 if [[ "$email" = "" ]]; then
 echo -e "     ${BIGreen} Please enter your email${NC}"
-read -rp "     ${BIGreen} Email :${NC} " -e email
+read -rp "      Email : " -e email
 cat <<EOF>>/home/email
 $email
 EOF
@@ -83,20 +83,20 @@ echo -e "     ${BIGreen} Autobackup Has Been Stopped${NC}"
 autobackup
 }
 
-function gantipenerima() {
+function reciemail() {
 rm -rf /home/email
 echo -e "     ${BIGreen} Please enter your email${NC}"
-read -rp "     ${BIGreen} Email :${NC} " -e email
+read -rp "      Email : " -e email
 cat <<EOF>>/home/email
 $email
 EOF
 autobackup
 }
-function gantipengirim() {
+function sendemail() {
 echo -e "     ${BIGreen} Please enter your email${NC}"
-read -rp "     ${BIGreen} Email :${NC} " -e email
+read -rp "      Email : " -e email
 echo -e "     ${BIGreen} Please enter your Password email${NC}"
-read -rp "     ${BIGreen} Password :${NC} " -e email
+read -rp "      Password : " -e email
 rm -rf /etc/msmtprc
 cat<<EOF>>/etc/msmtprc
 defaults
@@ -135,7 +135,7 @@ echo -e " ${BICyan}└───────────────────�
 echo -e "     ${BICyan}[${BIWhite}01${BICyan}] Start Autobackup      "
 echo -e "     ${BICyan}[${BIWhite}02${BICyan}] Stop Autobackup      "
 echo -e "     ${BICyan}[${BIWhite}03${BICyan}] Change Recipient Email       "
-echo -e "     ${BICyan}[${BIWhite}03${BICyan}] Change Sender Email       "
+echo -e "     ${BICyan}[${BIWhite}04${BICyan}] Change Sender Email       "
 echo -e "     ${BICyan}[${BIWhite}05${BICyan}] Test sending an email     "
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "     ${BIYellow}Press x or [ Ctrl+C ] • To-${BIWhite}Exit${NC}"
@@ -151,10 +151,10 @@ start
 stop
 ;;
 3)
-gantipenerima
+reciemail
 ;;
 4)
-gantipengirim
+sendemail
 ;;
 5)
 testemail
