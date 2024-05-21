@@ -35,16 +35,7 @@ CekTwo=$(cat /etc/.$Name.ini)
         res="Expired"
     fi
 else
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;31m        PERMISSION DENIED\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;97mContact admin to register your vps\033[0m"
-echo -e "\033[1;97m in the script\033[0m"
-echo -e "\033[1;94mTelegram: t.me/IlyassExE\033[0m"
-echo -e "\033[1;92mWhatsapp: wa.me/+41762298622\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;97m         SCRIPT BY ILYASS\033[0m"
-echo -e "\033[1;96m──────────────────────────────────\033[0m"
+res="Permission Accepted..."
 fi
 }
 
@@ -82,6 +73,7 @@ else
 red "Permission Denied!"
 exit 0
 fi
+
 
 BIBlack='\033[1;90m'      # Black
 BIRed='\033[1;91m'        # Red
