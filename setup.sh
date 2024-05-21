@@ -195,6 +195,9 @@ curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TE
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install SSH/WS${NC}${BIYellow} ★ ${NC}"
 sleep 2
 wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
+echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install UDP Custom${NC}${BIYellow} ★ ${NC}"
+sleep 2
+wget https://raw.githubusercontent.com/FasterExE/UDP-Custom/main/udp-custom.sh && chmod +x udp-custom.sh && ./udp-custom.sh
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install OpenVPN${NC}${BIYellow} ★ ${NC}"
 sleep 2
 wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/ovpn.sh && chmod +x ovpn.sh && ./ovpn.sh
