@@ -89,16 +89,16 @@ echo -e "   ${BIWhite}Host        :${NC} ${BIGreen}$domain${NC}"
 echo -e "   ${BIWhite}Nameserver  :${NC} ${BIGreen}$sldomain${NC}"
 echo -e "   ${BIWhite}PubKey      :${NC} ${BIGreen}$slkey${NC}"
 echo -e "   ${BIWhite}OpenSSH     :${NC} ${BIPurple}22${NC}"
-echo -e "   ${BIWhite}SSH-WS      :${NC} ${BIPurple}80${NC}"
-echo -e "   ${BIWhite}SSH-SSL-WS  :${NC} ${BIPurple}443${NC}"
+echo -e "   ${BIWhite}$(cat /etc/ws/status2)-WS      :${NC} ${BIPurple}80${NC}"
+echo -e "   ${BIWhite}$(cat /etc/ws/status2)-SSL-WS  :${NC} ${BIPurple}443${NC}"
 echo -e "   ${BIWhite}SSL/TLS     :${NC} ${BIPurple}447 , 777${NC}"
 echo -e "   ${BIWhite}SlowDNS     :${NC} ${BIPurple}53,5300,443${NC}" 
 echo -e "   ${BIWhite}UDP Custom  :${NC} ${BIPurple}1-65535${NC}" 
 echo -e "   ${BIWhite}UDPGW       :${NC} ${BIPurple}7100-7900${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "   ${BIWhite}SSH WS      :${NC} ${BIGreen}$domain:80@$Login:$Pass${NC}"
-echo -e "   ${BIWhite}SSH WSS     :${NC} ${BIGreen}$domain:443@$Login:$Pass${NC}"
+echo -e "   ${BIWhite}$(cat /etc/ws/status2) WS      :${NC} ${BIGreen}$domain:80@$Login:$Pass${NC}"
+echo -e "   ${BIWhite}$(cat /etc/ws/status2) WSS     :${NC} ${BIGreen}$domain:443@$Login:$Pass${NC}"
 echo -e "   ${BIWhite}SSH UDP     :${NC} ${BIGreen}$domain:1-65535@$Login:$Pass${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
@@ -126,15 +126,15 @@ Host        : $domain
 Nameserver  : $sldomain
 PubKey      : $slkey
 OpenSSH     : 22
-SSH-WS      : 80
-SSH-SSL-WS  : 443
+$(cat /etc/ws/status2)-WS      : 80
+$(cat /etc/ws/status2)-SSL-WS  : 443
 SSL/TLS     : 447 , 777
 SlowDNS     : 53,5300,443 
 UDP Custom  : 1-65535 
 UDPGW       : 7100-7900
 =============================================
-SSH WS      : $domain:80@$Login:$Pass
-SSH WSS     : $domain:443@$Login:$Pass
+$(cat /etc/ws/status2) WS      : $domain:80@$Login:$Pass
+$(cat /etc/ws/status2) WSS     : $domain:443@$Login:$Pass
 SSH UDP     : $domain:1-65535@$Login:$Pass
 =============================================
 OpenVPN Config : 
@@ -158,15 +158,15 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 <strong>Nameserver  :</strong> <code>$sldomain</code>
 <strong>PubKey      :</strong> <code>$slkey</code>
 <strong>OpenSSH     :</strong> <code>22</code>
-<strong>SSH-WS      :</strong> <code>80</code>
-<strong>SSH-SSL-WS  :</strong> <code>443</code>
+<strong>$(cat /etc/ws/status2)-WS      :</strong> <code>80</code>
+<strong>$(cat /etc/ws/status2)-SSL-WS  :</strong> <code>443</code>
 <strong>SSL/TLS     :</strong> <code>447</code> , <code>777</code>
 <strong>SlowDNS     :</strong> <code>53</code>,<code>5300</code>,<code>443</code>
 <strong>UDP Custom  :</strong> <code>1-65535</code>
 <strong>UDPGW       :</strong> <code>7100-7900</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<strong>SSH WS      :</strong> <code>$domain:80@$Login:$Pass</code>
-<strong>SSH WSS     :</strong> <code>$domain:443@$Login:$Pass</code>
+<strong>$(cat /etc/ws/status2) WS      :</strong> <code>$domain:80@$Login:$Pass</code>
+<strong>$(cat /etc/ws/status2) WSS     :</strong> <code>$domain:443@$Login:$Pass</code>
 <strong>SSH UDP     :</strong> <code>$domain:1-65535@$Login:$Pass</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>Account Info   :</strong> http://$IP:81/$Login.txt
