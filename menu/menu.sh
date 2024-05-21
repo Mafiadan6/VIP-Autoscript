@@ -26,6 +26,7 @@ if [ "$CekOne" = "$CekTwo" ]; then
 res="Expired"
 fi
 else
+clear
 fi
 }
 PERMISSION () {
@@ -34,6 +35,7 @@ IZIN=$(curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/regi
 if [ "$MYIP" = "$IZIN" ]; then
 Bloman
 else
+clear
 fi
 BURIQ
 }
