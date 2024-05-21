@@ -179,12 +179,13 @@ connect = 700
 accept = 442
 connect = 127.0.0.1:1194
 END
-openssl genrsa -out key.pem 2048
-openssl req -new -x509 -key key.pem -out cert.pem -days 1095 \
--subj "/C=$country/ST=$state/L=$locality/O=$organization/OU=$organizationalunit/CN=$commonname/emailAddress=$email"
-cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
+openssl genrsa -out stunnel.key 2048 > /dev/null 2>&1
+(echo mx ; echo mx ; echo Speed ; echo @conectedmx_bot ; echo @conectedmx ; echo @lacasitamx ; echo @conectedmx_vip )|openssl req -new -key stunnel.key -x509 -days 1000 -out stunnel.crt > /dev/null 2>&1
+cat stunnel.crt stunnel.key > stunnel.pem
+mv stunnel.pem /etc/stunnel/
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
-/etc/init.d/stunnel4 restart
+service stunnel4 restart
+
 apt -y install fail2ban
 if [ -d '/usr/local/ddos' ]; then
 echo ""
