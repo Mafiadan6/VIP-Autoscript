@@ -50,3 +50,6 @@ systemctl restart ws-stunnel.service
 systemctl enable ws-ovpn.service
 systemctl start ws-ovpn.service
 systemctl restart ws-ovpn.service
+mkdir /etc/ws > /dev/null 2>&1
+rm /etc/ws/status
+echo SSH >> /etc/ws/status
