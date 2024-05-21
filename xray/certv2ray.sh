@@ -56,7 +56,7 @@ clear
 echo -e "${BICyan}[${NC} ${BIWhite}INFO${NC} ${BICyan}]${NC} ${BICyan}Start ${NC}" 
 sleep 0.5
 systemctl stop nginx
-domain=$(cat /var/lib/SIJA/ipvps.conf | cut -d'=' -f2)
+domain=$(cat /etc/xray/domain)
 Cek=$(lsof -i:80 | cut -d' ' -f1 | awk 'NR==2 {print $1}')
 if [[ ! -z "$Cek" ]]; then
 sleep 1
