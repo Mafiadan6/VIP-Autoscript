@@ -50,14 +50,21 @@ echo -e "${BICyan} ┌───────────────────�
 echo -e "                      ${BIWhite}${UWhite} ADD HOST ${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-read -rp "   Domain/Host : " -e host
+read -rp "   Domain/Host : " -e WS_DOMAIN
 if [ -z $host ]; then
 echo "????"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 read -n 1 -s -r -p "   Press any key to back on menu"
 menu-ssh
 else
-echo "IP=$host" > /var/lib/SIJA/ipvps.conf
+sudo rm /root/domain
+sudo rm /etc/xray/domain
+sudo rm /root/scdomain
+sudo rm /root/xray/scdomain
+echo $WS_DOMAIN >> /root/domain
+echo $WS_DOMAIN >> /etc/xray/domain
+echo $WS_DOMAIN >> /root/scdomain
+echo $WS_DOMAIN >> /root/xray/scdomain
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo "   Dont forget to renew cert"
 echo ""
