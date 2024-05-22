@@ -124,7 +124,7 @@ echo -e "  ${BICyan} Alterid       :${NC} ${BIWhite}0${NC}"
 echo -e "  ${BICyan} Security      :${NC} ${BIWhite}Auto${NC}"
 echo -e "  ${BICyan} Network       :${NC} ${BIWhite}WS${NC}"
 echo -e "  ${BICyan} Path          :${NC} ${BIWhite}/vmess${NC}"
-echo -e "  ${BICyan} ServiceName  :${NC} ${BIWhite}vmess-grpc${NC}"
+echo -e "  ${BICyan} ServiceName   :${NC} ${BIWhite}vmess-grpc${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} 
 ┌─────────────────────────────────────────────────────┐${NC}"
