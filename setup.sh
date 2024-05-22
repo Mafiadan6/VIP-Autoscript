@@ -37,6 +37,14 @@ export CYAN='\033[0;36m'
 export LIGHT='\033[0;37m'
 export NC='\033[0m'
 
+echo -e "${BIWhite}┌──────────────────────────────────────────────────────────────────┐${NC}"
+echo -e "${BIWhite}│${NC}  ${BIGreen}██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗${NC}  ${BIWhite}│${NC}"
+echo -e "${BIWhite}│${NC}  ${BIGreen}██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝${NC}  ${BIWhite}│${NC}"
+echo -e "${BIWhite}│${NC}  ${BIGreen}██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗    ${NC}${BIWhite}│${NC}"
+echo -e "${BIWhite}│${NC}  ${BIGreen}██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝   ${NC} ${BIWhite}│${NC}"
+echo -e "${BIWhite}│${NC}  ${BIGreen}╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗${NC}  ${BIWhite}│${NC}"
+echo -e "${BIWhite}│${NC}  ${BIGreen} ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝${NC}  ${BIWhite}│${NC}"
+echo -e "${BIWhite}└──────────────────────────────────────────────────────────────────┘${NC}"
 
 dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
