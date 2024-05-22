@@ -11,4 +11,5 @@ clear
 rm /var/www/html/index.html
 wget -O /var/www/html/index.html https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/index.html
 sudo systemctl restart apache2
+rm apache.sh
 clear
