@@ -54,6 +54,7 @@ sldomain=$(cat /root/nsdomain)
 cdndomain=$(cat /root/awscdndomain)
 domain=$(cat /etc/xray/domain)
 slkey=$(cat /etc/slowdns/server.pub)
+flare=$(cat /etc/xray/flare-domain)
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "                   ${BIWhite}${UWhite}NEW SSH ACCOUNT ${NC}"
@@ -86,6 +87,7 @@ echo -e " ${BICyan}└───────────────────�
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "   ${BIWhite}IP          :${NC} ${BIGreen}$IP${NC}"
 echo -e "   ${BIWhite}Host        :${NC} ${BIGreen}$domain${NC}"
+echo -e "   ${BIWhite}Cloudflare  :${NC} ${BIGreen}$flare${NC}"
 echo -e "   ${BIWhite}Nameserver  :${NC} ${BIGreen}$sldomain${NC}"
 echo -e "   ${BIWhite}PubKey      :${NC} ${BIGreen}$slkey${NC}"
 echo -e "   ${BIWhite}OpenSSH     :${NC} ${BIPurple}22${NC}"
@@ -124,6 +126,7 @@ Expired On  : $exp
 =============================================
 IP          : $IP
 Host        : $domain
+Cloudflare  : $flare
 Nameserver  : $sldomain
 PubKey      : $slkey
 OpenSSH     : 22
@@ -157,6 +160,7 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>IP          :</strong> <code>$IP</code>
 <strong>Host        :</strong> <code>$domain</code>
+<strong>Cloudflare  :</strong> <code>$flare</code>
 <strong>Nameserver  :</strong> <code>$sldomain</code>
 <strong>PubKey      :</strong> <code>$slkey</code>
 <strong>OpenSSH     :</strong> <code>22</code>
@@ -197,6 +201,7 @@ echo -e " ${BICyan}└───────────────────�
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "   ${BIWhite}IP          :${NC} ${BIGreen}$IP${NC}"
 echo -e "   ${BIWhite}Host        :${NC} ${BIGreen}$domain${NC}"
+echo -e "   ${BIWhite}Cloudflare  :${NC} ${BIGreen}$flare${NC}"
 echo -e "   ${BIWhite}Nameserver  :${NC} ${BIGreen}$sldomain${NC}"
 echo -e "   ${BIWhite}PubKey      :${NC} ${BIGreen}$slkey${NC}"
 echo -e "   ${BIWhite}OpenSSH     :${NC} ${BIPurple}22${NC}"
@@ -232,6 +237,7 @@ Expired On  : $exp
 =============================================
 IP          : $IP
 Host        : $domain
+Cloudflare  : $flare
 Nameserver  : $sldomain
 PubKey      : $slkey
 OpenSSH     : 22
@@ -262,6 +268,7 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>IP          :</strong> <code>$IP</code>
 <strong>Host        :</strong> <code>$domain</code>
+<strong>Cloudflare  :</strong> <code>$flare</code>
 <strong>Nameserver  :</strong> <code>$sldomain</code>
 <strong>PubKey      :</strong> <code>$slkey</code>
 <strong>OpenSSH     :</strong> <code>22</code>
