@@ -187,7 +187,6 @@ echo -e " ${BICyan}└───────────────────�
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "   ${BIWhite}Username    :${NC} ${BIGreen}$Login${NC}"
 echo -e "   ${BIWhite}Password    :${NC} ${BIGreen}$Pass${NC}"
-echo -e "   ${BIWhite}Login Limit :${NC} ${BIGreen}$limit${NC}"
 echo -e "   ${BIWhite}Expired On  :${NC} ${BIYellow}$exp${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
@@ -224,7 +223,6 @@ echo "=============================================
 =============================================
 Username    : $Login
 Password    : $Pass
-Login Limit : $limit
 Expired On  : $exp
 =============================================
              SERVER INFORMATION
@@ -254,7 +252,6 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>Username    :</strong> <code>$Login</code>
 <strong>Password    :</strong> <code>$Pass</code>
-<strong>Login Limit  :</strong> <code>$limit</code>
 <strong>Expired On  :</strong> <code>$exp</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
                <strong>SERVER INFORMATION</strong>
