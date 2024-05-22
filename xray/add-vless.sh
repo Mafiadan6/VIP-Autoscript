@@ -103,7 +103,7 @@ echo -e "  ${BICyan} ID            :${NC} ${BIWhite}${uuid}${NC}"
 echo -e "  ${BICyan} Encryption    :${NC} ${BIWhite}none${NC}"
 echo -e "  ${BICyan} Network       :${NC} ${BIWhite}WS${NC}"
 echo -e "  ${BICyan} Path          :${NC} ${BIWhite}/vless${NC}"
-echo -e "  ${BICyan} ServiceName  :${NC} ${BIWhite}vless-grpc${NC}"
+echo -e "  ${BICyan} ServiceName   :${NC} ${BIWhite}vless-grpc${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} 
 ┌─────────────────────────────────────────────────────┐${NC}"
