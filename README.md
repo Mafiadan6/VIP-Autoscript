@@ -13,8 +13,8 @@ wget https://github.com/FasterExE/VIP-Autoscript/raw/main/setup.sh && chmod +x s
 ## `AUTOSCRIPT IP PERMISSION FOR VIP MEMBERS ONLY !`
 CONTACT :
 <br><br><a
-href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%5Here&color=0088cc"><br><br><a
-href="https://wa.me/+41762298622" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Whatsapp&message=Click%5Here&color=25D366">
+href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=0088cc"><br><br><a
+href="https://wa.me/+41762298622" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Whatsapp&message=Click%20Here&color=25D366">
 <br><br><a
 href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Instagram&label=Instagram&message=Click%20Here&color=C13584">
 
