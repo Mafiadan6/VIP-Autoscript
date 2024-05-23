@@ -1,18 +1,18 @@
 ## UPGRADE FOR DEBIAN AND UBUNTU
-Masukkan perintah dibawah jika anda menggunakan OS Debian Version 10 atau OS Ubuntu Version 20
+Enter the command below if you are using OS Debian Version 10 or OS Ubuntu Version 20
 ```
 apt update && apt upgrade -y
 ```
 
 ## INSTALL SCRIPT 
-Masukkan perintah dibawah untuk menginstall Autoscript Premium by ZOOLZ THEAZ࿐
+Enter the command below to install Autoscript Premium by 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
 ```
 wget https://github.com/FasterExE/VIP-Autoscript/raw/main/setup.sh && chmod +x setup.sh && ./setup.sh
 ```
 
 ## `IZIN IP AUTOSCRIPT KHUSUS MEMBER VIP !`
 Zoolztheaz :
-<br><br><a href="https://wa.me/+628984880039" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Whatsapp&message=Click%20Here&color=#006400">
+<br><br><a href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Telegram&message=Click%20Here&color=#0088cc">
 
 ## UPDATE SCRIPT
 Masukkan perintah dibawah jika terdapat informasi pembaruan Script untuk versi yang akan datang
