@@ -73,10 +73,9 @@ wget -q wget https://github.com/FasterExE/VIP-Autoscript/raw/main/update.sh && c
 ```
 
 ## TAMPILAN MENU SCRIPT
-<img width="100%" alt="Screenshot_20240102_204408" src="https://github.com/zoolztheaz/autoscript-vvip/assets/154574742/613d3df8-930e-4e4b-9d98-663b6723bb5b">
-<img width="100%" alt="Screenshot_20240102_204438" src="https://github.com/zoolztheaz/autoscript-vvip/assets/154574742/1e49c63e-e9a3-47cc-abea-fd81a5f121e8">
+<img width="100%" alt="Screenshot_20240102_204408" src="https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu.jpg">
 
-## `! MEKANISME PENYEWAAN AUTOSCRIPT MEMBER VVIP 10K, 2 IP / BULAN !`
-- Script `VIP` Last Update `Version 2.4`, Semua Fitur Pada Menu Utama Sudah Dioptimalkan Sehingga Meminimalisir Adanya `BUG`<br>
+## `! 10K VIP MEMBER AUTOSCRIPT RENTAL MECHANISM, 2 IP / MONTH !`
+- Script `VIP` Last Update `Version 9.8.0`, All features on the main menu have been optimized so as to minimize their presence `BUG`<br>
 
-Hubungi Admin Melalui Whatsaap, Kirim `IP VPS` Dan `Lakukan Proses Pembayaran!`. Setelah Berhasil IP Akan Diinputkan Oleh - Admin 𝔾𝕖𝕞𝕚𝕝𝕒𝕟𝕘𝕂𝕚𝕟𝕒𝕤𝕚𝕙࿐
+Contact Admin via WhatsApp, Send `IP VPS` And `Carry out the Payment Process!`. After success, the IP will be input by - Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
