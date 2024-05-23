@@ -16,7 +16,7 @@ Zoolztheaz :
 href="https://t.me/IlyassExE" target=”_blank”><img src="
 https://img.shields.io/badge/any_text-you_like-blue">
 <br><br><a
-href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Telegram&message=Click%20Here&color=#0088cc">
+href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/badge/any_text-you_like-blue">
 
 ## UPDATE SCRIPT
 Masukkan perintah dibawah jika terdapat informasi pembaruan Script untuk versi yang akan datang
