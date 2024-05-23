@@ -14,7 +14,6 @@ wget https://github.com/FasterExE/VIP-Autoscript/raw/main/setup.sh && chmod +x s
 Zoolztheaz :
 <br><br><a
 href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here">
-//&color=#3BB9FF//
 
 ## UPDATE SCRIPT
 Masukkan perintah dibawah jika terdapat informasi pembaruan Script untuk versi yang akan datang
