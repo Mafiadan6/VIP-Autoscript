@@ -25,8 +25,8 @@ wget -q wget https://github.com/FasterExE/VIP-Autoscript/raw/main/update.sh && c
 ```
 
 ## TESTED ON OS
-- UBUNTU Version 18 Atau 20 (Recommended)
-- DEBIAN Version 09 Atau 10
+- FREE Version 18 or 20 (Recommended)
+- DEBIAN Version 09 Or 10
 
 ## SERVER OTHER FEATURES
 - Timezone           : Locatiaon VPS
@@ -34,12 +34,13 @@ wget -q wget https://github.com/FasterExE/VIP-Autoscript/raw/main/update.sh && c
 - Dflate             : [ON]
 - IPtables           : [ON]
 - Auto-Reboot        : [ON]
-- Autoreboot On      : 7:00  GMT +7
+- Autoreboot On      : 7:00  GMT
 - AutoKill Multi Login User
 - Auto Delete Expired Account
 - Fully automatic script
 - VPS settings
 - Admin Control
+- WS Switch Protocol
 - Change port
 - Full Orders For Various Services
 
@@ -72,10 +73,10 @@ wget -q wget https://github.com/FasterExE/VIP-Autoscript/raw/main/update.sh && c
 - UNDER ATTACK MODE : OFF
 ```
 
-## TAMPILAN MENU SCRIPT
+## SCRIPT MENU DISPLAY
 <img width="100%" alt="Screenshot_20240102_204408" src="https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu.jpg">
 
 ## `! 10K VIP MEMBER AUTOSCRIPT RENTAL MECHANISM, 2 IP / MONTH !`
 - Script `VIP` Last Update `Version 9.8.0`, All features on the main menu have been optimized so as to minimize their presence `BUG`<br>
 
-Contact Admin via WhatsApp, Send `IP VPS` And `Carry out the Payment Process!`. After success, the IP will be input by - Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
+Contact Admin via Telegram or WhatsApp, Send `IP VPS` And `Carry out the Payment Process!`. After success, the IP will be input by - Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
