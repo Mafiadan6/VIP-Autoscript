@@ -10,15 +10,15 @@ Enter the command below to install Autoscript Premium by 𓆩 𝐈𝐋𝐘𝐀�
 wget https://github.com/FasterExE/VIP-Autoscript/raw/main/setup.sh && chmod +x setup.sh && ./setup.sh
 ```
 
-## `IZIN IP AUTOSCRIPT KHUSUS MEMBER VIP !`
-Zoolztheaz :
+## `AUTOSCRIPT IP PERMISSION FOR VIP MEMBERS ONLY !`
+CONTACT :
 <br><br><a
 href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=0088cc">
 
 ## UPDATE SCRIPT
-Masukkan perintah dibawah jika terdapat informasi pembaruan Script untuk versi yang akan datang
+Enter the command below if there is Script update information for a future version
 ```
-wget -q https://raw.githubusercontent.com/zoolztheaz/autoscript-vvip/main/update.sh && chmod +x update.sh && ./update.sh
+wget -q wget https://github.com/FasterExE/VIP-Autoscript/raw/main/update.sh && chmod +x update.sh && ./update.sh
 ```
 
 ## TESTED ON OS
