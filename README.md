@@ -13,7 +13,7 @@ wget https://github.com/FasterExE/VIP-Autoscript/raw/main/setup.sh && chmod +x s
 ## `IZIN IP AUTOSCRIPT KHUSUS MEMBER VIP !`
 Zoolztheaz :
 <br><br><a
-href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/badge/ilyass-you_like-blue">
+href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/badge/v1?style=for-the-badge&logo=Whatsapp&label=Whatsapp&message=Click%20Here&color=#006400">
 
 ## UPDATE SCRIPT
 Masukkan perintah dibawah jika terdapat informasi pembaruan Script untuk versi yang akan datang
