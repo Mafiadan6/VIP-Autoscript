@@ -129,7 +129,7 @@ mkdir -p /home/vps/public_html
 cd
 
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install BadVPN UDP Gateway${NC}${BIYellow} ★ ${NC}"
-wget -O https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/badvpn/badvpn.sh; chmod 777 badvpn.sh; ./badvpn.sh
+wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/badvpn/badvpn.sh; chmod 777 badvpn.sh; ./badvpn.sh
 
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 500' /etc/ssh/sshd_config
