@@ -7,3 +7,4 @@ sudo systemctl daemon-reload
 sudo systemctl enable badvpn-7100-7900.service
 sudo systemctl start badvpn-7100-7900.service
 sudo systemctl restart badvpn-7100-7900.service
+sudo rm badvpn.sh
