@@ -128,8 +128,9 @@ mkdir -p /home/vps/public_html
 /etc/init.d/nginx restart
 cd
 
+echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install BadVPN UDP Gateway${NC}${BIYellow} ★ ${NC}"
 wget -O https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/badvpn/badvpn.sh; chmod 777 badvpn.sh; ./badvpn.sh
-cd
+
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 500' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 40000' /etc/ssh/sshd_config
