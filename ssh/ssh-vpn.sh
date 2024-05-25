@@ -128,18 +128,7 @@ mkdir -p /home/vps/public_html
 /etc/init.d/nginx restart
 cd
 
-wget -O /bin/badvpn-udpgw https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/newudpgw
-
-chmod 777 /bin/badvpn-udpgw
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7400 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7500 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7600 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7700 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7800 --max-clients 1000 --max-connections-for-client 1000
-screen -dmS badvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7900 --max-clients 1000 --max-connections-for-client 1000
+wget -O https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/badvpn/badvpn.sh; chmod 777 badvpn.sh; ./badvpn.sh
 cd
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 500' /etc/ssh/sshd_config
