@@ -188,10 +188,6 @@ sX4fPkXFnrg=
 -----END CERTIFICATE-----
 </ca>
 
-
-sudo cp /etc/openvpn/tcp.ovpn -t /var/www/html
-sudo cp /etc/openvpn/udp.ovpn -t /var/www/html
-
 iptables -t nat -I POSTROUTING -s 10.6.0.0/24 -o $ANU -j MASQUERADE
 iptables -t nat -I POSTROUTING -s 10.7.0.0/24 -o $ANU -j MASQUERADE
 iptables-save > /etc/iptables.up.rules
