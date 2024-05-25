@@ -5,7 +5,7 @@ clear
 
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
-IPVPS=$(curl -s ipinfo.io/ip )
+IPVPS=$(curl -s ipinfo.io/ip)
 ANU=$(ip -o $ANU -4 route show to default | awk '{print $5}');
 apt install openvpn easy-rsa unzip -y
 apt install openssl iptables iptables-persistent -y
