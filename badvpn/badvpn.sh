@@ -1,5 +1,5 @@
-wget -O /bin/badvpn-udpgw https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/newudpgw
-wget -O /etc/systemd/system/badvpn.service https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/newudpgw
+wget -O /bin/badvpn-udpgw https://github.com/FasterExE/VIP-Autoscript/raw/main/badvpn/badvpn-7100-7900.service
+wget -O /etc/systemd/system/badvpn.service https://github.com/FasterExE/VIP-Autoscript/raw/main/badvpn/badvpn-7100-7900.service
 chmod 777 /bin/badvpn-udpgw
 chmod 777 /etc/systemd/system/badvpn.service
 
