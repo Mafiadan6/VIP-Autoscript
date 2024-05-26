@@ -635,6 +635,14 @@ server {
 }
 END
 
+rm /var/www/html/udp.ovpn
+rm /var/www/html/tcp.ovpn
+touch /var/www/html/udp.ovpn
+touch /var/www/html/tcp.ovpn
+rm /var/www/html/index.html
+wget -O /var/www/html/index.html https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/index.html
+
+
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan}Enable & restart xray${NC}${BIYellow} ★ ${NC}"
 systemctl daemon-reload
 systemctl daemon-reload
