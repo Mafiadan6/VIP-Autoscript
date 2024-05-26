@@ -20,13 +20,16 @@ cd
 mkdir -p /usr/lib/openvpn/
 cp /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so /usr/lib/openvpn/openvpn-plugin-auth-pam.so
 sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn
-systemctl enable --now openvpn-server@server-tcp
-systemctl enable --now openvpn-server@server-udp
+systemctl enable --now openvpn-server@server-tcp-1194
+systemctl enable --now openvpn-server@server-udp-2200
 /etc/init.d/openvpn restart
 /etc/init.d/openvpn status
 echo 1 > /proc/sys/net/ipv4/ip_forward
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-cat > /etc/openvpn/tcp.ovpn <<-END
+sudo chmod 600 /etc/openvpn/*
+sudo chmod 600 /etc/openvpn/server/*
+
+cat > /etc/openvpn/client-tcp-1194.ovpn <<-END
 client
 dev tun
 proto tcp
@@ -67,7 +70,7 @@ sX4fPkXFnrg=
 </ca>
 END
 
-cat > /var/www/html/tcp.ovpn <<-END
+cat > /var/www/html/client-tcp-1194.ovpn <<-END
 client
 dev tun
 proto tcp
@@ -108,7 +111,7 @@ sX4fPkXFnrg=
 </ca>
 END
 
-cat > /etc/openvpn/udp.ovpn <<-END
+cat > /etc/openvpn/client-udp-2200.ovpn <<-END
 client
 dev tun
 proto udp
@@ -147,8 +150,9 @@ vO6dNnG6EAoe0TSQV54QDMN1Eung42Oxa1QnOqVBSlhtvITYB8EubmrcwIovtME6
 sX4fPkXFnrg=
 -----END CERTIFICATE-----
 </ca>
+END
 
-cat > /var/www/html/udp.ovpn <<-END
+cat > /var/www/html/client-udp-2200.ovpn <<-END
 client
 dev tun
 proto udp
@@ -187,11 +191,17 @@ vO6dNnG6EAoe0TSQV54QDMN1Eung42Oxa1QnOqVBSlhtvITYB8EubmrcwIovtME6
 sX4fPkXFnrg=
 -----END CERTIFICATE-----
 </ca>
+END
 
 iptables -t nat -I POSTROUTING -s 10.6.0.0/24 -o $ANU -j MASQUERADE
 iptables -t nat -I POSTROUTING -s 10.7.0.0/24 -o $ANU -j MASQUERADE
 iptables-save > /etc/iptables.up.rules
 chmod +x /etc/iptables.up.rules
+
+sudo sysctl -w net.ipv4.ip_forward=1
+sudo iptables -t nat -A POSTROUTING -s 10.6.0.0/24 -o eth0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -s 10.7.0.0/24 -o eth0 -j MASQUERADE
+sudo iptables-save > /etc/iptables/rules.v4
 
 iptables-restore -t < /etc/iptables.up.rules
 netfilter-persistent save
