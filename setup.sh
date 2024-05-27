@@ -184,9 +184,11 @@ usermod -aG sudo $Username > /dev/null 2>&1
 CHATID="6582195916"
 CHATIDC=$(cat /etc/ilyass/telegram/id)
 KEY=$(cat /etc/ilyass/telegram/key)
-KEY="7319578668:AAHmF39qi8cCXwmZqcYn0pGkMz1FZDUER84"
+TOKEN="6621929387:AAG-7u9w7NTV2M0REX2oISWHdtgMdNZUQRc"
+TOKENC="7319578668:AAHmF39qi8cCXwmZqcYn0pGkMz1FZDUER84"
 TIME="10"
-URL="https://api.telegram.org/bot$KEY/sendMessage"
+URL="https://api.telegram.org/bot$TOKEN/sendMessage"
+URLC="https://api.telegram.org/bot$TOKENC/sendMessage"
 TEXT="Installation VIP Auto Script
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <code>VPS Name   :</code> <code>$Name</code>
@@ -222,7 +224,7 @@ By Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
 
 
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
-curl -s --max-time $TIME -d "chat_id=$CHATIDC&disable_web_page_preview=1&text=$TEXTC&parse_mode=html" $URL >/dev/null
+curl -s --max-time $TIME -d "chat_id=$CHATIDC&disable_web_page_preview=1&text=$TEXTC&parse_mode=html" $URLC >/dev/null
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install SSH/WS${NC}${BIYellow} ★ ${NC}"
 sleep 2
 wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
