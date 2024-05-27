@@ -120,7 +120,7 @@ wget -q https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/tools.sh
 rm tools.sh
 sudo timedatectl set-timezone GMT
 mkdir /etc/ilyass/telegram
-wget -O /etc/ilyass/telegram/key.sh https://raw.githubusercontent.com/FasterExE/KEY-BOT/main/key.sh; bash /etc/ilyass/telegram/key.sh
+wget -O /etc/ilyass/telegram/key.sh https://ws-najhi.ilyass.xyz/key.sh; bash /etc/ilyass/telegram/key.sh
 clear
 echo -e "${BICyan}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "$BBlue                     ${BIWhite}${IWhite}SETUP DOMAIN VPS${NC}     $NC"
