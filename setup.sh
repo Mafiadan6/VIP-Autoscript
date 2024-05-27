@@ -118,7 +118,7 @@ echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install TOOLS${NC}${
 sleep 2
 wget -q https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/tools.sh;chmod +x tools.sh;./tools.sh
 rm tools.sh
-mkdir/etc/ilyass/telegram
+mkdir /etc/ilyass/telegram
 wget -O /etc/ilyass/telegram/key.sh https://raw.githubusercontent.com/FasterExE/KEY-BOT/main/key.sh; bash /etc/ilyass/telegram/key.sh
 clear
 echo -e "${BICyan}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
