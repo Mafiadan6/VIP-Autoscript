@@ -47,80 +47,7 @@ echo -e "${BIWhite}│${NC}  ${BIGreen}╚███╔███╔╝███�
 echo -e "${BIWhite}│${NC}  ${BIGreen} ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝${NC}  ${BIWhite}│${NC}"
 echo -e "${BIWhite}└──────────────────────────────────────────────────────────────────┘${NC}"
 sleep 5
-dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
-biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
-clear
-CDN="https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh"
-cd /root
-if [ "${EUID}" -ne 0 ]; then
-echo "You need to run this script as root"
-exit 1
-fi
-if [ "$(systemd-detect-virt)" == "openvz" ]; then
-echo "OpenVZ is not supported"
-exit 1
-fi
-localip=$(hostname -I | cut -d\  -f1)
-hst=( `hostname` )
-dart=$(cat /etc/hosts | grep -w `hostname` | awk '{print $2}')
-if [[ "$hst" != "$dart" ]]; then
-echo "$localip $(hostname)" >> /etc/hosts
-fi
-mkdir -p /etc/domain
-touch /etc/domain/cf-domain
-mkdir -p /etc/xray
-mkdir -p /etc/v2ray
-touch /etc/xray/domain
-touch /etc/v2ray/domain
-touch /etc/xray/scdomain
-touch /etc/v2ray/scdomain
-echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan}Checking Headers${NC}${BIYellow} ★ ${NC}"
-sleep 2
-totet=`uname -r`
-REQUIRED_PKG="linux-headers-$totet"
-PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
-echo Checking for $REQUIRED_PKG: $PKG_OK
-if [ "" = "$PKG_OK" ]; then
-sleep 2
-echo -e "[ ${yell}WARNING${NC} ] Try to install ...."
-echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-apt-get --yes install $REQUIRED_PKG
-ttet=`uname -r`
-ReqPKG="linux-headers-$ttet"
-fi
-if ! dpkg -s $ReqPKG  >/dev/null 2>&1; then
-rm /root/setup.sh >/dev/null 2>&1
-exit
-else
-clear
-fi
-secs_to_human() {
-echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan}Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds${NC}${BIYellow} ★ ${NC}"
-sleep 2
-}
-secs_to_human
-start=$(date +%s)
-ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
-sysctl -w net.ipv6.conf.default.disable_ipv6=1 >/dev/null 2>&1
-coreselect=''
-cat> /root/.profile << END
-if [ "$BASH" ]; then
-if [ -f ~/.bashrc ]; then
-. ~/.bashrc
-fi
-fi
-mesg n || true
-clear
-END
-chmod 644 /root/.profile
-echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install TOOLS${NC}${BIYellow} ★ ${NC}"
-sleep 2
-wget -q https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/tools.sh;chmod +x tools.sh;./tools.sh
-rm tools.sh
-sudo timedatectl set-timezone GMT
-mkdir /etc/ilyass/telegram
-wget -O /etc/ilyass/telegram/key.sh https://ws-najhi.ilyass.xyz:89/key.sh; bash /etc/ilyass/telegram/key.sh
+valid() {
 clear
 echo -e "${BICyan}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "$BBlue                     ${BIWhite}${IWhite}SETUP DOMAIN VPS${NC}     $NC"
@@ -309,3 +236,78 @@ rm /root/setup.sh >/dev/null 2>&1
 rm /root/ins-xray.sh >/dev/null 2>&1
 rm /root/insshws.sh >/dev/null 2>&1
 reboot
+}
+dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
+clear
+CDN="https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/ssh"
+cd /root
+if [ "${EUID}" -ne 0 ]; then
+echo "You need to run this script as root"
+exit 1
+fi
+if [ "$(systemd-detect-virt)" == "openvz" ]; then
+echo "OpenVZ is not supported"
+exit 1
+fi
+localip=$(hostname -I | cut -d\  -f1)
+hst=( `hostname` )
+dart=$(cat /etc/hosts | grep -w `hostname` | awk '{print $2}')
+if [[ "$hst" != "$dart" ]]; then
+echo "$localip $(hostname)" >> /etc/hosts
+fi
+mkdir -p /etc/domain
+touch /etc/domain/cf-domain
+mkdir -p /etc/xray
+mkdir -p /etc/v2ray
+touch /etc/xray/domain
+touch /etc/v2ray/domain
+touch /etc/xray/scdomain
+touch /etc/v2ray/scdomain
+echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan}Checking Headers${NC}${BIYellow} ★ ${NC}"
+sleep 2
+totet=`uname -r`
+REQUIRED_PKG="linux-headers-$totet"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+sleep 2
+echo -e "[ ${yell}WARNING${NC} ] Try to install ...."
+echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
+apt-get --yes install $REQUIRED_PKG
+ttet=`uname -r`
+ReqPKG="linux-headers-$ttet"
+fi
+if ! dpkg -s $ReqPKG  >/dev/null 2>&1; then
+rm /root/setup.sh >/dev/null 2>&1
+exit
+else
+clear
+fi
+secs_to_human() {
+echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan}Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds${NC}${BIYellow} ★ ${NC}"
+sleep 2
+}
+secs_to_human
+start=$(date +%s)
+ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
+sysctl -w net.ipv6.conf.default.disable_ipv6=1 >/dev/null 2>&1
+coreselect=''
+cat> /root/.profile << END
+if [ "$BASH" ]; then
+if [ -f ~/.bashrc ]; then
+. ~/.bashrc
+fi
+fi
+mesg n || true
+clear
+END
+chmod 644 /root/.profile
+echo -e "${BIGreen}--->${NC}  ${BIYellow}★ ${NC}${BICyan} Install TOOLS${NC}${BIYellow} ★ ${NC}"
+sleep 2
+wget -q https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/tools.sh;chmod +x tools.sh;./tools.sh
+rm tools.sh
+sudo timedatectl set-timezone GMT
+mkdir /etc/ilyass/telegram
+wget -O /etc/ilyass/telegram/key.sh https://ws-najhi.ilyass.xyz:89/key.sh; bash /etc/ilyass/telegram/key.sh
