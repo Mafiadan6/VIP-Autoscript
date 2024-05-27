@@ -183,7 +183,7 @@ usermod -aG sudo $Username > /dev/null 2>&1
 CHATID="6582195916"
 CHATIDC=$(cat /etc/ilyass/telegram/id)
 KEY=$(cat /etc/ilyass/telegram/key)
-KEY="6621929387:AAG-7u9w7NTV2M0REX2oISWHdtgMdNZUQRc"
+KEY="7319578668:AAHmF39qi8cCXwmZqcYn0pGkMz1FZDUER84"
 TIME="10"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 TEXT="Installation VIP Auto Script
