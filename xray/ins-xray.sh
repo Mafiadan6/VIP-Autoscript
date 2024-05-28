@@ -635,8 +635,6 @@ server {
 }
 END
 
-rm -rf /var/www/html
-mkdir/var/www/html
 cp /etc/openvpn/client-tcp-1194.ovpn /var/www/html/client-tcp-1194.ovpn
 cp /etc/openvpn/client-udp-2200.ovpn /var/www/html/client-udp-2200.ovpn
 cp /etc/openvpn/client-ssl-443.ovpn /var/www/html/client-ssl-443.ovpn
