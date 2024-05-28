@@ -1,11 +1,9 @@
 #!/bin/bash
-MYIP=$(wget -qO- ipv4.icanhazip.com);
 echo "Checking VPS"
 clear
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
 MYIP=$(wget -qO- ipv4.icanhazip.com);
-MYIP2="s/xxxxxxxxx/$MYIP/g";
 ANU=$(ip -o $ANU -4 route show to default | awk '{print $5}');
 
 # Install OpenVPN dan Easy-RSA
@@ -40,7 +38,7 @@ cat > /etc/openvpn/client-tcp-1194.ovpn <<-END
 client
 dev tun
 proto tcp
-remote xxxxxxxxx 1194
+remote $MYIP 1194
 resolv-retry infinite
 route-method exe
 nobind
@@ -49,16 +47,40 @@ persist-tun
 auth-user-pass
 comp-lzo
 verb 3
+<ca>
+-----BEGIN CERTIFICATE-----
+MIID9DCCAtygAwIBAgIUEwUTqjTlDgQEVDRH2U80fHTgWmswDQYJKoZIhvcNAQEL
+BQAwdjETMBEGA1UEAwwKQ0EgT3BlblZwbjELMAkGA1UEBhMCSUQxEDAOBgNVBAcM
+B0pha2FydGExFDASBgNVBAgMC0tlYm9uIEplcnVrMQ4wDAYDVQQKDAVHSVZQTjEa
+MBgGA1UECwwRSU5ET05FU0lBIENPVU5UUlkwIBcNMjMwNjI2MDQwNTQ5WhgPMjA1
+MzA2MTgwNDA1NDlaMHYxEzARBgNVBAMMCkNBIE9wZW5WcG4xCzAJBgNVBAYTAklE
+MRAwDgYDVQQHDAdKYWthcnRhMRQwEgYDVQQIDAtLZWJvbiBKZXJ1azEOMAwGA1UE
+CgwFR0lWUE4xGjAYBgNVBAsMEUlORE9ORVNJQSBDT1VOVFJZMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4Hc5wLfc1lE9tud9nqV9tIXi39yko4SmCTy7
+vnitIZ5E7jStCae5L5K8fdLutab3sQ2VG8/9qypc5uKVV7mVBMsfooAz6Jco0jkY
+8Wl9BiBizNy0a78tCtl3OkIoSSoYb5TOwHRcRRXGDSiWAJ6EpJWUmD/BQIPbJH93
+ufO4raIhiBtG0OyirW0OcW7n2Q4VOV7iaZzSJeydUW7PT1biQ4ZGqDJEaHLudLrA
+Z0A8Fdg9hFlv9dWt/FSQa5hmZd+ogJWDDsxsqc7EU7EVqW4Q4rXUXHJ6r4ETnKgf
+2/jzl2iLQ94JHWR5V5wO2d3osEix5auoVAotCnBTH9AF/OjFfwIDAQABo3gwdjAd
+BgNVHQ4EFgQUrOHnpk8NhFrZ9uq56XyahxNjrmcwHwYDVR0jBBgwFoAUrOHnpk8N
+hFrZ9uq56XyahxNjrmcwDwYDVR0TAQH/BAUwAwEB/zATBgNVHSUEDDAKBggrBgEF
+BQcDATAOBgNVHQ8BAf8EBAMCAaYwDQYJKoZIhvcNAQELBQADggEBALzgpdiWweYN
+3FgiVjIuEZiSyMnTkcJlgoCwaBrDNUFz/ZSbKin+u8rNMn6U7Wpu9kEhqgft5F7W
+E//mXzfBMTjuSwirp6sjEaZjybSAw5vCER7dq3GE2MOF53lu56lHeg6p2TMV2Ep5
+QQv2v4kwJV10q3h1kGTFawNy7cC0gBAfQADk5TkPqxUPsrHWd8CHqX3qj9Z4aSpV
+39FVQltJtF6aE35rczVU5ETnAjI6fGG/+bXmrhwfWk926/J+VZcqZqWS3ZgT3p5x
+vO6dNnG6EAoe0TSQV54QDMN1Eung42Oxa1QnOqVBSlhtvITYB8EubmrcwIovtME6
+sX4fPkXFnrg=
+-----END CERTIFICATE-----
+</ca>
 END
-
-sed -i $MYIP2 /etc/openvpn/client-tcp-1194.ovpn;
 
 # Make config client UDP 2200
 cat > /etc/openvpn/client-udp-2200.ovpn <<-END
 client
 dev tun
 proto udp
-remote xxxxxxxxx 2200
+remote $MYIP 2200
 resolv-retry infinite
 route-method exe
 nobind
@@ -67,16 +89,40 @@ persist-tun
 auth-user-pass
 comp-lzo
 verb 3
+<ca>
+-----BEGIN CERTIFICATE-----
+MIID9DCCAtygAwIBAgIUEwUTqjTlDgQEVDRH2U80fHTgWmswDQYJKoZIhvcNAQEL
+BQAwdjETMBEGA1UEAwwKQ0EgT3BlblZwbjELMAkGA1UEBhMCSUQxEDAOBgNVBAcM
+B0pha2FydGExFDASBgNVBAgMC0tlYm9uIEplcnVrMQ4wDAYDVQQKDAVHSVZQTjEa
+MBgGA1UECwwRSU5ET05FU0lBIENPVU5UUlkwIBcNMjMwNjI2MDQwNTQ5WhgPMjA1
+MzA2MTgwNDA1NDlaMHYxEzARBgNVBAMMCkNBIE9wZW5WcG4xCzAJBgNVBAYTAklE
+MRAwDgYDVQQHDAdKYWthcnRhMRQwEgYDVQQIDAtLZWJvbiBKZXJ1azEOMAwGA1UE
+CgwFR0lWUE4xGjAYBgNVBAsMEUlORE9ORVNJQSBDT1VOVFJZMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4Hc5wLfc1lE9tud9nqV9tIXi39yko4SmCTy7
+vnitIZ5E7jStCae5L5K8fdLutab3sQ2VG8/9qypc5uKVV7mVBMsfooAz6Jco0jkY
+8Wl9BiBizNy0a78tCtl3OkIoSSoYb5TOwHRcRRXGDSiWAJ6EpJWUmD/BQIPbJH93
+ufO4raIhiBtG0OyirW0OcW7n2Q4VOV7iaZzSJeydUW7PT1biQ4ZGqDJEaHLudLrA
+Z0A8Fdg9hFlv9dWt/FSQa5hmZd+ogJWDDsxsqc7EU7EVqW4Q4rXUXHJ6r4ETnKgf
+2/jzl2iLQ94JHWR5V5wO2d3osEix5auoVAotCnBTH9AF/OjFfwIDAQABo3gwdjAd
+BgNVHQ4EFgQUrOHnpk8NhFrZ9uq56XyahxNjrmcwHwYDVR0jBBgwFoAUrOHnpk8N
+hFrZ9uq56XyahxNjrmcwDwYDVR0TAQH/BAUwAwEB/zATBgNVHSUEDDAKBggrBgEF
+BQcDATAOBgNVHQ8BAf8EBAMCAaYwDQYJKoZIhvcNAQELBQADggEBALzgpdiWweYN
+3FgiVjIuEZiSyMnTkcJlgoCwaBrDNUFz/ZSbKin+u8rNMn6U7Wpu9kEhqgft5F7W
+E//mXzfBMTjuSwirp6sjEaZjybSAw5vCER7dq3GE2MOF53lu56lHeg6p2TMV2Ep5
+QQv2v4kwJV10q3h1kGTFawNy7cC0gBAfQADk5TkPqxUPsrHWd8CHqX3qj9Z4aSpV
+39FVQltJtF6aE35rczVU5ETnAjI6fGG/+bXmrhwfWk926/J+VZcqZqWS3ZgT3p5x
+vO6dNnG6EAoe0TSQV54QDMN1Eung42Oxa1QnOqVBSlhtvITYB8EubmrcwIovtME6
+sX4fPkXFnrg=
+-----END CERTIFICATE-----
+</ca>
 END
-
-sed -i $MYIP2 /etc/openvpn/client-udp-2200.ovpn;
 
 # Make config client SSL
 cat > /etc/openvpn/client-ssl-443.ovpn <<-END
 client
 dev tun
 proto tcp
-remote xxxxxxxxx 443
+remote $MYIP 443
 resolv-retry infinite
 route-method exe
 nobind
@@ -85,28 +131,33 @@ persist-tun
 auth-user-pass
 comp-lzo
 verb 3
+<ca>
+-----BEGIN CERTIFICATE-----
+MIID9DCCAtygAwIBAgIUEwUTqjTlDgQEVDRH2U80fHTgWmswDQYJKoZIhvcNAQEL
+BQAwdjETMBEGA1UEAwwKQ0EgT3BlblZwbjELMAkGA1UEBhMCSUQxEDAOBgNVBAcM
+B0pha2FydGExFDASBgNVBAgMC0tlYm9uIEplcnVrMQ4wDAYDVQQKDAVHSVZQTjEa
+MBgGA1UECwwRSU5ET05FU0lBIENPVU5UUlkwIBcNMjMwNjI2MDQwNTQ5WhgPMjA1
+MzA2MTgwNDA1NDlaMHYxEzARBgNVBAMMCkNBIE9wZW5WcG4xCzAJBgNVBAYTAklE
+MRAwDgYDVQQHDAdKYWthcnRhMRQwEgYDVQQIDAtLZWJvbiBKZXJ1azEOMAwGA1UE
+CgwFR0lWUE4xGjAYBgNVBAsMEUlORE9ORVNJQSBDT1VOVFJZMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4Hc5wLfc1lE9tud9nqV9tIXi39yko4SmCTy7
+vnitIZ5E7jStCae5L5K8fdLutab3sQ2VG8/9qypc5uKVV7mVBMsfooAz6Jco0jkY
+8Wl9BiBizNy0a78tCtl3OkIoSSoYb5TOwHRcRRXGDSiWAJ6EpJWUmD/BQIPbJH93
+ufO4raIhiBtG0OyirW0OcW7n2Q4VOV7iaZzSJeydUW7PT1biQ4ZGqDJEaHLudLrA
+Z0A8Fdg9hFlv9dWt/FSQa5hmZd+ogJWDDsxsqc7EU7EVqW4Q4rXUXHJ6r4ETnKgf
+2/jzl2iLQ94JHWR5V5wO2d3osEix5auoVAotCnBTH9AF/OjFfwIDAQABo3gwdjAd
+BgNVHQ4EFgQUrOHnpk8NhFrZ9uq56XyahxNjrmcwHwYDVR0jBBgwFoAUrOHnpk8N
+hFrZ9uq56XyahxNjrmcwDwYDVR0TAQH/BAUwAwEB/zATBgNVHSUEDDAKBggrBgEF
+BQcDATAOBgNVHQ8BAf8EBAMCAaYwDQYJKoZIhvcNAQELBQADggEBALzgpdiWweYN
+3FgiVjIuEZiSyMnTkcJlgoCwaBrDNUFz/ZSbKin+u8rNMn6U7Wpu9kEhqgft5F7W
+E//mXzfBMTjuSwirp6sjEaZjybSAw5vCER7dq3GE2MOF53lu56lHeg6p2TMV2Ep5
+QQv2v4kwJV10q3h1kGTFawNy7cC0gBAfQADk5TkPqxUPsrHWd8CHqX3qj9Z4aSpV
+39FVQltJtF6aE35rczVU5ETnAjI6fGG/+bXmrhwfWk926/J+VZcqZqWS3ZgT3p5x
+vO6dNnG6EAoe0TSQV54QDMN1Eung42Oxa1QnOqVBSlhtvITYB8EubmrcwIovtME6
+sX4fPkXFnrg=
+-----END CERTIFICATE-----
+</ca>
 END
-
-sed -i $MYIP2 /etc/openvpn/client-ssl-443.ovpn;
-
-cd
-# in the text xxx replace it with the IP address of your VPS
-/etc/init.d/openvpn restart
-
-# enter the certificate into the TCP 1194 client config
-echo '<ca>' >> /etc/openvpn/client-tcp-1194.ovpn
-cat /etc/openvpn/server/ca.crt >> /etc/openvpn/client-tcp-1194.ovpn
-echo '</ca>' >> /etc/openvpn/client-tcp-1194.ovpn
-
-# enter the certificate into the UDP 2200 client config
-echo '<ca>' >> /etc/openvpn/client-udp-2200.ovpn
-cat /etc/openvpn/server/ca.crt >> /etc/openvpn/client-udp-2200.ovpn
-echo '</ca>' >> /etc/openvpn/client-udp-2200.ovpn
-
-# enter the certificate into the SSL client config
-echo '<ca>' >> /etc/openvpn/client-ssl-443.ovpn
-cat /etc/openvpn/server/ca.crt >> /etc/openvpn/client-ssl-443.ovpn
-echo '</ca>' >> /etc/openvpn/client-ssl-443.ovpn
 
 #firewall to allow UDP access and TCP path access
 
@@ -126,4 +177,4 @@ systemctl start openvpn
 
 # Delete script
 history -c
-rm -f /root/vpn.sh
+rm -f /root/ovpn.sh
