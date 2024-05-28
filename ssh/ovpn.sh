@@ -98,23 +98,15 @@ echo '<ca>' >> /etc/openvpn/client-tcp-1194.ovpn
 cat /etc/openvpn/server/ca.crt >> /etc/openvpn/client-tcp-1194.ovpn
 echo '</ca>' >> /etc/openvpn/client-tcp-1194.ovpn
 
-# Copy config OpenVPN client to home directory root for easy download ( TCP 1194 )
-cp /etc/openvpn/tcp.ovpn /home/vps/public_html/client-tcp-1194.ovpn
-
 # enter the certificate into the UDP 2200 client config
 echo '<ca>' >> /etc/openvpn/client-udp-2200.ovpn
 cat /etc/openvpn/server/ca.crt >> /etc/openvpn/client-udp-2200.ovpn
 echo '</ca>' >> /etc/openvpn/client-udp-2200.ovpn
-# Copy config OpenVPN client to home directory root for easy download ( UDP 2200 )
-cp /etc/openvpn/udp.ovpn /home/vps/public_html/client-udp-2200.ovpn
 
 # enter the certificate into the SSL client config
 echo '<ca>' >> /etc/openvpn/client-ssl-443.ovpn
 cat /etc/openvpn/server/ca.crt >> /etc/openvpn/client-ssl-443.ovpn
 echo '</ca>' >> /etc/openvpn/client-ssl-443.ovpn
-
-# Copy config OpenVPN client to home directory root for easy download (SSL)
-cp /etc/openvpn/ssl.ovpn /home/vps/public_html/client-ssl-443.ovpn
 
 #firewall to allow UDP access and TCP path access
 
