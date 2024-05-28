@@ -500,7 +500,7 @@ $uuid
 END
 
 #nginx config
-cat etc/nginx/conf.d/protocol.conf <<EOF
+cat /etc/nginx/conf.d/protocol.conf <<EOF
     server {
              listen 80;
              listen [::]:80;
