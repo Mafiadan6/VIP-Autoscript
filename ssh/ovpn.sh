@@ -26,7 +26,7 @@ systemctl enable --now openvpn-server@server-udp
 /etc/init.d/openvpn status
 echo 1 > /proc/sys/net/ipv4/ip_forward
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-cat > /etc/openvpn/tcp.ovpn <<-END
+cat > /etc/openvpn/client-tcp-1194.ovpn <<-END
 client
 dev tun
 proto tcp
@@ -67,7 +67,7 @@ sX4fPkXFnrg=
 </ca>
 END
 
-cat > /var/www/html/tcp.ovpn <<-END
+cat > /var/www/html/client-tcp-1194.ovpn <<-END
 client
 dev tun
 proto tcp
@@ -108,7 +108,7 @@ sX4fPkXFnrg=
 </ca>
 END
 
-cat > /etc/openvpn/udp.ovpn <<-END
+cat > /etc/openvpn/client-udp-2200.ovpn <<-END
 client
 dev tun
 proto udp
@@ -148,7 +148,7 @@ sX4fPkXFnrg=
 -----END CERTIFICATE-----
 </ca>
 
-cat > /var/www/html/udp.ovpn <<-END
+cat > /var/www/html/client-udp-2200.ovpn <<-END
 client
 dev tun
 proto udp
