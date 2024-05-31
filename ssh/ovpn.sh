@@ -147,6 +147,7 @@ vO6dNnG6EAoe0TSQV54QDMN1Eung42Oxa1QnOqVBSlhtvITYB8EubmrcwIovtME6
 sX4fPkXFnrg=
 -----END CERTIFICATE-----
 </ca>
+END
 
 cat > /var/www/html/client-udp-2200.ovpn <<-END
 client
@@ -187,7 +188,7 @@ vO6dNnG6EAoe0TSQV54QDMN1Eung42Oxa1QnOqVBSlhtvITYB8EubmrcwIovtME6
 sX4fPkXFnrg=
 -----END CERTIFICATE-----
 </ca>
-
+END
 
 sudo cp /etc/openvpn/tcp.ovpn -t /var/www/html
 sudo cp /etc/openvpn/udp.ovpn -t /var/www/html
