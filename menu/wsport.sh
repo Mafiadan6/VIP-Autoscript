@@ -45,8 +45,9 @@ rm /etc/ws/status
 rm /etc/ws/status2
 echo 'SSH ' >> /etc/ws/status
 echo 'SSH' >> /etc/ws/status2
-sudo sed -i "16s/.*/DEFAULT_HOST = '127.0.0.1:143'/" /usr/local/bin/ws-stunnel
-sudo systemctl restart ws-stunnel
+sudo sed -i "12s/.*/DEFAULT_HOST = '127.0.0.1:22'/" /usr/local/bin/WebSocket
+sudo systemctl daemon-reload
+sudo systemctl restart WebSocket
 read -n 1 -s -r -p "  Press any key to back on menu"
 clear
 menu
@@ -58,8 +59,9 @@ rm /etc/ws/status
 rm /etc/ws/status2
 echo 'OVPN' >> /etc/ws/status
 echo 'OVPN' >> /etc/ws/status2
-sudo sed -i "16s/.*/DEFAULT_HOST = '127.0.0.1:1194'/" /usr/local/bin/ws-stunnel
-sudo systemctl restart ws-stunnel
+sudo sed -i "12s/.*/DEFAULT_HOST = '127.0.0.1:1194'/" /usr/local/bin/WebSocket
+sudo systemctl daemon-reload
+sudo systemctl restart WebSocket
 read -n 1 -s -r -p "  Press any key to back on menu"
 clear
 menu
