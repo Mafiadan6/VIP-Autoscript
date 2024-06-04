@@ -297,11 +297,11 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL > /dev/null 2>&1
 }
-if grep -q "SSH" /etc/ws/status2; then
+if grep -q "SSH" /etc/ilyass/ws/status2; then
 ssh
 fi
 
-if grep -q "OVPN" /etc/ws/status2; then
+if grep -q "OVPN" /etc/ilyass/ws/status2; then
 ovpn
 fi
 read -n 1 -s -r -p "    Press any key to back on menu"
