@@ -140,7 +140,7 @@ resst="${green}ON${NC}"
 else
 resst="${red}OFF${NC}"
 fi
-sshws=$(service ws-stunnel status | grep active | cut -d ' ' $stat)
+sshws=$(service WebSocket.service status | grep active | cut -d ' ' $stat)
 if [ "$sshws" = "active" ]; then
 ressshws="${green}ON${NC}"
 else
