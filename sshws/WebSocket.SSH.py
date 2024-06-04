@@ -9,7 +9,7 @@ PASS = ''
 # CONST
 BUFLEN = 4096 * 4
 TIMEOUT = 60
-DEFAULT_HOST = '127.0.0.1:22'
+DEFAULT_HOST = '127.0.0.1:143'
 MSG = 'Switching Protocols SSH'
 STATUS_RESP = '101'
 FTAG = '\r\nContent-length: 0\r\n\r\nHTTP/1.1 200 WS By ILYASS\r\n\r\n'
