@@ -1,20 +1,13 @@
-#!/usr/bin/env python
-# encoding: utf-8
+#!/usr/bin/python2
 import socket, threading, thread, select, signal, sys, time, getopt
 
-# Listen
-LISTENING_ADDR = '0.0.0.0'
+LISTENING_ADDR = '127.0.0.1'
 LISTENING_PORT = sys.argv[1]
 PASS = ''
-# CONST
 BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:22'
-MSG = 'Switching Protocols'
-STATUS_RESP = '101'
-FTAG = '\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: foo\r\n\r\n'
-RESPONSE = "HTTP/1.1 " + str(STATUS_RESP) + ' ' +  str(MSG) + ' ' +  str(FTAG)
-
+RESPONSE = 'HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: foo\r\n\r\n'
 
 class Server(threading.Thread):
     def __init__(self, host, port):
@@ -170,7 +163,7 @@ class ConnectionHandler(threading.Thread):
             host = host[:i]
         else:
             if self.method=='CONNECT':
-                port = 22
+                port = 443
             else:
                 port = sys.argv[1]
 
@@ -226,7 +219,7 @@ class ConnectionHandler(threading.Thread):
 def print_usage():
     print 'Usage: proxy.py -p <port>'
     print '       proxy.py -b <bindAddr> -p <port>'
-    print '       proxy.py -b 0.0.0.0 -p 80'
+    print '       proxy.py -b 0.0.0.0 -p 1080'
 
 def parse_args(argv):
     global LISTENING_ADDR
@@ -248,16 +241,12 @@ def parse_args(argv):
 
 
 def main(host=LISTENING_ADDR, port=LISTENING_PORT):
-    
-    print "\033[0;34m•"*8,"\033[1;32m PROXY PYTHON WEBSOCKET","\033[0;34m•"*8,"\n"
-    print "\033[1;33mIP:\033[1;32m " + LISTENING_ADDR
-    print "\033[1;33mPORT:\033[1;32m " + str(LISTENING_PORT) + "\n"
-    print "\033[0;34m•"*10,"\033[1;32m ILYASS AUTO SCRIPT","\033[0;34m•\033[1;37m"*11,"\n"
-    
-    
+    print "\n:-------PythonProxy-------:\n"
+    print "Listening addr: " + LISTENING_ADDR
+    print "Listening port: " + str(LISTENING_PORT) + "\n"
+    print ":-------------------------:\n"
     server = Server(LISTENING_ADDR, LISTENING_PORT)
     server.start()
-
     while True:
         try:
             time.sleep(2)
@@ -265,7 +254,6 @@ def main(host=LISTENING_ADDR, port=LISTENING_PORT):
             print 'Stopping...'
             server.close()
             break
-    
+            
 if __name__ == '__main__':
-    parse_args(sys.argv[1:])
     main()
