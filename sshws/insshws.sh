@@ -32,8 +32,8 @@ systemctl enable WebSocket.service
 systemctl start WebSocket.SSH.service
 systemctl restart WebSocket.OVPN.service
 
-mkdir /etc/ilyass/ws > /dev/null 2>&1
-rm /etc/ilyass/ws/status
-rm /etc/ilyass/ws/status2
+mkdir /etc/ws > /dev/null 2>&1
+rm /etc/ws/status
+rm /etc/ws/status2
 echo 'SSH ' >> /etc/ilyass/ws/status
 echo 'SSH' >> /etc/ilyass/ws/status2
