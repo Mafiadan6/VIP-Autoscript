@@ -1,0 +1,13 @@
+[Unit]
+Description=WebSocket Proxy By Ilyass (SSH)
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/python /usr/local/bin/WebSocket.SSH 2095
+Restart=always
+RestartSec=3s
+[Install]
+WantedBy=multi-user.target
