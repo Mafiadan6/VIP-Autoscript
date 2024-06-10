@@ -21,15 +21,15 @@ wget -O /etc/systemd/system/WebSocket.OVPN.service https://raw.githubusercontent
 systemctl daemon-reload
 
 systemctl enable WebSocket.service
-systemctl start WebSocket.SSH.service
-systemctl restart WebSocket.OVPN.service
+systemctl start WebSocket.service
+systemctl restart WebSocket.service
 
-systemctl enable WebSocket.service
+systemctl enable WebSocket.SSH.service
 systemctl start WebSocket.SSH.service
-systemctl restart WebSocket.OVPN.service
+systemctl restart WebSocket.SSH.service
 
-systemctl enable WebSocket.service
-systemctl start WebSocket.SSH.service
+systemctl enable WebSocket.OVPNservice
+systemctl start WebSocket.OVPN.service
 systemctl restart WebSocket.OVPN.service
 
 mkdir /etc/ws > /dev/null 2>&1
