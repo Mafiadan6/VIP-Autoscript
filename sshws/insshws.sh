@@ -35,5 +35,5 @@ systemctl restart WebSocket.OVPN.service
 mkdir /etc/ws > /dev/null 2>&1
 rm /etc/ws/status
 rm /etc/ws/status2
-echo 'SSH ' >> /etc/ilyass/ws/status
-echo 'SSH' >> /etc/ilyass/ws/status2
+echo 'SSH ' >> /etc/ws/status
+echo 'SSH' >> /etc/ws/status2
