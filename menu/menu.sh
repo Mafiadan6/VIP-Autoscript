@@ -283,7 +283,7 @@ case $opt in
 11) clear ; xolpanel ;;
 12) clear ; bw ;;
 13) clear ; menu-theme ;;
-14) clear ; echo "you have last version!"; sleep 0.5; menu
+14) clear ; echo "you have last version!"; sleep 0.5; menu ;;
 #14) clear ; update ;;
 0) clear ; menu ;;
 x) exit ;;
