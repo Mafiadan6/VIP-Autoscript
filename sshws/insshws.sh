@@ -28,7 +28,7 @@ systemctl enable WebSocket.SSH.service
 systemctl start WebSocket.SSH.service
 systemctl restart WebSocket.SSH.service
 
-systemctl enable WebSocket.OVPNservice
+systemctl enable WebSocket.OVPN.service
 systemctl start WebSocket.OVPN.service
 systemctl restart WebSocket.OVPN.service
 
