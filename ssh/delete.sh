@@ -85,6 +85,7 @@ echo -e "${BICyan} ┌───────────────────�
 echo -e "    ${BIWhite}•${NC}${BICyan} Username  :${NC} ${BIWhite}$username${NC}"
 echo -e "    ${BIWhite}•${NC}${BICyan} Expire at :${NC} ${BIYellow}$tgl $bulantahun${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+killall -u $username > /dev/null 2>&1
 sudo deluser $username > /dev/null 2>&1
 fi
 done
