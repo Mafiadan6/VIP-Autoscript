@@ -53,7 +53,8 @@ echo -e "${BICyan} ┌───────────────────�
 read -p "    Username SSH to Delete : " deluser
 
 if getent passwd $deluser > /dev/null 2>&1; then
-        userdel $deluser > /dev/null 2>&1
+        killall -u $deluser > /dev/null 2>&1
+        deluser $deluser > /dev/null 2>&1
         clear
         echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "                    ${BIWhite}${UWhite}DELETE USER ${NC}"
