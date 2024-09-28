@@ -1,6 +1,6 @@
 #!/bin/bash
 cd
-echo -ne "Enter Your VPS NameServer: "; read nameserver
+nameserver=$(cat /root/nsdomain)
 apt update -y
 apt install -y python3 python3-dnslib net-tools
 apt install ncurses-utils -y
