@@ -56,10 +56,10 @@ sed -i '/#vless$/a\#& '"$user $exp"'\
 },{"id": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
 sed -i '/#vlessgrpc$/a\#& '"$user $exp"'\
 },{"id": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
-vlesslink1="vless://${uuid}@${domain}:$tls?path=/vless&security=tls&encryption=none&type=ws#${user}"
-vlesslink2="vless://${uuid}@${domain}:$none?path=/vless&encryption=none&type=ws#${user}"
-vlesslink3="vless://${uuid}@${domain}:$tls?mode=gun&security=tls&encryption=none&type=grpc&serviceName=vless-grpc&sni=bug.com#${user}"
-systemctl restart xray
+vlesslink1="vless://${uuid}@${domain}:443?path=/vless&security=tls&encryption=none&type=ws#${user}"
+vlesslink2="vless://${uuid}@${domain}:80?path=/vless&encryption=none&type=ws#${user}"
+vlesslink3="vless://${uuid}@${domain}:443?mode=gun&security=tls&encryption=none&type=grpc&serviceName=vless-grpc&sni=bug.com#${user}"
+s#ystemctl restart xray
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "                    ${BIWhite}${UWhite}VLESS ACCOUNT ${NC}"
@@ -67,9 +67,9 @@ echo -e " ${BICyan}└───────────────────�
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "  ${BICyan} Remarks       :${NC} ${BIWhite}${user}${NC}"
 echo -e "  ${BICyan} Host/IP       :${NC} ${BIWhite}${domain}${NC}"
-echo -e "  ${BICyan} Port TLS      :${NC} ${BIWhite}$tls${NC}"
-echo -e "  ${BICyan} Port None TLS :${NC} ${BIWhite}$none${NC}"
-echo -e "  ${BICyan} Port GRPC     :${NC} ${BIWhite}$tls${NC}"
+echo -e "  ${BICyan} Port TLS      :${NC} ${BIWhite}443${NC}"
+echo -e "  ${BICyan} Port None TLS :${NC} ${BIWhite}80${NC}"
+echo -e "  ${BICyan} Port GRPC     :${NC} ${BIWhite}443${NC}"
 echo -e "  ${BICyan} ID            :${NC} ${BIWhite}${uuid}${NC}"
 echo -e "  ${BICyan} Encryption    :${NC} ${BIWhite}none${NC}"
 echo -e "  ${BICyan} Network       :${NC} ${BIWhite}WS${NC}"
