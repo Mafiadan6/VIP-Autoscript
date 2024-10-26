@@ -105,8 +105,8 @@ echo -e "   ${BIWhite}SSH WSS     :${NC} ${BIGreen}$domain:443@$Login:$Pass${NC}
 echo -e "   ${BIWhite}SSH UDP     :${NC} ${BIGreen}$domain:1-65535@$Login:$Pass${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "   ${BIWhite}Account Info   :${NC} ${BIGreen}http://$IP:81/$Login.txt${NC}"
-echo -e "   ${BIWhite}OpenVPN Config :${NC} ${BIGreen}http://$IP:81/${NC}"
+echo -e "   ${BIWhite}Account Info   :${NC} ${BIGreen}https://$IP:81/$Login.txt${NC}"
+echo -e "   ${BIWhite}OpenVPN Config :${NC} ${BIGreen}https://$IP:81/${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "   ${BIWhite}Payload WS/WSS${NC}"
@@ -141,8 +141,7 @@ SSH WS      : $domain:80@$Login:$Pass
 SSH WSS     : $domain:443@$Login:$Pass
 SSH UDP     : $domain:1-65535@$Login:$Pass
 =============================================
-OpenVPN Config : 
-http://$IP:81/
+OpenVPN Config : https://$IP:81/
 =============================================
 Payload WS/WSS
 GET / HTTP/1.1[crlf]Host: $domain[crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf]Expect: 100-continue[crlf][crlf]
@@ -174,9 +173,8 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 <strong>SSH WSS     :</strong> <code>$domain:443@$Login:$Pass</code>
 <strong>SSH UDP     :</strong> <code>$domain:1-65535@$Login:$Pass</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<strong>Account Info   :</strong> http://$IP:81/$Login.txt
-<strong>OpenVPN Config :</strong> 
-http://$IP:81/
+<strong>Account Info   :</strong> https://$IP:81/$Login.txt
+<strong>OpenVPN Config :</strong> https://$IP:81/
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>Payload WS/WSS</strong>
 <code>GET / HTTP/1.1[crlf]Host: $domain[crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf]Expect: 100-continue[crlf][crlf]</code>
@@ -213,8 +211,8 @@ echo -e "${BICyan} ┌───────────────────�
 echo -e "   ${BIWhite}SSH UDP     :${NC} ${BIGreen}$domain:1-65535@$Login:$Pass${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "   ${BIWhite}Account Info   :${NC} ${BIGreen}http://$IP:81/$Login.txt${NC}"
-echo -e "   ${BIWhite}OpenVPN Config :${NC} ${BIGreen}http://$IP:81/${NC}"
+echo -e "   ${BIWhite}Account Info   :${NC} ${BIGreen}https://$IP:81/$Login.txt${NC}"
+echo -e "   ${BIWhite}OpenVPN Config :${NC} ${BIGreen}https://$IP:81/${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "   ${BIWhite}Payload WS${NC}"
@@ -246,8 +244,7 @@ UDPGW       : 7100-7900
 =============================================
 SSH UDP     : $domain:1-65535@$Login:$Pass
 =============================================
-OpenVPN Config : 
-http://$IP:81/
+OpenVPN Config : https://$IP:81/
 =============================================
 Payload WS
 GET / HTTP/1.1[crlf]Host: $domain[crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf]Expect: 100-continue[crlf][crlf]
@@ -276,9 +273,8 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>SSH UDP     :</strong> <code>$domain:1-65535@$Login:$Pass</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<strong>Account Info   :</strong> http://$IP:81/$Login.txt
-<strong>OpenVPN Config :</strong> 
-http://$IP:81/
+<strong>Account Info   :</strong> https://$IP:81/$Login.txt
+<strong>OpenVPN Config :</strong> https://$IP:81/
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>Payload WS/WSS</strong>
 <code>GET / HTTP/1.1[crlf]Host: $domain[crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf]Expect: 100-continue[crlf][crlf]</code>
