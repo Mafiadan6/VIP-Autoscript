@@ -58,7 +58,8 @@ sed -i '/#vlessgrpc$/a\#& '"$user $exp"'\
 },{"id": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
 vlesslink1="vless://${uuid}@${domain}:443?security=tls&encryption=none&type=ws&headerType=none&path=/vless&sni=${domain}&host=${domain}#VLESS-TLS-${user}"
 #vlesslink1="vless://${uuid}@${domain}:443?path=/vless&security=tls&encryption=none&type=ws#${user}"
-vlesslink2="vless://${uuid}@${domain}:80?path=/vless&encryption=none&type=ws#${user}"
+#vlesslink2="vless://${uuid}@${domain}:80?path=/vless&encryption=none&type=ws#${user}"
+vlesslink2="vless://${uuid}@${domain}:80?security=none&encryption=none&type=ws&host=${domain}&path=vless#VLESS-MX-${user}"
 vlesslink3="vless://${uuid}@${domain}:443?mode=gun&security=tls&encryption=none&type=grpc&serviceName=vless-grpc&sni=bug.com#${user}"
 s#ystemctl restart xray
 clear
