@@ -27,9 +27,9 @@ account default
 host smtp.gmail.com
 port 587
 auth on
-user ilyass.backup.smtp@gmail.com
-from ilyass.backup.smtp@gmail.com
-password ilyass@2024
+user mastermind.backup.smtp@gmail.com
+from mastermind.backup.smtp@gmail.com
+password mastermind@2024
 logfile ~/.msmtp.log
 EOF
 chown -R www-data:www-data /etc/msmtprc

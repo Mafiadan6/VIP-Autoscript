@@ -44,18 +44,18 @@ NET=$(ip -o $ANU -4 route show to default | awk '{print $5}');
 source /etc/os-release
 ver=$VERSION_ID
 country=Morocco
-state=IlyassExE
+state=Administrator
 locality=Mohamedia
 organization=FasterCFG
 organizationalunit=none
 commonname=none
-email=me@ilyass.xyz
+email=admin@mastermind.xyz
 curl -sS https://raw.githubusercontent.com/mastermind/VIP-Autoscript/main/ssh/password | openssl aes-256-cbc -d -a -pass pass:scvps07gg -pbkdf2 > /etc/pam.d/common-password
 chmod +x /etc/pam.d/common-password
 cd
 cat > /etc/systemd/system/rc-local.service <<-END
 [Unit]
-Description=/etc/rc.local By Ilyass
+Description=/etc/rc.local By Mastermind
 ConditionPathExists=/etc/rc.local
 [Service]
 Type=forking
