@@ -95,6 +95,10 @@ wget -q https://github.com/mafiadan6/VIP-Autoscript/raw/main/update.sh && chmod 
 ## 🎮 **MENU SYSTEM PREVIEW**
 
 ### **Main Interface**
+
+![VIP-Autoscript Main Interface](Screenshot%20.PNG)
+
+### **Main Interface (Text View)**
 ```
 ┌──────────────────────────────────────────────────────────────────┐
 │  ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗  │
