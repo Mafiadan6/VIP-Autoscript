@@ -98,51 +98,6 @@ wget -q https://github.com/mafiadan6/VIP-Autoscript/raw/main/update.sh && chmod 
 
 ![VIP-Autoscript Main Interface](Screenshot%20.PNG)
 
-### **Main Interface (Text View)**
-```
-┌──────────────────────────────────────────────────────────────────┐
-│  ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗  │
-│  ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝  │
-│  ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗    │
-│  ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝    │
-│  ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗  │
-│   ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝  │
-└──────────────────────────────────────────────────────────────────┘
-      𓆩 AUTOSCRIPT 𓆪
-
-SYSTEM INFORMATION
-OS:        Ubuntu 20.04.6 LTS
-Kernel:    5.15.0-1093-gcp
-CPU:       17.6%
-Memory:    7934 MB
-Uptime:    1 day, 18 hours, 2 minutes
-DNS:       1.16 ms [Cache:ON DNSCrypt:ON]
-
-NETWORK INFORMATION
-Local IP:  10.188.0.3
-Public IP: 34.130.188.114
-ISP:       Google LLC
-Location:  Toronto
-Domain:    vip1.kingprivatenet.store
-Cloudflare: Not Set
-
-VPN STATISTICS
-SSH:      3 Users  VMESS:    0 Users  VLESS:   0 Users  TROJAN: 0 Users
-
-SERVICE STATUS
-SSH[ON] NGINX[OFF] XRAY[ON] STUNNEL[ON] DROPBEAR[ON] SSH-WS[ON] SSH-UDP[ON]
-
-OPEN PORTS
-- OpenSSH            : 22
-- SSH Websocket      : 80 [ON]
-- SSH SSL Websocket  : 443 [ON]
-- SSH UDP            : 1-65535
-- Custom UDP         : 36712 [ON]
-- Stunnel4           : 447, 777, 8443 [ON]
-- Dropbear           : 109, 143 [ON]
-- Badvpn             : 7100-7900
-- Nginx              : 81
-```
 
 ### **Interactive Menu Options**
 ```
