@@ -1,66 +1,166 @@
-GitUser="zoolztheaz"
-if [ "${EUID}" -ne 0 ]; then
-echo "You need to run this script as root"
-exit 1
+#!/bin/bash
+
+# =============================================================================
+# VIP-Autoscript Update Script - Clean Version
+# Open Source Edition
+# =============================================================================
+
+# Colors
+red='\e[1;31m'
+green='\e[1;32m'
+yell='\e[1;33m'
+blue='\e[1;34m'
+NC='\e[0m'
+
+# Functions
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+blue() { echo -e "\\033[34;1m${*}\\033[0m"; }
+
+# Check root
+if [[ $EUID -ne 0 ]]; then
+   red "Please run as root"
+   exit 1
 fi
-if [ "$(systemd-detect-virt)" == "openvz" ]; then
-echo "OpenVZ is not supported"
-exit 1
+
+# Check if script directory exists
+if [ ! -d "/root/mastermindvps/VIP-Autoscript" ]; then
+    red "VIP-Autoscript directory not found!"
+    exit 1
 fi
-echo ""
-version=$(cat /root/mastermindvps/VIP-Autoscript/version)
+
+# Get current version
+if [ -f "/root/mastermindvps/VIP-Autoscript/version" ]; then
+    CURRENT_VERSION=$(cat /root/mastermindvps/VIP-Autoscript/version)
+else
+    CURRENT_VERSION="Unknown"
+fi
+
 clear
-line=$(cat /etc/line)
-below=$(cat /etc/below)
-back_text=$(cat /etc/back)
-number=$(cat /etc/number)
-box=$(cat /etc/box)
-Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
-Info1="${Green_font_prefix}($version)${Font_color_suffix}"
-sts="${Info1}"
-clear
-echo ""
+echo -e "${blue}"
 figlet 'UPDATE'
-echo -e "   \e[$line--------------------------------------------------------\e[m"
-echo -e "   \e[$back_text                 \e[30m[\e[$box CHECK NEW UPDATE\e[30m ]                   \e[m"
-echo -e "   \e[$line--------------------------------------------------------\e[m"
-echo -e "   \e[$below VVERSION NOW >> $Info1"
-echo -e "   \e[$below SSTATUS UPDATE >> $sts"
-echo -e ""
-echo -e "       \e[1;31mWould you like to proceed?\e[0m"
+echo -e "${NC}"
+echo -e "${yell}═══════════════════════════════════════════════════════════════${NC}"
+echo -e "${blue}│${NC} ${green}VIP-Autoscript Update Utility${NC} ${blue}│${NC}"
+echo -e "${yell}═══════════════════════════════════════════════════════════════${NC}"
 echo ""
-echo -e "            \e[0;32m[ Select Option ]\033[0m"
-echo -e "      \e[$number [ 1 ]\e[m \e[$below CCheck Script Update Now\e[m"
-echo -e "      \e[$number [ x ]\e[m \e[$below BBack To Menu\e[m"
-echo -e ""
-echo -e "   \e[$line--------------------------------------------------------\e[m"
-echo -e "\e[$line"
-read -p "PPlease Choose 1 or x : " option2
-case $option2 in
-1)
-clear
-echo -e "\e[1;31mLocal Update Available..\e[m"
-echo -e ""
-sleep 2
-echo -e "\e[1;36mStarting Local Update Process..\e[m"
-sleep 2
-clear
-echo -e "\e[0;32mUpdate completed successfully!\e[0m"
+echo -e "${blue}Current Version: ${green}$CURRENT_VERSION${NC}"
 echo ""
-echo -e "\e[0;32mAll scripts are now updated to the latest version.\e[0m"
-clear
+
+# Show menu options
+echo -e "${yell}Would you like to proceed with update?${NC}"
 echo ""
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\E[44;1;39m            SCRIPT UPDATED              \E[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
+echo -e "${green}[1]${NC} Check for updates and update scripts"
+echo -e "${green}[2]${NC} Update dependencies only"
+echo -e "${green}[3]${NC} Reinstall menu system"
+echo -e "${green}[x]${NC} Back to menu"
 echo ""
-read -n 1 -s -r -p "Press any key to back on menu"
-menu
-;;
-x)
-clear
-echo -e ""
-read -n 1 -s -r -p "Press any key to back on menu"
-menu
-;;
+echo -e "${yell}═══════════════════════════════════════════════════════════════${NC}"
+echo ""
+
+read -p "Please choose an option [1-3,x]: " option
+
+case $option in
+    1)
+        clear
+        blue "---> ★ Starting Update Process ★"
+        echo ""
+
+        # Change to script directory
+        cd /root/mastermindvps/VIP-Autoscript
+
+        # Check if git is available
+        if command -v git &> /dev/null; then
+            green "Pulling latest updates from repository..."
+            git pull origin main
+        else
+            red "Git not found. Skipping repository update."
+        fi
+
+        # Update menu system
+        green "Updating menu system..."
+        cp menu/menu.sh /usr/local/bin/menu
+        chmod +x /usr/local/bin/menu
+
+        # Set permissions
+        green "Setting permissions..."
+        chmod +x *.sh
+        chmod +x */*.sh 2>/dev/null || true
+
+        sleep 2
+        green "---> ★ Update Complete! ★"
+        echo ""
+        read -n 1 -s -r -p "Press any key to continue"
+        menu
+        ;;
+    2)
+        clear
+        blue "---> ★ Updating Dependencies ★"
+        echo ""
+
+        # Update system
+        apt update -y
+        apt upgrade -y
+
+        # Install required packages
+        apt install -y \
+            screen curl jq bzip2 gzip coreutils rsyslog iftop \
+            htop zip unzip net-tools sed gnupg gnupg1 \
+            bc sudo apt-transport-https build-essential dirmngr \
+            libxml-parser-perl neofetch screenfetch git lsof \
+            openssl openvpn easy-rsa fail2ban tmux \
+            stunnel4 vnstat squid3 \
+            dropbear libsqlite3-dev \
+            socat cron bash-completion ntpdate xz-utils \
+            apt-transport-https gnupg2 dnsutils lsb-release chrony \
+            figlet iputils-ping wget python3 python3-pip
+
+        sleep 2
+        green "---> ★ Dependencies Updated! ★"
+        echo ""
+        read -n 1 -s -r -p "Press any key to continue"
+        menu
+        ;;
+    3)
+        clear
+        blue "---> ★ Reinstalling Menu System ★"
+        echo ""
+
+        # Create necessary directories
+        mkdir -p /etc/mastermind/telegram 2>/dev/null || true
+        mkdir -p /var/lib/scrz-prem 2>/dev/null || true
+        mkdir -p /etc/xray 2>/dev/null || true
+
+        # Update menu system
+        cp /root/mastermindvps/VIP-Autoscript/menu/menu.sh /usr/local/bin/menu
+        chmod +x /usr/local/bin/menu
+
+        # Create backup
+        cp /root/mastermindvps/VIP-Autoscript/menu/menu.sh /usr/local/bin/menu.sh
+
+        # Set permissions
+        chmod +x /root/mastermindvps/VIP-Autoscript/*.sh
+        chmod +x /root/mastermindvps/VIP-Autoscript/*/*.sh 2>/dev/null || true
+
+        # Create default config files
+        touch /etc/xray/domain 2>/dev/null || true
+        touch /etc/xray/flare-domain 2>/dev/null || true
+        touch /root/nsdomain 2>/dev/null || true
+        echo "IP=localhost" > /var/lib/scrz-prem/ipvps.conf 2>/dev/null || true
+
+        sleep 2
+        green "---> ★ Menu System Reinstalled! ★"
+        echo ""
+        read -n 1 -s -r -p "Press any key to continue"
+        menu
+        ;;
+    x)
+        clear
+        menu
+        ;;
+    *)
+        red "Invalid option!"
+        sleep 1
+        menu
+        ;;
 esac

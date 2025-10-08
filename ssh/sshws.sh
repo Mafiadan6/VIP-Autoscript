@@ -53,7 +53,7 @@ else
 wget -q -O /usr/bin/proxy3.js "https://raw.githubusercontent.com/mastermind/VIP-Autoscript/main/ssh/proxy3.js"
 cat <<EOF> /etc/systemd/system/sshws.service
 [Unit]
-Description=WSenabler By Mastermind
+Description=WSenabler By mastermind
 Documentation=bahenol
 
 [Service]

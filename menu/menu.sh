@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# Mastermind VIP Menu - Clean Layout with Original Logo
 red='\e[1;31m'
 green='\e[1;32m'
 NC='\e[0m'
@@ -12,25 +15,25 @@ trx=$(grep -c -E "^#! " "/etc/xray/config.json")
 let tra=$trx/2
 ssx=$(grep -c -E "^## " "/etc/xray/config.json")
 let ssa=$ssx/2
-BIBlack='\033[1;90m'      # Black
-BIRed='\033[1;91m'        # Red
-BIGreen='\033[1;92m'      # Green
-BIYellow='\033[1;93m'     # Yellow
-BIBlue='\033[1;94m'       # Blue
-BIPurple='\033[1;95m'     # Purple
-BICyan='\033[1;96m'       # Cyan
-BIWhite='\033[1;97m'      # White
-UWhite='\033[4;37m'       # White
-On_IPurple='\033[0;105m'  #
+BIBlack='\033[1;90m'
+BIRed='\033[1;91m'
+BIGreen='\033[1;92m'
+BIYellow='\033[1;93m'
+BIBlue='\033[1;94m'
+BIPurple='\033[1;95m'
+BICyan='\033[1;96m'
+BIWhite='\033[1;97m'
+UWhite='\033[4;37m'
+On_IPurple='\033[0;105m'
 On_IRed='\033[0;101m'
-IBlack='\033[0;90m'       # Black
-IRed='\033[0;91m'         # Red
-IGreen='\033[0;92m'       # Green
-IYellow='\033[0;93m'      # Yellow
-IBlue='\033[0;94m'        # Blue
-IPurple='\033[0;95m'      # Purple
-ICyan='\033[0;96m'        # Cyan
-IWhite='\033[0;97m'       # White
+IBlack='\033[0;90m'
+IRed='\033[0;91m'
+IGreen='\033[0;92m'
+IYellow='\033[0;93m'
+IBlue='\033[0;94m'
+IPurple='\033[0;95m'
+ICyan='\033[0;96m'
+IWhite='\033[0;97m'
 NC='\e[0m'
 dtoday="$(vnstat -i eth0 | grep "today" | awk '{print $2" "substr ($3, 1, 1)}')"
 utoday="$(vnstat -i eth0 | grep "today" | awk '{print $5" "substr ($6, 1, 1)}')"
@@ -41,12 +44,10 @@ tyest="$(vnstat -i eth0 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}
 dmon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $3" "substr ($4, 1, 1)}')"
 umon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $6" "substr ($7, 1, 1)}')"
 tmon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $9" "substr ($10, 1, 1)}')"
-clear
 tram=$( free -h | awk 'NR==2 {print $2}' )
 uram=$( free -h | awk 'NR==2 {print $3}' )
-ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
-CITY=$(curl -s ipinfo.io/city )
-# Fix CPU and RAM calculations
+ISP=$(curl -s "https://ipinfo.io/org?token=ac17e1a1a45667" | cut -d " " -f 2-10 )
+CITY=$(curl -s "https://ipinfo.io/city?token=ac17e1a1a45667" )
 cpu_usage=$(top -bn1 | grep "Cpu(s)" | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1"%"}')
 total_ram=$(grep "MemTotal: " /proc/meminfo | awk '{print int($2/1024)}')
 export LANG='en_US.UTF-8'
@@ -59,19 +60,8 @@ export PURPLE='\033[0;35m'
 export CYAN='\033[0;36m'
 export LIGHT='\033[0;37m'
 export NC='\033[0m'
-export EROR="[${RED} EROR ${NC}]"
-export INFO="[${YELLOW} INFO ${NC}]"
-export OKEY="[${GREEN} OKEY ${NC}]"
-export PENDING="[${YELLOW} PENDING ${NC}]"
-export SEND="[${YELLOW} SEND ${NC}]"
-export RECEIVE="[${YELLOW} RECEIVE ${NC}]"
-export BOLD="\e[1m"
-export WARNING="${RED}\e[5m"
-export UNDERLINE="\e[4m"
-clear
-clear && clear && clear
-clear;clear;clear
-# Use systemctl for better service detection
+
+# Service detection
 ssh_status=$(systemctl is-active ssh 2>/dev/null)
 if [ "$ssh_status" = "active" ]; then
     ressh="${green}ON${NC}"
@@ -107,8 +97,21 @@ else
     resv2r="${red}OFF${NC}"
 fi
 
-# WebSocket service doesn't exist by default
-ressshws="${red}OFF${NC}"
+# Check WebSocket services status
+websocket_ssh_status=$(systemctl is-active WebSocket.SSH.service 2>/dev/null)
+if [ "$websocket_ssh_status" = "active" ]; then
+    ressshws="${green}ON${NC}"
+else
+    ressshws="${red}OFF${NC}"
+fi
+
+# Check SSH UDP support
+if grep -q "PermitTunnel yes" /etc/ssh/sshd_config 2>/dev/null; then
+    resudp="${green}ON${NC}"
+else
+    resudp="${red}OFF${NC}"
+fi
+
 function addhost(){
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
@@ -130,137 +133,111 @@ read -n 1 -s -r -p "Press any key to back on menu"
 menu
 fi
 }
-function genssl(){
-clear
-systemctl stop nginx
-domain=$(cat /var/lib/scrz-prem/ipvps.conf | cut -d'=' -f2)
-Cek=$(lsof -i:80 | cut -d' ' -f1 | awk 'NR==2 {print $1}')
-if [[ ! -z "$Cek" ]]; then
-sleep 1
-echo -e "[ ${red}WARNING${NC} ] Detected port 80 used by $Cek "
-systemctl stop $Cek
-sleep 2
-echo -e "[ ${green}INFO${NC} ] Processing to stop $Cek "
-sleep 1
-fi
-echo -e "[ ${green}INFO${NC} ] Starting renew cert... "
-sleep 2
-/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
-~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
-echo -e "[ ${green}INFO${NC} ] Renew cert done... "
-sleep 2
-echo -e "[ ${green}INFO${NC} ] Starting service $Cek "
-sleep 2
-echo $domain > /etc/xray/domain
-systemctl restart xray
-systemctl restart nginx
-echo -e "[ ${green}INFO${NC} ] All finished... "
-sleep 0.5
-echo ""
-read -n 1 -s -r -p "Press any key to back on menu"
-menu
-}
+
 # Get system information
 OS_INFO=$(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2)
 KERNEL_INFO=$(uname -r)
 UPTIME_INFO=$(uptime -p | sed 's/up //')
 IPVPS=$(hostname -I | awk '{print $1}')
 
-# DNS speed test
-DNS_SPEED=$(ping -c 1 8.8.8.8 | grep time= | cut -d'=' -f2 | cut -d' ' -f2 | awk '{print $1 " ms"}')
+# Enhanced DNS monitoring
+DNS_SPEED=$(timeout 3 ping -c 1 8.8.8.8 | grep time= | awk -F'time=' '{print $2}' | awk '{print $1 " ms"}' 2>/dev/null)
 if [[ -z "$DNS_SPEED" ]]; then
-    DNS_SPEED="FAST"
+    DNS_SPEED="OPTIMIZED"
+fi
+
+# Check DNS caching services status
+unbound_status=$(systemctl is-active unbound 2>/dev/null)
+dnscrypt_status=$(systemctl is-active dnscrypt-proxy 2>/dev/null)
+
+if [ "$unbound_status" = "active" ]; then
+    DNS_CACHE="${green}ON${NC}"
+else
+    DNS_CACHE="${red}OFF${NC}"
+fi
+
+if [ "$dnscrypt_status" = "active" ]; then
+    DNSCRYPT="${green}ON${NC}"
+else
+    DNSCRYPT="${red}OFF${NC}"
 fi
 
 clear
 
-# ASCII Logo and System Info Display
-echo -e "${BICyan}┌─────────────────────────────────────────────────────────────────────────────────────┐${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠰⢶⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣷⣤⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⣤⣤⣤⣤⣴⣶⣤⣤⣴⣦⣤⣤⣄⣀⡀⠀⠀⠀⣼⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⣿⣷⣶⣤⣤⣴⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⡿⠋⠉⠉⠉⠁⠀⠀⠀⠈⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⣿⣿⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⠏⠉⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⡿⠛⠙⢿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⡻⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⡿⠁⠀⠀⠈⢿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⠕⠀⠉⠙⢿⣿⣿⣿⣿⣿⣄⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⢠⣿⣿⣿⣿⡿⠀⠀⠀⠀⠈⢿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⠟⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⢠⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⣿⢿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⣰⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⢻⣿⣿⣿⣿⣿⡄⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⢠⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⣇⠀⠀⢹⣿⣿⣿⣿⣿⡄⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⣾⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠿⠀⠀⠀⢻⣿⣿⣿⣿⣿⡀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⢰⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⢿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣷⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⢸⣿⣿⣿⡗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢐⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⡇${NC}"
-echo -e "${BICyan}│  ${BIGreen}⣾⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⣿⣿⣿⣿⣿⡇${NC}"
-echo -e "${BICyan}│  ${BIGreen}⢹⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⣿⣿⣿⣿⣿⣧${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠸⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⡇${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⢻⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⠃${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠈⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣇⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⡏⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠙⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⠀⠀⠀⣠⣾⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⡏⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠘⢿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣧⠀⠀⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⡆⢠⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠈⣿⣿⣿⣇⣼⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⢹⡿⠿⣿⣿⣿⣿⣿⣷⣦⣀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠈⠛⢿⣿⣿⣿⣿⣿⣷⣦⣤⣾⣿⣿⣿⣿⣿⣿⣿⣄⣀⣀⢀⣀⣀⣤⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⢠⡇⠀⠀⠀⠀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⢸⠇⠀⠀⠀⠀⠀⠀⠘⢿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⣿⠟⠛⠁⠀⠀⢻⡟⠀⠀⢸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡇⠀⠙⠻⣿⣿⣿⣿⣿⠟⠉⠉⠀⠀⠀⠀⢻⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠘⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⡿⠉⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⠆⠀⠀⠀⠀⠀⠀⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠋⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIGreen}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${NC}"
-echo -e "${BICyan}│  ${BIWhite}𓆩 MASTERMIND VIP AUTOSCRIPT 𓆪${NC}                                                   │${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│  ${BICyan}System Information                                                                │${NC}"
-echo -e "${BICyan}│  ${BIYellow}┌─────────────────────────────────────────────────────────────────────┐${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}OS:        ${BIWhite}$OS_INFO${NC}                                              ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Kernel:    ${BIWhite}$KERNEL_INFO${NC}                                                 ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}CPU:       ${BIWhite}$cpu_usage${NC}                                                      ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Memory:    ${BIWhite}$total_ram MB${NC}                                                    ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Uptime:    ${BIWhite}$UPTIME_INFO${NC}                                                 ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}DNS:       ${BIWhite}$DNS_SPEED${NC}                                                        ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}└─────────────────────────────────────────────────────────────────────┘${NC}    │${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│  ${BICyan}VPN Statistics & Service Status                                                   │${NC}"
-echo -e "${BICyan}│  ${BIYellow}┌─────────────────────────────────────────────────────────────────────┐${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}SSH: ${BIWhite}$ssh1 Users${NC}  ${BICyan}VMESS: ${BIWhite}$vma Users${NC}  ${BICyan}VLESS: ${BIWhite}$vla Users${NC}  ${BICyan}TROJAN: ${BIWhite}$tra Users${NC}         ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}└─────────────────────────────────────────────────────────────────────┘${NC}    │${NC}"
-echo -e "${BICyan}│  ${BICyan}Service Status: ${BICyan}SSH${NC}[$ressh${NC}] ${BICyan}NGINX${NC}[$resngx${NC}] ${BICyan}XRAY${NC}[$resv2r${NC}] ${BICyan}STUNNEL${NC}[$resst${NC}] ${BICyan}DROPBEAR${NC}[$resdbr${NC}] ${BICyan}SSH-WS${NC}[$ressshws${NC}]     │${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│  ${BICyan}Main Menu Options                                                                  │${NC}"
-echo -e "${BICyan}│  ${BIYellow}┌─────────────────────────────────────────────────────────────────────┐${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}[${BIWhite}01${BICyan}] SSH Menu${NC}      ${BICyan}[${BIWhite}08${BICyan}] Add Host${NC}        ${BICyan}[${BIWhite}15${BICyan}] System Tools${NC}         ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}[${BIWhite}02${BICyan}] VMESS Menu${NC}    ${BICyan}[${BIWhite}09${BICyan}] Running${NC}          ${BICyan}[${BIWhite}16${BICyan}] Reboot System${NC}        ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}[${BIWhite}03${BICyan}] VLESS Menu${NC}    ${BICyan}[${BIWhite}10${BICyan}] WS Port${NC}          ${BICyan}[${BIWhite}17${BICyan}] Speed Test${NC}          ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}[${BIWhite}04${BICyan}] TROJAN Menu${NC}  ${BICyan}[${BIWhite}11${BICyan}] Bot Install${NC}      ${BICyan}[${BIWhite}18${BICyan}] Change Banner${NC}       ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}[${BIWhite}05${BICyan}] Settings${NC}       ${BICyan}[${BIWhite}12${BICyan}] Bandwidth${NC}        ${BICyan}[${BIWhite}19${BICyan}] About${NC}                ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}[${BIWhite}06${BICyan}] Trial${NC}          ${BICyan}[${BIWhite}13${BICyan}] Menu Theme${NC}       ${BICyan}[${BIWhite}20${BICyan}] Update${NC}               ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}[${BIWhite}07${BICyan}] Backup${NC}        ${BICyan}[${BIWhite}14${BICyan}] Auto Reboot${NC}      ${BICyan}[${BIWhite}00${BICyan}] Exit${NC}                 ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}└─────────────────────────────────────────────────────────────────────┘${NC}    │${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│  ${BICyan}Additional Information                                                            │${NC}"
-echo -e "${BICyan}│  ${BIYellow}┌─────────────────────────────────────────────────────────────────────┐${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Domain:     ${BIWhite}$(cat /etc/xray/domain 2>/dev/null || echo 'Not Set')${NC}                                ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Cloudflare: ${BIWhite}$(cat /etc/xray/flare-domain 2>/dev/null || echo 'Not Set')${NC}                          ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Nameserver: ${BIWhite}$(cat /root/nsdomain 2>/dev/null || echo 'Not Set')${NC}                                ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}IP Address: ${BIPurple}$IPVPS${NC}                                                                ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}ISP:        ${BIWhite}$ISP${NC}                                                          ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Location:   ${BIWhite}$CITY${NC}                                                              ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}│ ${BICyan}Version:    ${BIGreen}$(cat /root/mastermindvps/VIP-Autoscript/version 2>/dev/null || echo 'Unknown')${NC}                   ${BIYellow}│${NC}    │${NC}"
-echo -e "${BICyan}│  ${BIYellow}└─────────────────────────────────────────────────────────────────────┘${NC}    │${NC}"
-echo -e "${BICyan}│                                                                                     │${NC}"
-echo -e "${BICyan}│  ${BIWhite}𓆩 ${BIRed}Powered by MASTERMIND VIP AUTOSCRIPT${NC} ${BIWhite}𓆪${NC}                                         │${NC}"
-echo -e "${BICyan}│  ${BIGreen}Lifetime License • Open Source • Professional VPN Management${NC}                             │${NC}"
-echo -e "${BICyan}└─────────────────────────────────────────────────────────────────────────────────────┘${NC}"
+# Original ASCII Logo with figlet
+echo -e "${BICyan}"
+figlet -f small "MASTERMIND VIP"
+echo -e "${BIWhite}      𓆩 AUTOSCRIPT 𓆪${NC}"
+echo ""
+
+# System Information
+echo -e "${BIYellow}SYSTEM INFORMATION${NC}"
+echo -e "${BICyan}OS:        ${BIWhite}$OS_INFO${NC}"
+echo -e "${BICyan}Kernel:    ${BIWhite}$KERNEL_INFO${NC}"
+echo -e "${BICyan}CPU:       ${BIWhite}$cpu_usage${NC}"
+echo -e "${BICyan}Memory:    ${BIWhite}$total_ram MB${NC}"
+echo -e "${BICyan}Uptime:    ${BIWhite}$UPTIME_INFO${NC}"
+echo -e "${BICyan}DNS:       ${BIWhite}$DNS_SPEED${NC} ${BICyan}[Cache:${DNS_CACHE}${NC} ${BICyan}DNSCrypt:${DNSCRYPT}${NC}]"
+echo ""
+
+# Network Information
+echo -e "${BIYellow}NETWORK INFORMATION${NC}"
+echo -e "${BICyan}Local IP:  ${BIWhite}$IPVPS${NC}"
+echo -e "${BICyan}Public IP: ${BIPurple}$(curl -s "https://ipinfo.io/ip?token=ac17e1a1a45667")${NC}"
+echo -e "${BICyan}ISP:       ${BIWhite}$ISP${NC}"
+echo -e "${BICyan}Location:  ${BIWhite}$CITY${NC}"
+echo -e "${BICyan}Domain:    ${BIWhite}$(cat /etc/xray/domain 2>/dev/null || echo 'Not Set')${NC}"
+echo -e "${BICyan}Cloudflare: ${BIWhite}$(cat /etc/xray/flare-domain 2>/dev/null || echo 'Not Set')${NC}"
+echo ""
+
+# VPN Statistics
+echo -e "${BIYellow}VPN STATISTICS${NC}"
+echo -e "${BICyan}SSH:      ${BIWhite}$ssh1 Users${NC}  ${BICyan}VMESS:    ${BIWhite}$vma Users${NC}  ${BICyan}VLESS:   ${BIWhite}$vla Users${NC}  ${BICyan}TROJAN: ${BIWhite}$tra Users${NC}"
+echo ""
+
+# Service Status
+echo -e "${BIYellow}SERVICE STATUS${NC}"
+echo -e "${BICyan}SSH[$ressh${NC}] ${BICyan}NGINX[$resngx${NC}] ${BICyan}XRAY[$resv2r${NC}] ${BICyan}STUNNEL[$resst${NC}] ${BICyan}DROPBEAR[$resdbr${NC}] ${BICyan}SSH-WS[$ressshws${NC}] ${BICyan}SSH-UDP[$resudp${NC}]"
+echo ""
+
+# Open Ports Information
+echo -e "${BIYellow}OPEN PORTS${NC}"
+echo -e "${BICyan}- OpenSSH            : ${BIWhite}22${NC}"
+echo -e "${BICyan}- SSH Websocket      : ${BIWhite}80${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- SSH SSL Websocket  : ${BIWhite}443${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- SSH UDP            : ${BIWhite}1-65535${NC}"
+echo -e "${BICyan}- Custom UDP         : ${BIWhite}36712${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Stunnel4           : ${BIWhite}447, 777, 8443${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Dropbear           : ${BIWhite}109, 143${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Badvpn             : ${BIWhite}7100-7900${NC}"
+echo -e "${BICyan}- Nginx              : ${BIWhite}81${NC}"
+echo -e "${BICyan}- Vmess TLS          : ${BIWhite}443${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Vmess None TLS     : ${BIWhite}80${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Vless TLS          : ${BIWhite}443${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Vless None TLS     : ${BIWhite}80${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Trojan GRPC        : ${BIWhite}443${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Trojan WS          : ${BIWhite}443${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- Trojan Go          : ${BIWhite}443${NC} [${green}ON${NC}]"
+echo ""
+
+# Main Menu
+echo -e "${BIYellow}MAIN MENU${NC}"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "01" "SSH Accounts" "08" "Add Domain" "15" "Neofetch"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "02" "VMESS Accounts" "09" "Running Processes" "16" "Network Info"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "03" "VLESS Accounts" "10" "WebSocket Port" "17" "Tools"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "04" "TROJAN Accounts" "11" "Install Bot" "18" "System Update"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "05" "Settings" "12" "Bandwidth Monitor" "19" "Reboot System"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "06" "Trial Accounts" "13" "Menu Themes" "20" "ASIC Logo Show"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "07" "Backup System" "14" "About" "0" "Exit"
+echo ""
+
+# Footer
+echo -e "${BIGreen}Version: $(cat /root/mastermindvps/VIP-Autoscript/version 2>/dev/null || echo 'Unknown')${NC}"
+echo -e "${BIRed}Developer: 𓆩 mastermind 𓆪${NC}"
+echo -e "${BIGreen}Lifetime License • Open Source • Professional VPN Management${NC}"
 echo
-read -p " Select menu : " opt
+
+read -p "${BIYellow}Select menu [0-20]:${NC} " opt
 echo -e ""
 case $opt in
 1) clear ; menu-ssh ;;
@@ -277,8 +254,13 @@ case $opt in
 12) clear ; bw ;;
 13) clear ; menu-theme ;;
 14) clear ; echo "you have last version!"; sleep 0.5; menu ;;
-#14) clear ; update ;;
-0) clear ; menu ;;
+15) clear ; neofetch ;;
+16) clear ; echo "Network Info:"; echo "Local IP: $IPVPS"; echo "Public IP: $(curl -s "https://ipinfo.io/ip?token=ac17e1a1a45667")"; echo "ISP: $ISP"; echo "Location: $CITY"; sleep 3; menu ;;
+17) clear ; echo "System Tools:"; echo "- Available: speedtest, netstat, top, htop, nethogs"; sleep 3; menu ;;
+18) clear ; echo "System Update:"; apt update; sleep 2; menu ;;
+19) clear ; echo "Rebooting in 3 seconds..."; sleep 3; reboot ;;
+20) clear ; echo "Showing ASIC Logo..."; figlet -f small "ASIC" && sleep 3; menu ;;
+0) clear ; exit ;;
 x) exit ;;
-*) echo -e "" ; echo "Press any key to back exit" ; sleep 1 ; exit ;;
+*) echo -e "" ; echo "Invalid option!" ; sleep 1 ; menu ;;
 esac
