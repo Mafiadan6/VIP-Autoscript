@@ -228,7 +228,7 @@ printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "03" "VLESS Accounts" "10
 printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "04" "TROJAN Accounts" "11" "Install Bot" "18" "System Update"
 printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "05" "Settings" "12" "Bandwidth Monitor" "19" "Reboot System"
 printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "06" "Trial Accounts" "13" "Menu Themes" "20" "ASIC Logo Show"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "07" "Backup System" "14" "About" "0" "Exit"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "07" "Backup System" "14" "Custom Banner" "0" "Exit"
 echo ""
 
 # Footer
@@ -253,7 +253,7 @@ case $opt in
 11) clear ; xolpanel ;;
 12) clear ; bw ;;
 13) clear ; menu-theme ;;
-14) clear ; echo "you have last version!"; sleep 0.5; menu ;;
+14) clear ; custom-banner ;;
 15) clear ; neofetch ;;
 16) clear ; echo "Network Info:"; echo "Local IP: $IPVPS"; echo "Public IP: $(curl -s "https://ipinfo.io/ip?token=ac17e1a1a45667")"; echo "ISP: $ISP"; echo "Location: $CITY"; sleep 3; menu ;;
 17) clear ; echo "System Tools:"; echo "- Available: speedtest, netstat, top, htop, nethogs"; sleep 3; menu ;;
