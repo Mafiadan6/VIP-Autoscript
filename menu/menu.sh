@@ -46,13 +46,9 @@ tram=$( free -h | awk 'NR==2 {print $2}' )
 uram=$( free -h | awk 'NR==2 {print $3}' )
 ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
 CITY=$(curl -s ipinfo.io/city )
-cpu_usage1="$(ps aux | awk 'BEGIN {sum=0} {sum+=$3}; END {print sum}')"
-cpu_usage="$((${cpu_usage1/\.*} / ${corediilik:-1}))"
-cpu_usage+=" %"
-total_ram=` grep "MemTotal: " /proc/meminfo | awk '{ print $2}'`
-totalram=$(($total_ram/1024))
-persenmemori="$(echo "scale=2; $usmem*100/$tomem" | bc)"
-persencpu="$(echo "scale=2; $cpu1+$cpu2" | bc)"
+# Fix CPU and RAM calculations
+cpu_usage=$(top -bn1 | grep "Cpu(s)" | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1"%"}')
+total_ram=$(grep "MemTotal: " /proc/meminfo | awk '{print int($2/1024)}')
 export LANG='en_US.UTF-8'
 export LANGUAGE='en_US.UTF-8'
 export RED='\033[0;31m'
@@ -75,48 +71,44 @@ export UNDERLINE="\e[4m"
 clear
 clear && clear && clear
 clear;clear;clear
-cek=$(service ssh status | grep active | cut -d ' ' -f5)
-if [ "$cek" = "active" ]; then
-stat=-f5
+# Use systemctl for better service detection
+ssh_status=$(systemctl is-active ssh 2>/dev/null)
+if [ "$ssh_status" = "active" ]; then
+    ressh="${green}ON${NC}"
 else
-stat=-f7
+    ressh="${red}OFF${NC}"
 fi
-ssh=$(service ssh status | grep active | cut -d ' ' $stat)
-if [ "$ssh" = "active" ]; then
-ressh="${green}ON${NC}"
+
+stunnel_status=$(systemctl is-active stunnel4 2>/dev/null)
+if [ "$stunnel_status" = "active" ]; then
+    resst="${green}ON${NC}"
 else
-ressh="${red}OFF${NC}"
+    resst="${red}OFF${NC}"
 fi
-sshstunel=$(service stunnel4 status | grep active | cut -d ' ' $stat)
-if [ "$sshstunel" = "active" ]; then
-resst="${green}ON${NC}"
+
+nginx_status=$(systemctl is-active nginx 2>/dev/null)
+if [ "$nginx_status" = "active" ]; then
+    resngx="${green}ON${NC}"
 else
-resst="${red}OFF${NC}"
+    resngx="${red}OFF${NC}"
 fi
-sshws=$(service WebSocket status | grep active | cut -d ' ' $stat)
-if [ "$sshws" = "active" ]; then
-ressshws="${green}ON${NC}"
+
+dropbear_status=$(systemctl is-active dropbear 2>/dev/null)
+if [ "$dropbear_status" = "active" ]; then
+    resdbr="${green}ON${NC}"
 else
+    resdbr="${red}OFF${NC}"
+fi
+
+xray_status=$(systemctl is-active xray 2>/dev/null)
+if [ "$xray_status" = "active" ]; then
+    resv2r="${green}ON${NC}"
+else
+    resv2r="${red}OFF${NC}"
+fi
+
+# WebSocket service doesn't exist by default
 ressshws="${red}OFF${NC}"
-fi
-ngx=$(service nginx status | grep active | cut -d ' ' $stat)
-if [ "$ngx" = "active" ]; then
-resngx="${green}ON${NC}"
-else
-resngx="${red}OFF${NC}"
-fi
-dbr=$(service dropbear status | grep active | cut -d ' ' $stat)
-if [ "$dbr" = "active" ]; then
-resdbr="${green}ON${NC}"
-else
-resdbr="${red}OFF${NC}"
-fi
-v2r=$(service xray status | grep active | cut -d ' ' $stat)
-if [ "$v2r" = "active" ]; then
-resv2r="${green}ON${NC}"
-else
-resv2r="${red}OFF${NC}"
-fi
 function addhost(){
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
