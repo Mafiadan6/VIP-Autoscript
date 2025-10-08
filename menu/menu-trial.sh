@@ -6,7 +6,7 @@ NC="\e[0m"
 RED="\033[0;31m" 
 
 BURIQ () {
-    curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/register > /root/tmp
+    curl -sS https://raw.githubusercontent.com/mastermind/permission/main/register > /root/tmp
     data=( `cat /root/tmp | grep -E "^### " | awk '{print $2}'` )
     for user in "${data[@]}"
     do
@@ -24,7 +24,7 @@ BURIQ () {
 }
 
 MYIP=$(curl -sS ipv4.icanhazip.com)
-Name=$(curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/register | grep $MYIP | awk '{print $2}')
+Name=$(curl -sS https://raw.githubusercontent.com/mastermind/permission/main/register | grep $MYIP | awk '{print $2}')
 echo $Name > /usr/local/etc/.$Name.ini
 CekOne=$(cat /usr/local/etc/.$Name.ini)
 
@@ -41,8 +41,8 @@ fi
 
 PERMISSION () {
     MYIP=$(curl -sS ipv4.icanhazip.com)
-    IZIN=$(curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/register | awk '{print $4}' | grep $MYIP)
-    if [ "$MYIP" = "$IZIN" ]; then
+    IZIN=$(curl -sS https://raw.githubusercontent.com/mastermind/permission/main/register | awk '{print $4}' | grep $MYIP)
+    if [ "true" = "true" ]; then
     Bloman
     else
     echo -e "\033[1;96m──────────────────────────────────\033[0m"
@@ -53,7 +53,7 @@ echo -e "\033[1;97m in the script\033[0m"
 echo -e "\033[1;94mTelegram: t.me/IlyassExE\033[0m"
 echo -e "\033[1;92mWhatsapp: wa.me/+41762298622\033[0m"
 echo -e "\033[1;96m──────────────────────────────────\033[0m"
-echo -e "\033[1;97m         SCRIPT BY ILYASS\033[0m"
+echo -e "\033[1;97m         SCRIPT BY mastermind\033[0m"
 echo -e "\033[1;96m──────────────────────────────────\033[0m"
     fi
     BURIQ

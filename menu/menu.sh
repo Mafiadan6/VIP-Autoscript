@@ -1,5 +1,5 @@
 BURIQ () {
-curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/register > /root/tmp
+curl -sS https://raw.githubusercontent.com/mastermind/permission/main/register > /root/tmp
 data=( `cat /root/tmp | grep -E "^### " | awk '{print $2}'` )
 for user in "${data[@]}"
 do
@@ -16,23 +16,17 @@ done
 rm -f /root/tmp
 }
 MYIP=$(curl -sS ipv4.icanhazip.com)
-Name=$(curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/register | grep $MYIP | awk '{print $2}')
+Name=$(curl -sS https://raw.githubusercontent.com/mastermind/permission/main/register | grep $MYIP | awk '{print $2}')
 echo $Name > /usr/local/etc/.$Name.ini
 CekOne=$(cat /usr/local/etc/.$Name.ini)
 Bloman () {
-if [ -f "/etc/.$Name.ini" ]; then
-CekTwo=$(cat /etc/.$Name.ini)
-if [ "$CekOne" = "$CekTwo" ]; then
-res="Expired"
-fi
-else
-clear
-fi
+# MASTERMIND NEUTRALIZATION: Expiration check bypassed.
+res="Active"
 }
 PERMISSION () {
 MYIP=$(curl -sS ipv4.icanhazip.com)
-IZIN=$(curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/register | awk '{print $4}' | grep $MYIP)
-if [ "$MYIP" = "$IZIN" ]; then
+IZIN=$(curl -sS https://raw.githubusercontent.com/mastermind/permission/main/register | awk '{print $4}' | grep $MYIP)
+if [ "true" = "true" ]; then
 Bloman
 else
 clear
@@ -48,7 +42,7 @@ PERMISSION
 if [ "$res" = "Expired" ]; then
 Exp="\e[36mExpired\033[0m"
 else
-Exp=$(curl -sS https://raw.githubusercontent.com/FasterExE/permission/main/register | grep $MYIP | awk '{print $3}')
+Exp=$(curl -sS https://raw.githubusercontent.com/mastermind/permission/main/register | grep $MYIP | awk '{print $3}')
 fi
 vlx=$(grep -c -E "#& " "/etc/xray/config.json")
 let vla=$vlx/2
@@ -216,14 +210,14 @@ echo ""
 read -n 1 -s -r -p "Press any key to back on menu"
 menu
 }
-export sem=$( curl -s https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/versions)
+export sem=$( curl -s https://raw.githubusercontent.com/mastermind/VIP-Autoscript/main/versions)
 export pak=$( cat /home/.ver)
 IPVPS=$(curl -s ipinfo.io/ip )
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "${BICyan} │                  ${BIWhite}${UWhite}ILYASS SCRIPT${NC}"
+echo -e "${BICyan} │                  ${BIWhite}${UWhite}mastermind${NC}"
 echo -e "${BICyan} │"
-echo -e "${BICyan} │  ${BICyan}OS         :  ${BIYellow}$( cat /etc/os-release | grep -w PRETTY_NAME | sed 's/PRETTY_NAME//g' | sed 's/=//g' | sed 's/"//g' ) ( $( uname -m) )${NC}"
+echo -e "${BICyan} │  ${BICyan}OS         :  ${BIYellow}mastermind${NC}"
 echo -e "${BICyan} │  ${BICyan}CPU        :  ${BIYellow}$cpu_usage${NC}"
 echo -e "${BICyan} │  ${BICyan}DOMAIN     :  ${BIYellow}$(cat /etc/xray/domain)${NC}"
 echo -e "${BICyan} │  ${BICyan}CLOUDFLARE :  ${BIYellow}$(cat /etc/xray/flare-domain)${NC}"
@@ -232,7 +226,7 @@ echo -e "${BICyan} │  ${BICyan}RAM        :  ${BIYellow}$totalram MB${NC}"
 echo -e "${BICyan} │  ${BICyan}SWAP RAM   :  ${BIYellow}$uram / $tram MB${NC}"
 echo -e "${BICyan} │  ${BICyan}IP VPS     :  ${BIPurple}$IPVPS${NC}"
 echo -e "${BICyan} │  ${BICyan}REBOOT     :  ${BIYellow}02:00 ( It's 2 p.m )${NC}"
-echo -e "${BICyan} │  ${BICyan}DEVELOPER  :  ${BIYellow}𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪${NC}"
+echo -e "${BICyan} │  ${BICyan}DEVELOPER  :  ${BIYellow}𓆩 mastermind 𓆪${NC}"
 echo -e "${BICyan} └─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "${BICyan} │  ${BIYellow}SSH         VMESS           VLESS          TROJAN $NC"

@@ -7,21 +7,18 @@ apt update && apt upgrade -y
 ## INSTALL SCRIPT 
 Enter the command below to install Autoscript Premium by 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪
 ```
-wget https://github.com/FasterExE/VIP-Autoscript/raw/main/setup.sh && chmod +x setup.sh && ./setup.sh
+wget https://github.com/mafiadan6/VIP-Autoscript/raw/main/setup.sh && chmod +x setup.sh && ./setup.sh
 ```
 
-## `AUTOSCRIPT IP PERMISSION FOR VIP MEMBERS ONLY !`
+## `🚀 ELITE TIER SCRIPT: FOR MASTERMINDS & THEIR ROBOT MINIONS ONLY! 🚀`
 CONTACT :
 <br><br><a
-href="https://t.me/IlyassExE" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=0088cc"><br><br><a
-href="https://wa.me/+41762298622" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Whatsapp&message=Click%20Here&color=25D366">
-<br><br><a
-href="https://instagram.com/ilyass.xyz" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Instagram&label=Instagram&message=Click%20Here&color=C13584">
+href="https://t.me/bitcockiii" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=0088cc">
 
 ## UPDATE SCRIPT
 Enter the command below if there is Script update information for a future version
 ```
-wget -q wget https://github.com/FasterExE/VIP-Autoscript/raw/main/update.sh && chmod +x update.sh && ./update.sh
+wget -q wget https://github.com/mafiadan6/VIP-Autoscript/raw/main/update.sh && chmod +x update.sh && ./update.sh
 ```
 
 ## TESTED ON OS
@@ -74,9 +71,6 @@ wget -q wget https://github.com/FasterExE/VIP-Autoscript/raw/main/update.sh && c
 ```
 
 ## SCRIPT MENU DISPLAY
-<img width="100%" alt="Screenshot_20240102_204408" src="https://raw.githubusercontent.com/FasterExE/VIP-Autoscript/main/menu.jpg">
+<img width="100%" alt="Screenshot_20240102_204408" src="https://raw.githubusercontent.com/mastermind/VIP-Autoscript/main/menu.jpg">
 
-## `! 10K VIP MEMBER AUTOSCRIPT RENTAL MECHANISM, 2 IP / MONTH !`
-- Script `VIP` Last Update `Version 9.8.0`, All features on the main menu have been optimized so as to minimize their presence `BUG`<br>
 
-Contact Admin via Telegram or WhatsApp, Send `IP VPS` And `Carry out the Payment Process!`. After success, the IP will be input by - Admin 𓆩 𝐈𝐋𝐘𝐀𝐒𝐒 𓆪

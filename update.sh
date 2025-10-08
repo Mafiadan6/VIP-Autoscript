@@ -181,7 +181,7 @@ clear
 echo -e ""
 echo -e "\e[0;32mDownloaded successfully!\e[0m"
 echo ""
-ver=$( curl https://raw.githubusercontent.com/gemilangvip/autoscript-vvip/main/version )
+ver=$( curl https://raw.githubusercontent.com/mastermind/autoscript-vvip/main/version )
 sleep 1
 echo -e "\e[0;32mPatching New Update, Please Wait...\e[0m"
 echo ""
