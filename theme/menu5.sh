@@ -1,55 +1,9 @@
-BURIQ () {
-curl -sS https://raw.githubusercontent.com/mastermind/autoscript-vvip/main/register > /root/tmp
-data=( `cat /root/tmp | grep -E "^### " | awk '{print $2}'` )
-for user in "${data[@]}"
-do
-exp=( `grep -E "^### $user" "/root/tmp" | awk '{print $3}'` )
-d1=(`date -d "$exp" +%s`)
-d2=(`date -d "$biji" +%s`)
-exp2=$(( (d1 - d2) / 86400 ))
-if [[ "$exp2" -le "0" ]]; then
-echo $user > /etc/.$user.ini
-else
-rm -f /etc/.$user.ini > /dev/null 2>&1
-fi
-done
-rm -f /root/tmp
-}
-MYIP=$(curl -sS ipv4.icanhazip.com)
-Name=$(curl -sS https://raw.githubusercontent.com/mastermind/autoscript-vvip/main/register | grep $MYIP | awk '{print $2}')
-echo $Name > /usr/local/etc/.$Name.ini
-CekOne=$(cat /usr/local/etc/.$Name.ini)
-Bloman () {
-if [ -f "/etc/.$Name.ini" ]; then
-CekTwo=$(cat /etc/.$Name.ini)
-if [ "$CekOne" = "$CekTwo" ]; then
-res="Expired"
-fi
-else
-res="Permission Accepted..."
-fi
-}
-PERMISSION () {
-MYIP=$(curl -sS ipv4.icanhazip.com)
-IZIN=$(curl -sS https://raw.githubusercontent.com/mastermind/autoscript-vvip/main/register | awk '{print $4}' | grep $MYIP)
-if [ "true" = "true" ]; then
-Bloman
-else
-res="Permission Denied!"
-fi
-BURIQ
-}
+Name="Administrator"
 red='\e[1;31m'
 green='\e[1;32m'
 NC='\e[0m'
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
-PERMISSION
-if [ "$res" = "Expired" ]; then
-Exp="\e[36mExpired\033[0m"
-else
-Exp=$(curl -sS https://raw.githubusercontent.com/mastermind/autoscript-vvip/main/register | grep $MYIP | awk '{print $3}')
-fi
 vlx=$(grep -c -E "^#& " "/etc/xray/config.json")
 let vla=$vlx/2
 vmc=$(grep -c -E "^### " "/etc/xray/config.json")
@@ -216,9 +170,7 @@ echo ""
 read -n 1 -s -r -p "Press any key to back on menu"
 menu
 }
-export sem=$( cat /home/.ver)
-export pak=$( cat /home/.ver)
-IPVPS=$(curl -s ipinfo.io/ip )
+IPVPS=$(hostname -I | awk '{print $1}')
 clear
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "${BICyan} │                  ${BIWhite}${UWhite}GEMILANG-KINASIH${NC}"
@@ -248,22 +200,10 @@ echo -e "${BICyan} │  ${BICyan}[${BIWhite}05${BICyan}] SETING  ${BICyan}[${BIY
 echo -e "${BICyan} │  ${BICyan}[${BIWhite}06${BICyan}] TRIALL  ${BICyan}[${BIYellow}Menu${BICyan}]${NC}"  "${BICyan}  [${BIWhite}13${BICyan}] MENU THEME      ${BICyan}[${BIYellow}Menu${BICyan}]${NC}" "${BICyan} │${NC}"
 echo -e "${BICyan} │  ${BICyan}[${BIWhite}07${BICyan}] BACKUP  ${BICyan}[${BIYellow}Menu${BICyan}]${NC}"  "${BICyan}  [${BIWhite}14${BICyan}] UPDATE SCRIPT   ${BICyan}[${BIYellow}Menu${BICyan}]${NC}" "${BICyan} │${NC}"
 echo -e "${BICyan} └─────────────────────────────────────────────────────┘${NC}"
-DATE=$(date +'%d %B %Y')
-datediff() {
-d1=$(date -d "$1" +%s)
-d2=$(date -d "$2" +%s)
-echo -e "        ${BICyan}│$NC Expiry In     : $(( (d1 - d2) / 86400 )) Days $NC"
-}
-mai="datediff "$Exp" "$DATE""
 echo -e "        ${BICyan}┌─────────────────────────────────────┐${NC}"
 echo -e "        ${BICyan}│$NC Version       : $(cat /opt/.ver) Last Update ${NC}"
 echo -e "        ${BICyan}│$NC ${GREEN}User          :\033[1;36m $Name \e[0m"
-if [ $exp \< 1000 ];
-then
-echo -e "          $BICyan│$NC License      : ${GREEN}$sisa_hari$NC Days Tersisa $NC"
-else
-datediff "$Exp" "$DATE"
-fi;
+echo -e "        ${BICyan}│$NC License       : ${GREEN}Active${NC}"
 echo -e "        ${BICyan}└─────────────────────────────────────┘${NC}"
 echo
 read -p " Select menu : " opt
