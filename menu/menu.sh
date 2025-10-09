@@ -195,9 +195,18 @@ echo -e "${BIYellow}VPN STATISTICS${NC}"
 echo -e "${BICyan}SSH:      ${BIWhite}$ssh1 Users${NC}  ${BICyan}VMESS:    ${BIWhite}$vma Users${NC}  ${BICyan}VLESS:   ${BIWhite}$vla Users${NC}  ${BICyan}TROJAN: ${BIWhite}$tra Users${NC}"
 echo ""
 
+# Check VIP Proxy status
+vipproxy_status=$(systemctl is-active WebSocket.SSH.8888.service 2>/dev/null)
+if [ "$vipproxy_status" = "active" ]; then
+    resvip="${BIPurple}VIP-PROXY[${green}ON${NC}${BIPurple}]${NC}"
+else
+    resvip="${BIPurple}VIP-PROXY[${red}OFF${NC}${BIPurple}]${NC}"
+fi
+
 # Service Status
 echo -e "${BIYellow}SERVICE STATUS${NC}"
-echo -e "${BICyan}SSH[$ressh${NC}] ${BICyan}NGINX[$resngx${NC}] ${BICyan}XRAY[$resv2r${NC}] ${BICyan}STUNNEL[$resst${NC}] ${BICyan}DROPBEAR[$resdbr${NC}] ${BICyan}SSH-WS[$ressshws${NC}] ${BICyan}SSH-UDP[$resudp${NC}]"
+echo -e "${BICyan}SSH[$ressh${NC}] ${BICyan}NGINX[$resngx${NC}] ${BICyan}XRAY[$resv2r${NC}] ${BICyan}STUNNEL[$resst${NC}] ${BICyan}DROPBEAR[$resdbr${NC}]"
+echo -e "${BICyan}SSH-WS[$ressshws${NC}] ${BICyan}SSH-UDP[$resudp${NC}] ${BICyan}$resvip${NC}"
 echo ""
 
 # Open Ports Information
@@ -207,7 +216,18 @@ echo -e "${BICyan}- SSH Websocket      : ${BIWhite}80${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- SSH SSL Websocket  : ${BIWhite}443${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- SSH UDP            : ${BIWhite}1-65535${NC}"
 echo -e "${BICyan}- Custom UDP         : ${BIWhite}36712${NC} [${green}ON${NC}]"
-echo -e "${BICyan}- Stunnel4           : ${BIWhite}447, 777, 8443${NC} [${green}ON${NC}]"
+
+# Dynamic Stunnel4 ports
+if systemctl is-active stunnel4 >/dev/null 2>&1; then
+    stunnel_ports=$(cat /etc/stunnel/stunnel.conf 2>/dev/null | grep -i accept | cut -d= -f2 | sed 's/ //g' | tr '\n' ' ' | sed 's/ $//')
+    if [ -z "$stunnel_ports" ]; then
+        stunnel_ports="447, 778, 779"
+    fi
+    echo -e "${BICyan}- Stunnel4           : ${BIWhite}$stunnel_ports${NC} [${green}ON${NC}]"
+else
+    echo -e "${BICyan}- Stunnel4           : ${BIWhite}447, 778, 779${NC} [${red}OFF${NC}]"
+fi
+
 echo -e "${BICyan}- Dropbear           : ${BIWhite}109, 143${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- Badvpn             : ${BIWhite}7100-7900${NC}"
 echo -e "${BICyan}- Nginx              : ${BIWhite}81${NC}"
@@ -218,6 +238,23 @@ echo -e "${BICyan}- Vless None TLS     : ${BIWhite}80${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- Trojan GRPC        : ${BIWhite}443${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- Trojan WS          : ${BIWhite}443${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- Trojan Go          : ${BIWhite}443${NC} [${green}ON${NC}]"
+
+# Add additional running ports
+if netstat -tuln 2>/dev/null | grep -q ":8443 "; then
+    echo -e "${BICyan}- SSL Websocket Pro  : ${BIWhite}8443${NC} [${green}ON${NC}]"
+fi
+
+# Check for VIP Proxy (port 8888)
+vipproxy_status=$(systemctl is-active WebSocket.SSH.8888.service 2>/dev/null)
+if [ "$vipproxy_status" = "active" ]; then
+    echo -e "${BICyan}- SSH Websocket Pro  : ${BIWhite}8888${NC} [\033[1;95mON (Mastermind!)\033[0m]"
+fi
+
+# Check for OVPN WebSocket (port 2086)
+ovpn_ws_status=$(systemctl is-active WebSocket.OVPN.service 2>/dev/null)
+if [ "$ovpn_ws_status" = "active" ]; then
+    echo -e "${BICyan}- OVPN WebSocket      : ${BIWhite}2086${NC} [${green}ON${NC}]"
+fi
 echo ""
 
 # Main Menu

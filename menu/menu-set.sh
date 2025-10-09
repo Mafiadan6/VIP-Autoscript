@@ -44,7 +44,8 @@ echo -e "${BICyan} ┌───────────────────�
 echo -e "       ${BIWhite}${UWhite}SETTING ${NC}"
 echo -e ""
 echo -e "     ${BICyan}[${BIWhite}01${BICyan}] Panel Domain      "
-echo -e "     ${BICyan}[${BIWhite}02${BICyan}] Change Port All Account      "
+echo -e "     ${BICyan}[${BIWhite}02${BICyan}] Change Port All Account"
+echo -e "     ${BICyan}[${BIWhite}11${BICyan}] Remove/Reset Port"
 echo -e "     ${BICyan}[${BIWhite}03${BICyan}] Webmin Menu      "
 echo -e "     ${BICyan}[${BIWhite}04${BICyan}] Speedtest VPS   "
 echo -e "     ${BICyan}[${BIWhite}05${BICyan}] About Script     "
@@ -62,6 +63,7 @@ echo -e ""
 case $opt in
 1) clear ; menu-domain ; exit ;;
 2) clear ; port-change ; exit ;;
+11) clear ; port-remove ; exit ;;
 3) clear ; menu-webmin ; exit ;;
 4) clear ; speedtest ; exit ;;
 5) clear ; about ; exit ;;

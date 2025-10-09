@@ -72,6 +72,81 @@ apt-get remove --purge ufw firewalld exim4 -y
 curl -sSL https://deb.nodesource.com/setup_18.x | bash -
 apt-get install nodejs -y
 
+# Install Xray/V2Ray
+blue "---> ★ Installing Xray/V2Ray ★"
+echo ""
+
+# Install Xray
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+
+# Install V2Ray (alternative)
+curl -L https://install.direct/go.sh | bash
+
+# Create Xray configuration directory
+mkdir -p /etc/xray
+
+# Create basic Xray configuration
+cat > /etc/xray/config.json << EOF
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "auto-generated-uuid",
+            "flow": "xtls-rprx-direct"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "tls",
+        "tlsSettings": {
+          "certificates": [
+            {
+              "certificateFile": "/etc/xray/cert.pem",
+              "keyFile": "/etc/xray/key.pem"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "port": 80,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "auto-generated-uuid"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom"
+    }
+  ]
+}
+EOF
+
+# Enable and start Xray/V2Ray services
+systemctl enable xray v2ray
+systemctl start xray v2ray
+
+green "Xray/V2Ray installed and configured"
+
 # Install development libraries
 apt install -y \
     libnss3-dev libnspr4-dev pkg-config libpam0g-dev \
@@ -181,6 +256,32 @@ EOF
 systemctl enable unbound dnscrypt-proxy
 systemctl restart unbound dnscrypt-proxy
 
+# Configure Nginx for reverse proxy
+blue "---> ★ Configuring Nginx Reverse Proxy ★"
+echo ""
+
+# Create Nginx configuration
+cat > /etc/nginx/sites-available/default << EOF
+server {
+    listen 81;
+    server_name localhost;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+EOF
+
+# Enable Nginx and start service
+systemctl enable nginx
+systemctl start nginx
+
+green "Nginx configured on port 81"
+
 # Configure SSH UDP support
 blue "---> ★ Configuring SSH UDP Support ★"
 echo ""
@@ -228,20 +329,99 @@ mkdir -p /etc/mastermind/telegram 2>/dev/null || true
 mkdir -p /var/lib/scrz-prem 2>/dev/null || true
 mkdir -p /etc/xray 2>/dev/null || true
 
-# Set up menu system
+# Set up menu system with fixed layout
 cp /root/mastermindvps/VIP-Autoscript/menu/menu.sh /usr/local/bin/menu
 chmod +x /usr/local/bin/menu
 
 # Create backup of original menu
 cp /root/mastermindvps/VIP-Autoscript/menu/menu.sh /usr/local/bin/menu.sh
 
+# Ensure menu includes VIP-PROXY service detection and proper layout
+green "Setting up VIP-PROXY service integration..."
+
 # Set up WebSocket services
 cp /root/mastermindvps/VIP-Autoscript/sshws/*.py /usr/local/bin/
 chmod +x /usr/local/bin/WebSocket*.py
 cp /root/mastermindvps/VIP-Autoscript/sshws/*.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable WebSocket.SSH.service WebSocket.service WebSocket.OVPN.service
-systemctl start WebSocket.SSH.service WebSocket.service WebSocket.OVPN.service
+
+# Enable and start all WebSocket services including VIP services
+systemctl enable WebSocket.SSH.service WebSocket.service WebSocket.OVPN.service WebSocket.SSH.8888.service WebSocket.SSH.8443.service
+systemctl start WebSocket.SSH.service WebSocket.service WebSocket.OVPN.service WebSocket.SSH.8888.service WebSocket.SSH.8443.service
+
+# Configure firewall rules for all ports
+blue "---> ★ Configuring Firewall Rules ★"
+echo ""
+
+# Open essential ports
+iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+iptables -I INPUT -p tcp --dport 8888 -j ACCEPT
+iptables -I INPUT -p tcp --dport 8443 -j ACCEPT
+iptables -I INPUT -p udp --dport 36712 -j ACCEPT
+
+# Additional ports for various services
+iptables -I INPUT -p tcp --dport 109 -j ACCEPT
+iptables -I INPUT -p tcp --dport 143 -j ACCEPT
+iptables -I INPUT -p tcp --dport 2086 -j ACCEPT
+iptables -I INPUT -p tcp --dport 2095 -j ACCEPT
+iptables -I INPUT -p tcp --dport 700 -j ACCEPT
+
+# Save iptables rules
+mkdir -p /etc/iptables
+iptables-save > /etc/iptables/rules.v4
+
+green "Firewall rules configured for all ports"
+
+# Configure BadVPN UDP Gateway services
+blue "---> ★ Configuring BadVPN UDP Gateway ★"
+echo ""
+
+# Create BadVPN systemd service
+cat > /etc/systemd/system/badvpn.service << EOF
+[Unit]
+Description=BadVPN UDP Gateway Service
+After=network.target
+
+[Service]
+Type=forking
+User=nobody
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7400 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7500 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7600 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7700 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7800 --max-clients 1000 --max-connections-for-client 10
+ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7900 --max-clients 1000 --max-connections-for-client 10
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Install BadVPN if not present
+if [ ! -f "/usr/local/bin/badvpn-udpgw" ]; then
+    green "Installing BadVPN..."
+    wget -q https://github.com/ambrop72/badvpn/archive/master.zip
+    unzip -q master.zip
+    cd badvpn-master
+    make > /dev/null 2>&1
+    cp udpgw/badvpn-udpgw /usr/local/bin/
+    cd ..
+    rm -rf badvpn-master master.zip
+fi
+
+# Stop existing processes and start service
+pkill -f badvpn-udpgw 2>/dev/null || true
+systemctl daemon-reload
+systemctl enable badvpn
+systemctl start badvpn
+
+green "BadVPN configured for ports 7100-7900"
 
 # Set permissions
 chmod +x /root/mastermindvps/VIP-Autoscript/*.sh
@@ -323,6 +503,34 @@ if [[ "$setup_domain" =~ ^[Yy]$ ]]; then
     fi
 fi
 
+# Verify service installation
+blue "---> ★ Verifying Service Installation ★"
+echo ""
+
+# Check services status
+services=("ssh.service" "nginx.service" "xray.service" "v2ray.service" "dropbear.service" "stunnel4.service" "WebSocket.SSH.service" "WebSocket.service" "WebSocket.OVPN.service" "WebSocket.SSH.8888.service" "WebSocket.SSH.8443.service" "badvpn.service")
+ports=("22" "80" "443" "81" "8888" "8443" "2095" "2086" "700" "109" "143" "447" "778" "779")
+
+echo -e "${yell}Service Status:${NC}"
+for service in "${services[@]}"; do
+    status=$(systemctl is-active $service 2>/dev/null || echo "not found")
+    if [ "$status" = "active" ]; then
+        echo -e "  ✅ $service: ${green}Running${NC}"
+    else
+        echo -e "  ❌ $service: ${red}$status${NC}"
+    fi
+done
+
+echo ""
+echo -e "${yell}Port Accessibility:${NC}"
+for port in "${ports[@]}"; do
+    if netstat -tlnp 2>/dev/null | grep -q ":$port "; then
+        echo -e "  ✅ Port $port: ${green}Open${NC}"
+    else
+        echo -e "  ❌ Port $port: ${red}Closed${NC}"
+    fi
+done
+
 echo ""
 green "---> ★ Installation Complete! ★"
 echo ""
@@ -332,6 +540,7 @@ blue "│${NC} License       : ${green}Lifetime${NC}                            
 blue "│${NC} Version       : ${green}$VERSION${NC}                                   ${blue}│"
 blue "│${NC} Status        : ${green}Active ✓${NC}                                  ${blue}│"
 blue "│${NC} Domain        : ${green}$(cat /etc/xray/domain 2>/dev/null || echo 'Not Set')${NC}  ${blue}│"
+blue "│${NC} VIP Services  : ${green}8888, 8443${NC}                                 ${blue}│"
 blue "└─────────────────────────────────────────────────────────┘"
 echo ""
 green "Type 'menu' to access the control panel"

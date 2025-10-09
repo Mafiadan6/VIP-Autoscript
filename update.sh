@@ -82,6 +82,24 @@ case $option in
         cp menu/menu.sh /usr/local/bin/menu
         chmod +x /usr/local/bin/menu
 
+        # Update WebSocket services and scripts
+        green "Updating WebSocket services..."
+        cp sshws/*.py /usr/local/bin/
+        chmod +x /usr/local/bin/WebSocket*.py
+        cp sshws/*.service /etc/systemd/system/
+        systemctl daemon-reload
+
+        # Enable and start VIP services if not already running
+        green "Starting VIP WebSocket services..."
+        systemctl enable WebSocket.SSH.8888.service WebSocket.SSH.8443.service 2>/dev/null || true
+        systemctl start WebSocket.SSH.8888.service WebSocket.SSH.8443.service 2>/dev/null || true
+
+        # Configure firewall for VIP ports
+        green "Configuring firewall for VIP ports..."
+        iptables -I INPUT -p tcp --dport 8888 -j ACCEPT 2>/dev/null || true
+        iptables -I INPUT -p tcp --dport 8443 -j ACCEPT 2>/dev/null || true
+        iptables-save > /etc/iptables/rules.v4 2>/dev/null || mkdir -p /etc/iptables && iptables-save > /etc/iptables/rules.v4
+
         # Set permissions
         green "Setting permissions..."
         chmod +x *.sh
@@ -131,12 +149,22 @@ case $option in
         mkdir -p /var/lib/scrz-prem 2>/dev/null || true
         mkdir -p /etc/xray 2>/dev/null || true
 
-        # Update menu system
+        # Update menu system with VIP services
         cp /root/mastermindvps/VIP-Autoscript/menu/menu.sh /usr/local/bin/menu
         chmod +x /usr/local/bin/menu
 
         # Create backup
         cp /root/mastermindvps/VIP-Autoscript/menu/menu.sh /usr/local/bin/menu.sh
+
+        # Update WebSocket services
+        cp /root/mastermindvps/VIP-Autoscript/sshws/*.py /usr/local/bin/
+        chmod +x /usr/local/bin/WebSocket*.py
+        cp /root/mastermindvps/VIP-Autoscript/sshws/*.service /etc/systemd/system/
+        systemctl daemon-reload
+
+        # Enable VIP services
+        systemctl enable WebSocket.SSH.8888.service WebSocket.SSH.8443.service 2>/dev/null || true
+        systemctl start WebSocket.SSH.8888.service WebSocket.SSH.8443.service 2>/dev/null || true
 
         # Set permissions
         chmod +x /root/mastermindvps/VIP-Autoscript/*.sh
