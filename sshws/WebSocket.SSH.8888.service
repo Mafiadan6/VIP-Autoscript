@@ -1,0 +1,13 @@
+[Unit]
+Description=WebSocket Proxy By Developer: 𓆩 mastermind 𓆪 (SSH VIP)
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python2 /usr/local/bin/WebSocket.SSH.8888.py 8888
+WorkingDirectory=/usr/local/bin
+Restart=always
+User=root
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
