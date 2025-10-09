@@ -247,7 +247,7 @@ fi
 # Check for VIP Proxy (port 8888)
 vipproxy_status=$(systemctl is-active WebSocket.SSH.8888.service 2>/dev/null)
 if [ "$vipproxy_status" = "active" ]; then
-    echo -e "${BICyan}- SSH Websocket Pro  : ${BIWhite}8888${NC} [\033[1;95mON (Mastermind!)\033[0m]"
+    echo -e "${BICyan}- SSH Websocket Pro  : ${BIWhite}8888${NC} [\033[1;95mON (Developer: 𓆩 mastermind 𓆪!)\033[0m]"
 fi
 
 # Check for OVPN WebSocket (port 2086)

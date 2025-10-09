@@ -11,11 +11,10 @@ BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:22'
 
-# Simple Mastermind Branding (compatible with tunneling apps)
-MSG = '𓆩 Mastermind VIP 𓆪'
+MSG = 'Switching Protocols'
 STATUS_RESP = '101'
 FTAG = '\r\nContent-length: 0\r\n\r\nHTTP/1.1 200 WS By mastermind\r\n\r\n'
-RESPONSE = "HTTP/1.1 " + str(STATUS_RESP) + ' ' + str(MSG) + ' ' + str(FTAG)
+RESPONSE = "HTTP/1.1 " + str(STATUS_RESP) + ' ' +  str(MSG) + ' ' +  str(FTAG)
 
 class Server(threading.Thread):
     def __init__(self, host, port):
@@ -26,7 +25,6 @@ class Server(threading.Thread):
         self.threads = []
         self.threadsLock = threading.Lock()
         self.logLock = threading.Lock()
-        self.connection_count = 0
 
     def run(self):
         self.soc = socket.socket(socket.AF_INET)
@@ -48,7 +46,6 @@ class Server(threading.Thread):
                 conn = ConnectionHandler(c, self, addr)
                 conn.start()
                 self.addConn(conn)
-                self.connection_count += 1
         finally:
             self.running = False
             self.soc.close()
@@ -143,7 +140,7 @@ class ConnectionHandler(threading.Thread):
                 self.client.send('HTTP/1.1 400 NoXRealHost!\r\n\r\n')
 
         except Exception as e:
-            self.log += ' - error: ' + str(e)
+            self.log += ' - error: ' + e.strerror
             self.server.printLog(self.log)
 	    pass
         finally:
@@ -171,7 +168,7 @@ class ConnectionHandler(threading.Thread):
             port = int(host[i+1:])
             host = host[:i]
         else:
-            if self.method=='CONNECT':
+            if hasattr(self, 'method') and self.method=='CONNECT':
                 port = 22
             else:
                 port = sys.argv[1]
@@ -184,18 +181,11 @@ class ConnectionHandler(threading.Thread):
 
     def method_CONNECT(self, path):
         self.log += ' - CONNECT ' + path
+        self.method = 'CONNECT'
 
         self.connect_target(path)
         self.client.sendall(RESPONSE)
         self.client_buffer = ''
-
-        # Enhanced connection logging
-        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-        conn_info = self.log.split('Connection: ')[1]
-        print("\033[1;33m[" + timestamp + "] \033[1;32m✅ \033[1;36mMastermind VIP Connection\033[1;97m from \033[1;35m" + conn_info + "\033[0m")
-        print("\033[1;95m🎩 Mastermind Proxy Active - 101 Protocol Established\033[0m")
-        print("\033[1;97mTotal Mastermind Connections: \033[1;33m" + str(self.server.connection_count) + "\033[0m")
-        print("-" * 65)
 
         self.server.printLog(self.log)
         self.doCONNECT()
@@ -233,22 +223,15 @@ class ConnectionHandler(threading.Thread):
                 break
 
 def print_banner():
-    print("\033[1;95m" + "="*65 + "\033[0m")
-    print("\033[1;95m║" + " "*21 + "\033[1;93m𓆩 𝓜𝓐𝓢𝓣𝓔𝓡𝓜𝓘𝓝𝓓 𝓥𝓘𝓟 𓆪" + " "*21 + "\033[1;95m║" + "\033[0m")
-    print("\033[1;95m║" + "*"*65 + "\033[1;95m║" + "\033[0m")
-    print("\033[1;95m║  \033[1;32m🔮 PREMIUM WEBSOCKET PROXY PORT " + str(LISTENING_PORT) + " 🔮\033[1;95m  ║" + "\033[0m")
-    print("\033[1;95m║  \033[1;36mIP: " + LISTENING_ADDR + "\033[1;95m║" + "\033[0m")
-    print("\033[1;95m║  \033[1;36mPORT: " + str(LISTENING_PORT) + "\033[1;95m║" + "\033[0m")
-    print("\033[1;95m║  \033[1;33mStatus: \033[1;32m101 (Mastermind!) \033[1;95m║" + "\033[0m")
-    print("\033[1;95m║" + " "*65 + "\033[1;95m║" + "\033[0m")
-    print("\033[1;95m║  \033[1;35m✨ Created By: \033[1;97mmastermind \033[1;95m║" + "\033[0m")
-    print("\033[1;95m║  \033[1;35m🎯 VIP Edition: 2024 \033[1;95m║" + "\033[0m")
-    print("\033[1;95m" + "="*65 + "\033[0m")
+    print "\033[0;34m•"*8,"\033[1;32m PROXY PYTHON WEBSOCKET","\033[0;34m•"*8,"\n"
+    print "\033[1;33mIP:\033[1;32m " + LISTENING_ADDR
+    print "\033[1;33mPORT:\033[1;32m " + str(LISTENING_PORT) + "\n"
+    print "\033[0;34m•"*10,"\033[1;32m mastermind AUTO SCRIPT","\033[0;34m•\033[1;37m"*11,"\n"
 
 def print_usage():
     print 'Usage: proxy.py -p <port>'
     print '       proxy.py -b <bindAddr> -p <port>'
-    print '       proxy.py -b 0.0.0.0 -p 8888'
+    print '       proxy.py -b 0.0.0.0 -p 8081'
 
 def parse_args(argv):
     global LISTENING_ADDR
@@ -278,7 +261,7 @@ def main(host=LISTENING_ADDR, port=LISTENING_PORT):
         try:
             time.sleep(2)
         except KeyboardInterrupt:
-            print '\033[1;31mStopping Mastermind VIP Proxy...\033[0m'
+            print 'Stopping...'
             server.close()
             break
 
