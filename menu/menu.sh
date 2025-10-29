@@ -212,8 +212,8 @@ echo ""
 # Open Ports Information
 echo -e "${BIYellow}OPEN PORTS${NC}"
 echo -e "${BICyan}- OpenSSH            : ${BIWhite}22${NC}"
-echo -e "${BICyan}- SSH Websocket      : ${BIWhite}80${NC} [${green}ON${NC}]"
-echo -e "${BICyan}- SSH SSL Websocket  : ${BIWhite}443${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- SSH WebSocket Proxy: ${BIWhite}80${NC} [${green}ON${NC}]"
+echo -e "${BICyan}- SSH SSL WebSocket  : ${BIWhite}443${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- SSH UDP            : ${BIWhite}1-65535${NC}"
 echo -e "${BICyan}- Custom UDP         : ${BIWhite}36712${NC} [${green}ON${NC}]"
 
@@ -247,7 +247,7 @@ fi
 # Check for VIP Proxy (port 8888)
 vipproxy_status=$(systemctl is-active WebSocket.SSH.8888.service 2>/dev/null)
 if [ "$vipproxy_status" = "active" ]; then
-    echo -e "${BICyan}- SSH Websocket Pro  : ${BIWhite}8888${NC} [\033[1;95mON (Developer: 𓆩 mastermind 𓆪!)\033[0m]"
+    echo -e "${BICyan}- SSH VIP WebSocket  : ${BIWhite}8888${NC} [\033[1;95mON (Developer: 𓆩 mastermind 𓆪!)\033[0m]"
 fi
 
 # Check for OVPN WebSocket (port 2086)

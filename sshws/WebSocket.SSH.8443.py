@@ -10,10 +10,8 @@ PASS = ''
 BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:22'
-MSG = 'Developer: 𓆩 mastermind 𓆪'
-STATUS_RESP = '101'
-FTAG = '\r\nContent-length: 0\r\n\r\nHTTP/1.1 200 WS By Developer: 𓆩 mastermind 𓆪\r\n\r\n'
-RESPONSE = "HTTP/1.1 " + str(STATUS_RESP) + ' ' +  str(MSG) + ' ' +  str(FTAG)
+STATUS_RESP = '101 Developer: 𓆩 mastermind 𓆪'
+RESPONSE = "HTTP/1.1 " + STATUS_RESP + '\r\nContent-Length: 1048576000000\r\n\r\n'
 
 class Server(threading.Thread):
     def __init__(self, host, port):
