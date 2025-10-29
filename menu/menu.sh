@@ -265,7 +265,7 @@ printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "03" "VLESS Accounts" "10
 printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "04" "TROJAN Accounts" "11" "Install Bot" "18" "System Update"
 printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "05" "Settings" "12" "Bandwidth Monitor" "19" "Reboot System"
 printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "06" "Trial Accounts" "13" "Menu Themes" "20" "ASIC Logo Show"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "07" "Backup System" "14" "Custom Banner" "0" "Exit"
+printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "07" "Backup System" "14" "Custom Banner" "21" "Fix Issues"\nprintf "${BICyan}[%s] %s${NC}\n" "0" "Exit"
 echo ""
 
 # Footer
@@ -274,7 +274,7 @@ echo -e "${BIRed}Developer: 𓆩 mastermind 𓆪${NC}"
 echo -e "${BIGreen}Lifetime License • Open Source • Professional VPN Management${NC}"
 echo
 
-read -p "${BIYellow}Select menu [0-20]:${NC} " opt
+read -p "${BIYellow}Select menu [0-21]:${NC} " opt
 echo -e ""
 case $opt in
 1) clear ; menu-ssh ;;
@@ -297,6 +297,7 @@ case $opt in
 18) clear ; echo "System Update:"; apt update; sleep 2; menu ;;
 19) clear ; echo "Rebooting in 3 seconds..."; sleep 3; reboot ;;
 20) clear ; echo "Showing ASIC Logo..."; figlet -f small "ASIC" && sleep 3; menu ;;
+21) clear ; fix-issues ;;
 0) clear ; exit ;;
 x) exit ;;
 *) echo -e "" ; echo "Invalid option!" ; sleep 1 ; menu ;;
