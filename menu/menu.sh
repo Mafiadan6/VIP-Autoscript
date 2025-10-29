@@ -212,8 +212,21 @@ echo ""
 # Open Ports Information
 echo -e "${BIYellow}OPEN PORTS${NC}"
 echo -e "${BICyan}- OpenSSH            : ${BIWhite}22${NC}"
-echo -e "${BICyan}- SSH WebSocket Proxy: ${BIWhite}80${NC} [${green}ON${NC}]"
-echo -e "${BICyan}- SSH SSL WebSocket  : ${BIWhite}443${NC} [${green}ON${NC}]"
+
+# Check SSH WebSocket Proxy on port 80
+if netstat -tln 2>/dev/null | grep -q ":80 "; then
+    echo -e "${BICyan}- SSH WebSocket Proxy: ${BIWhite}80${NC} [${green}ON${NC}]"
+else
+    echo -e "${BICyan}- SSH WebSocket Proxy: ${BIWhite}80${NC} [${red}OFF${NC}]"
+fi
+
+# Check SSH SSL WebSocket on port 443
+if netstat -tln 2>/dev/null | grep -q ":443 "; then
+    echo -e "${BICyan}- SSH SSL WebSocket  : ${BIWhite}443${NC} [${green}ON${NC}]"
+else
+    echo -e "${BICyan}- SSH SSL WebSocket  : ${BIWhite}443${NC} [${red}OFF${NC}]"
+fi
+
 echo -e "${BICyan}- SSH UDP            : ${BIWhite}1-65535${NC}"
 echo -e "${BICyan}- Custom UDP         : ${BIWhite}36712${NC} [${green}ON${NC}]"
 
@@ -228,9 +241,37 @@ else
     echo -e "${BICyan}- Stunnel4           : ${BIWhite}447, 778, 779${NC} [${red}OFF${NC}]"
 fi
 
-echo -e "${BICyan}- Dropbear           : ${BIWhite}109, 143${NC} [${green}ON${NC}]"
+# Check Dropbear ports
+if netstat -tln 2>/dev/null | grep -q ":109 "; then
+    echo -e "${BICyan}- Dropbear           : ${BIWhite}109, 143${NC} [${green}ON${NC}]"
+else
+    echo -e "${BICyan}- Dropbear           : ${BIWhite}109, 143${NC} [${red}OFF${NC}]"
+fi
+
 echo -e "${BICyan}- Badvpn             : ${BIWhite}7100-7900${NC}"
-echo -e "${BICyan}- Nginx              : ${BIWhite}81${NC}"
+
+# Check WebSocket on port 700
+if netstat -tln 2>/dev/null | grep -q ":700 "; then
+    echo -e "${BICyan}- WebSocket          : ${BIWhite}700${NC} [${green}ON${NC}]"
+else
+    echo -e "${BICyan}- WebSocket          : ${BIWhite}700${NC} [${red}OFF${NC}]"
+fi
+
+# Check FTP on port 21
+if netstat -tln 2>/dev/null | grep -q ":21 "; then
+    echo -e "${BICyan}- FTP                : ${BIWhite}21${NC} [${green}ON${NC}]"
+else
+    echo -e "${BICyan}- FTP                : ${BIWhite}21${NC} [${red}OFF${NC}]"
+fi
+
+# Check Nginx on port 81
+if netstat -tln 2>/dev/null | grep -q ":81 "; then
+    echo -e "${BICyan}- Nginx              : ${BIWhite}81${NC} [${green}ON${NC}]"
+else
+    echo -e "${BICyan}- Nginx              : ${BIWhite}81${NC} [${red}OFF${NC}]"
+fi
+
+# Vmess, Vless, Trojan are on 443 and 80, already checked above, but since 443 is shared, perhaps note
 echo -e "${BICyan}- Vmess TLS          : ${BIWhite}443${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- Vmess None TLS     : ${BIWhite}80${NC} [${green}ON${NC}]"
 echo -e "${BICyan}- Vless TLS          : ${BIWhite}443${NC} [${green}ON${NC}]"
@@ -247,7 +288,7 @@ fi
 # Check for VIP Proxy (port 8888)
 vipproxy_status=$(systemctl is-active WebSocket.SSH.8888.service 2>/dev/null)
 if [ "$vipproxy_status" = "active" ]; then
-    echo -e "${BICyan}- SSH VIP WebSocket  : ${BIWhite}8888${NC} [\033[1;95mON (Developer: 𓆩 mastermind 𓆪!)\033[0m]"
+    echo -e "${BICyan}- SSH VIP WebSocket  : ${BIWhite}8080${NC} [\033[1;95mON (Developer: 𓆩 mastermind 𓆪!)\033[0m]"
 fi
 
 # Check for OVPN WebSocket (port 2086)
@@ -259,13 +300,14 @@ echo ""
 
 # Main Menu
 echo -e "${BIYellow}MAIN MENU${NC}"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "01" "SSH Accounts" "08" "Add Domain" "15" "Neofetch"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "02" "VMESS Accounts" "09" "Running Processes" "16" "Network Info"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "03" "VLESS Accounts" "10" "WebSocket Port" "17" "Tools"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "04" "TROJAN Accounts" "11" "Install Bot" "18" "System Update"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "05" "Settings" "12" "Bandwidth Monitor" "19" "Reboot System"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "06" "Trial Accounts" "13" "Menu Themes" "20" "ASIC Logo Show"
-printf "${BICyan}[%s] %-18s [%s] %-18s [%s] %s${NC}\n" "07" "Backup System" "14" "Custom Banner" "21" "Fix Issues"\nprintf "${BICyan}[%s] %s${NC}\n" "0" "Exit"
+printf "${BICyan}[%s] %-20s [%s] %-20s [%s] %s${NC}\n" "01" "SSH Accounts" "08" "Add Domain" "15" "Neofetch"
+printf "${BICyan}[%s] %-20s [%s] %-20s [%s] %s${NC}\n" "02" "VMESS Accounts" "09" "Running Processes" "16" "Network Info"
+printf "${BICyan}[%s] %-20s [%s] %-20s [%s] %s${NC}\n" "03" "VLESS Accounts" "10" "WebSocket Port" "17" "Tools"
+printf "${BICyan}[%s] %-20s [%s] %-20s [%s] %s${NC}\n" "04" "TROJAN Accounts" "11" "Install Bot" "18" "System Update"
+printf "${BICyan}[%s] %-20s [%s] %-20s [%s] %s${NC}\n" "05" "Settings" "12" "Bandwidth Monitor" "19" "Reboot System"
+printf "${BICyan}[%s] %-20s [%s] %-20s [%s] %s${NC}\n" "06" "Trial Accounts" "13" "Menu Themes" "20" "ASIC Logo Show"
+printf "${BICyan}[%s] %-20s [%s] %-20s [%s] %s${NC}\n" "07" "Backup System" "14" "Custom Banner" "21" "Fix Issues"
+printf "${BICyan}[0] Exit${NC}\n"
 echo ""
 
 # Footer
