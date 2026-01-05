@@ -153,7 +153,7 @@ When users run setup.sh, the following happens:
 7. **Menu System:** Main menu installed and all symlinks created
 8. **WebSocket Services:** Port 80, 700, 2086 services started
 9. **SSH Banner:** Custom banner with "By Mastermind" installed
-10. **BadVPN:** UDP gateway ports 7100-7900 configured
+10. **BadVPN:** UDP gateway port 7200 configured
 11. **Firewall:** All required ports opened
 12. **Post-Install:** Final configuration applied
 13. **Verification:** Installation verified
@@ -328,7 +328,7 @@ All source codes updated to match actual running VPS configuration.
   - Type: Changed from forking → simple
   - User: Changed from nobody → root
   - Configuration: Changed from 9 ExecStart lines → bash loop
-  - Ports: Changed from 7100-7900 (all ports) → 7100, 7900 (2 ports only)
+  - Ports: Changed from 7100-7900 (all ports) → 7200 (single port)
   - Status: Matches running system ✓
 
 ---

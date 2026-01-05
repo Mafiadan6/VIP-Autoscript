@@ -118,7 +118,7 @@ EOF
 systemctl daemon-reload
 systemctl enable badvpn >/dev/null 2>&1
 systemctl restart badvpn >/dev/null 2>&1
-echo -e "${BIGreen}✓${NC} BadVPN configured for ports 7100 and 7900"
+echo -e "${BIGreen}✓${NC} BadVPN configured for port 7200"
 
 # Configure WebSocket Services
 echo ""
@@ -197,7 +197,7 @@ echo ""
 echo -e "${BIGreen}Services Configured:${NC}"
 echo -e "  ✓ Fail2Ban (SSH protection)"
 echo -e "  ✓ OpenVPN (port 1194)"
-echo -e "  ✓ BadVPN (ports 7100-7900)"
+echo -e "  ✓ BadVPN (port 7200)"
 echo -e "  ✓ WebSocket Services"
 echo ""
 

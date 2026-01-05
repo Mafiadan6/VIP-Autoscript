@@ -129,7 +129,7 @@ Lifetime License • Open Source • Professional VPN Management
 | Custom UDP | 36712 | UDP | ✅ Active | Dedicated UDP port |
 | Stunnel4 | 447, 777, 8443 | TCP/SSL | ✅ Active | SSL tunneling |
 | Dropbear | 109, 143 | TCP | ✅ Active | Lightweight SSH |
-| BadVPN | 7100-7900 | UDP | ✅ Active | UDP forwarding |
+| BadVPN | 7200 | UDP | ✅ Active | UDP forwarding |
 | Nginx | 81 | TCP | ⚠️ Optional | Web server |
 
 ### **DNS Optimization Stack**

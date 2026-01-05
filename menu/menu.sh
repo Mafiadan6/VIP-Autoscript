@@ -251,7 +251,7 @@ if [ "$badvpn_status" = "active" ]; then
 else
     resbadvpn="${red}OFF${NC}"
 fi
-echo -e "${BICyan}- Badvpn             : ${BIWhite}7100-7900${NC} [${resbadvpn}${NC}]"
+echo -e "${BICyan}- Badvpn             : ${BIWhite}7200${NC} [${resbadvpn}${NC}]"
 
 # Check WebSocket on port 700
 if ss -tln 2>/dev/null | grep -q ":700 "; then

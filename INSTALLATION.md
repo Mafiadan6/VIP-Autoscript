@@ -9,7 +9,7 @@
 - ✅ Nginx (Port 81)
 - ✅ Stunnel4
 - ✅ Squid Proxy
-- ✅ BadVPN UDP Gateway (Ports 7100-7900)
+- ✅ BadVPN UDP Gateway (Port 7200)
 - ✅ WebSocket Services (Port 80, 700, 2086)
 - ✅ VNStat Bandwidth Monitor
 - ✅ Fail2Ban Security
@@ -33,7 +33,7 @@
 - 2086 (OpenVPN WebSocket)
 - 447, 777, 8443 (Stunnel4)
 - 109, 143 (Dropbear - if installed)
-- 7100-7900 (BadVPN UDP)
+- 7200 (BadVPN UDP)
 - 36712 (Custom UDP)
 
 ## Post-Installation Steps

@@ -100,7 +100,7 @@ echo -e "   ${BIWhite}SSH-SSL-WS  :${NC} ${BIPurple}443${NC}"
 echo -e "   ${BIWhite}SSL/TLS     :${NC} ${BIPurple}447 , 777${NC}"
 echo -e "   ${BIWhite}SlowDNS     :${NC} ${BIPurple}53,5300,443${NC}" 
 echo -e "   ${BIWhite}UDP Custom  :${NC} ${BIPurple}1-65535${NC}" 
-echo -e "   ${BIWhite}UDPGW       :${NC} ${BIPurple}7100-7900${NC}"
+echo -e "   ${BIWhite}UDPGW       :${NC} ${BIPurple}7200${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "   ${BIWhite}SSH WS      :${NC} ${BIGreen}$domain:80@$Login:$Pass${NC}"
@@ -141,7 +141,7 @@ SSH-SSL-WS  : 443
 SSL/TLS     : 447 , 777
 SlowDNS     : 53,5300,443 
 UDP Custom  : 1-65535 
-UDPGW       : 7100-7900
+UDPGW       : 7200
 =============================================
 SSH WS      : $domain:80@$Login:$Pass
 SSH WSS     : $domain:443@$Login:$Pass
@@ -176,7 +176,7 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 <strong>SSL/TLS     :</strong> <code>447</code> , <code>777</code>
 <strong>SlowDNS     :</strong> <code>53</code>,<code>5300</code>,<code>443</code>
 <strong>UDP Custom  :</strong> <code>1-65535</code>
-<strong>UDPGW       :</strong> <code>7100-7900</code>
+<strong>UDPGW       :</strong> <code>7200</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>SSH WS      :</strong> <code>$domain:80@$Login:$Pass</code>
 <strong>SSH WSS     :</strong> <code>$domain:443@$Login:$Pass</code>
@@ -217,7 +217,7 @@ echo -e "   ${BIWhite}OVPN-WS     :${NC} ${BIPurple}80${NC}"
 echo -e "   ${BIWhite}SSL/TLS     :${NC} ${BIPurple}442${NC}"
 echo -e "   ${BIWhite}SlowDNS     :${NC} ${BIPurple}53,5300,443${NC}" 
 echo -e "   ${BIWhite}UDP Custom  :${NC} ${BIPurple}1-65535${NC}" 
-echo -e "   ${BIWhite}UDPGW       :${NC} ${BIPurple}7100-7900${NC}"
+echo -e "   ${BIWhite}UDPGW       :${NC} ${BIPurple}7200${NC}"
 echo -e " ${BICyan}└─────────────────────────────────────────────────────┘${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "   ${BIWhite}SSH UDP     :${NC} ${BIGreen}$domain:1-65535@$Login:$Pass${NC}"
@@ -255,7 +255,7 @@ OVPN-WS     : 80
 SSL/TLS     : 442
 SlowDNS     : 53,5300,443 
 UDP Custom  : 1-65535 
-UDPGW       : 7100-7900
+UDPGW       : 7200
 =============================================
 SSH UDP     : $domain:1-65535@$Login:$Pass
 =============================================
@@ -287,7 +287,7 @@ TEXT="━━━━━━━━━━━━━━━━━━━━━━━━�
 <strong>SSL/TLS     :</strong> <code>442</code>
 <strong>SlowDNS     :</strong> <code>53</code>,<code>5300</code>,<code>443</code>
 <strong>UDP Custom  :</strong> <code>1-65535</code>
-<strong>UDPGW       :</strong> <code>7100-7900</code>
+<strong>UDPGW       :</strong> <code>7200</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <strong>SSH UDP     :</strong> <code>$domain:1-65535@$Login:$Pass</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━

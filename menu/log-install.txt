@@ -5,7 +5,7 @@
    - SSH SSL Websocket	: 443
    - Stunnel4		: 447, 777
    - Dropbear		: 109, 143
-   - Badvpn		: 7100-7900
+   - Badvpn		: 7200
    - Nginx		: 81
    - Vmess TLS		: 443
    - Vmess None TLS	: 80
@@ -37,7 +37,7 @@
    - SSH SSL Websocket	: 443
    - Stunnel4		: 447, 777
    - Dropbear		: 109, 143
-   - Badvpn		: 7100-7900
+   - Badvpn		: 7200
    - Nginx		: 81
    - Vmess TLS		: 443
    - Vmess None TLS	: 80
@@ -69,7 +69,7 @@
    - SSH SSL Websocket	: 443
    - Stunnel4		: 447, 777
    - Dropbear		: 109, 143
-   - Badvpn		: 7100-7900
+   - Badvpn		: 7200
    - Nginx		: 81
    - Vmess TLS		: 443
    - Vmess None TLS	: 80
