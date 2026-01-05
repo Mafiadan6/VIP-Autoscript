@@ -116,16 +116,10 @@ else
 fi
 
 # Verify BadVPN on correct ports (check running processes instead)
-if pgrep -f "badvpn-udpgw.*7100" > /dev/null; then
-    check_pass "BadVPN port 7100 running"
+if pgrep -f "badvpn-udpgw.*7200" > /dev/null; then
+    check_pass "BadVPN port 7200 running"
 else
-    check_fail "BadVPN port 7100 not running"
-fi
-
-if pgrep -f "badvpn-udpgw.*7900" > /dev/null; then
-    check_pass "BadVPN port 7900 running"
-else
-    check_fail "BadVPN port 7900 not running"
+    check_fail "BadVPN port 7200 not running"
 fi
 
 # Verify Fail2Ban is running
