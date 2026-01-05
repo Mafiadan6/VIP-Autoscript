@@ -53,7 +53,7 @@ After=network.target
 [Service]
 Type=simple
 User=root
-ExecStart=/bin/bash -c 'for port in 7100 7900; do /usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:$port --max-clients 1000 --max-connections-for-client 10 & done; wait'
+ExecStart=/bin/bash -c 'for port in 7200; do /usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:$port --max-clients 1000 --max-connections-for-client 10 & done; wait'
 Restart=always
 RestartSec=3
 
@@ -65,7 +65,7 @@ pkill -f badvpn-udpgw 2>/dev/null || true
 systemctl daemon-reload
 systemctl enable badvpn >/dev/null 2>&1
 systemctl start badvpn >/dev/null 2>&1
-echo -e "${BIGreen}✓ BadVPN configured for ports 7100-7900${NC}"
+echo -e "${BIGreen}✓ BadVPN configured for ports 7100-7200${NC}"
 
 echo ""
 echo -e "${BIGreen}[2/5]${NC} ${BIWhite}Configuring Trojan-Go...${NC}"
@@ -274,7 +274,7 @@ echo -e "${BICyan}╚═══════════════════�
 echo ""
 
 echo -e "${BIGreen}Services Configured:${NC}"
-echo -e "  ✓ BadVPN (ports 7100-7900)"
+echo -e "  ✓ BadVPN (ports 7100-7200)"
 echo -e "  ✓ Trojan-Go (port 443)"
 echo -e "  ✓ Fail2Ban (SSH/Dropbear protection)"
 echo -e "  ✓ OpenVPN (port 1194)"
