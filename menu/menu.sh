@@ -255,9 +255,23 @@ echo -e "${BICyan}- Badvpn             : ${BIWhite}7100-7900${NC} [${resbadvpn}$
 
 # Check WebSocket on port 700
 if ss -tln 2>/dev/null | grep -q ":700 "; then
-    echo -e "${BICyan}- WebSocket          : ${BIWhite}700${NC} [${green}ON${NC}]"
+    ws700="${green}ON${NC}"
 else
-    echo -e "${BICyan}- WebSocket          : ${BIWhite}700${NC} [${red}OFF${NC}]"
+    ws700="${red}OFF${NC}"
+fi
+
+# Check WebSocket on port 8080
+if ss -tln 2>/dev/null | grep -q ":8080 "; then
+    ws8080="${green}ON${NC}"
+else
+    ws8080="${red}OFF${NC}"
+fi
+
+# Check BadVPN on port 7200
+if pgrep -f "badvpn-udpgw.*7200" > /dev/null; then
+    badvpn7200="${green}ON${NC}"
+else
+    badvpn7200="${red}OFF${NC}"
 fi
 
 # Check FTP on port 21
