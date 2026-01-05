@@ -391,21 +391,13 @@ echo ""
 # Create BadVPN systemd service
 cat > /etc/systemd/system/badvpn.service << EOF
 [Unit]
-Description=BadVPN UDP Gateway Service
+Description=BadVPN UDP Gateway
 After=network.target
 
 [Service]
-Type=forking
-User=nobody
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7400 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7500 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7600 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7700 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7800 --max-clients 1000 --max-connections-for-client 10
-ExecStart=/usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:7900 --max-clients 1000 --max-connections-for-client 10
+Type=simple
+User=root
+ExecStart=/bin/bash -c 'for port in 7100 7900; do /usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:$port --max-clients 1000 --max-connections-for-client 10 & done; wait'
 Restart=always
 RestartSec=3
 
