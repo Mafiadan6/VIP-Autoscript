@@ -1,0 +1,13 @@
+[Unit]
+Description=BadVPN UDP Gateway Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/bin/bash -c 'for port in 7100 7900; do /usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:$port --max-clients 1000 --max-connections-for-client 10 & done; wait'
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

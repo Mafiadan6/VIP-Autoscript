@@ -1,0 +1,13 @@
+[Unit]
+Description=WebSocket Proxy By mastermind
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/python2 /usr/local/bin/WebSocket.py 700
+Restart=always
+RestartSec=3s
+[Install]
+WantedBy=multi-user.target
