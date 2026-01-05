@@ -1,0 +1,13 @@
+[Unit]
+Description=WebSocket Proxy By mastermind (SSH)
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/bin/python2 /usr/local/bin/WebSocket.SSH.py 8080
+Restart=always
+RestartSec=3s
+[Install]
+WantedBy=multi-user.target

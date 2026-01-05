@@ -1,0 +1,117 @@
+#!/bin/bash
+
+# Custom Banner Manager for VIP-Autoscript
+red='\e[1;31m'
+green='\e[1;32m'
+yell='\e[1;33m'
+blue='\e[1;34m'
+NC='\e[0m'
+BIBlack='\033[1;90m'
+BIRed='\033[1;91m'
+BIGreen='\033[1;92m'
+BIYellow='\033[1;93m'
+BIBlue='\033[1;94m'
+BIPurple='\033[1;95m'
+BICyan='\033[1;96m'
+BIWhite='\033[1;97m'
+
+function show_current_banner() {
+    clear
+    echo -e "${BICyan}┌─────────────────────────────────────────────────────┐${NC}"
+    echo -e "${BICyan}│${NC} ${BIYellow}CURRENT SSH BANNER${NC}                                ${BICyan}│${NC}"
+    echo -e "${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+    echo ""
+    echo -e "${BICyan}Banner content:${NC}"
+    echo ""
+    cat /etc/ssh/banner
+    echo ""
+}
+
+function edit_banner() {
+    show_current_banner
+    echo -e "${BICyan}┌─────────────────────────────────────────────────────┐${NC}"
+    echo -e "${BICyan}│${NC} ${BIYellow}EDIT SSH BANNER${NC}                                  ${BICyan}│${NC}"
+    echo -e "${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+    echo ""
+    echo -e "${BICyan}Instructions:${NC}"
+    echo -e "${BIGreen}1. Use ASCII art or text for your banner${NC}"
+    echo -e "${BIGreen}2. Add \033[1;34m\033[5manonymous\033[0m for glowing blue 'anonymous' text${NC}"
+    echo -e "${BIGreen}3. Keep it clean and professional${NC}"
+    echo ""
+    read -p "Press Enter to open editor..."
+
+    # Open nano editor for banner
+    nano /etc/ssh/banner
+
+    echo ""
+    echo -e "${BIGreen}Banner updated!${NC}"
+    echo -e "${BIGreen}Restarting SSH service...${NC}"
+    systemctl restart ssh
+    sleep 2
+}
+
+function reset_banner() {
+    echo -e "${BICyan}┌─────────────────────────────────────────────────────┐${NC}"
+    echo -e "${BICyan}│${NC} ${BIYellow}RESET BANNER TO DEFAULT${NC}                           ${BICyan}│${NC}"
+    echo -e "${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+    echo ""
+    echo -e "${BIGreen}Resetting to default VIP-Autoscript banner...${NC}"
+
+    # Restore default banner
+    cat > /etc/ssh/banner << 'EOF'
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠀⠀⠀⠀⠀
+ ⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡟⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⠈⢻⣷⣄⣀⣀⣠⣤⣴⣶⣶⣶⣶⣤⣤⣠⣾⡿⠀⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⠀⠀⣻⣿⣿⣿⠿⠛⠛⠉⠉⠁⠀⠉⠉⠙⢻⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⣀⣾⡿⢿⣿⣇⠀⠀⠚⠀⠀⠀⠀⠀⠀⠀⣼⣿⠟⠿⣿⣿⣦⠀⠀⠀⠀
+ ⠀⠀⣴⣿⠟⠁⠀⢿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⡟⠀⠀⠈⣿⣿⣷⡄⠀⠀
+ ⠀⣼⣿⠃⠀⠀⠀⠈⣿⣿⠀⠀⠀⠀⠀⠀⠀⢀⣿⡿⠀⠀⠀⠀⠃⢻⣿⣿⡄⠀
+ ⢸⣿⡇⠀⠀⠀⠀⠀⠸⣿⣇⠀⠀⠀⠀⠀⠀⣾⡿⠀⠀⠀⠀⠀⠃⠀⢻⣿⣿⡀
+ ⣿⣿⡇⠀⠀⠀⠀⠀⠀⢹⣿⠀⠀⠀⠀⠀⣸⣿⠃⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡇
+ ⢿⣿⡇⠀⠀⠀⠀⠀⠀⠈⣿⡇⠀⠀⠀⢠⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷
+ ⠸⣿⣿⡄⠀⠀⠀⠀⠀⠀⢹⣿⠀⠀⠀⣾⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡇
+ ⠀⢻⣿⣿⣄⠀⠀⠀⠀⠀⠘⣿⡇⠀⣴⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⡟⠀
+ ⠀⠀⠹⣿⣿⣧⡀⠀⠀⠀⠀⢿⣿⡀⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⠟⠀⠀
+ ⠀⠀⠀⠈⢿⣿⣿⣦⣀⠀⠀⢸⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⣤⣾⣿⡿⠋⠀⠀⠀
+ ⠀⠀⠀⠀⠀⠋⠻⢿⣿⣷⣤⣸⣿⣿⣿⣇⣀⣀⣀⣤⣶⣿⣿⣿⡿⠁⠀⠀⠀⠀
+ ⠀⠀⠀⠀⠀⠀⠀⠙⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢿⠁⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⠠⠀⠀⠀⠀⢤⠀⠙⢿⣿⣿⠟⠛⠉⢹⠁⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠃⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠃⠀⠀⠀⠀⠘⠀⠀⠀⠸⠀⠀⠀⠀⠀⠀⠀ 
+ 
+$(tput setaf 6)$(tput blink)Developer: By Mastermind$(tput sgr0)
+
+$(tput setaf 5)Telegram: https://t.me/bitcockiii$(tput sgr0)
+EOF
+
+    systemctl restart ssh
+    echo -e "${BIGreen}Banner reset to default!${NC}"
+    sleep 2
+}
+
+function banner_menu() {
+    while true; do
+        clear
+        echo -e "${BICyan}┌─────────────────────────────────────────────────────┐${NC}"
+        echo -e "${BICyan}│${NC} ${BIYellow}CUSTOM SSH BANNER MANAGER${NC}                           ${BICyan}│${NC}"
+        echo -e "${BICyan}└─────────────────────────────────────────────────────┘${NC}"
+        echo ""
+        echo -e "${BICyan}[${BIWhite}01${BICyan}] ${BIWhite}View Current Banner${NC}"
+        echo -e "${BICyan}[${BIWhite}02${BICyan}] ${BIWhite}Edit Banner${NC}"
+        echo -e "${BICyan}[${BIWhite}03${BICyan}] ${BIWhite}Reset to Default${NC}"
+        echo -e "${BICyan}[${BIWhite}00${BICyan}] ${BIWhite}Back to Main Menu${NC}"
+        echo ""
+        read -p "${BIYellow}Select option [0-3]:${NC} " banner_opt
+
+        case $banner_opt in
+            1) show_current_banner ; echo "" ; read -n 1 -s -r -p "Press any key to continue..." ;;
+            2) edit_banner ;;
+            3) reset_banner ;;
+            0) clear ; menu ;;
+            *) echo -e "${BIRed}Invalid option!${NC}" ; sleep 1 ;;
+        esac
+    done
+}
+
+# Start banner menu
+banner_menu
