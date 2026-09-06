@@ -57,20 +57,19 @@ apt install -y \
     screen curl jq bzip2 gzip coreutils rsyslog iftop \
     htop zip unzip net-tools sed gnupg gnupg1 \
     bc sudo apt-transport-https build-essential dirmngr \
-    libxml-parser-perl neofetch screenfetch git lsof \
+    libxml-parser-perl fastfetch screenfetch git lsof \
     openssl openvpn easy-rsa fail2ban tmux \
-    stunnel4 vnstat squid3 \
+    stunnel4 vnstat squid \
     dropbear libsqlite3-dev \
-    socat cron bash-completion ntpdate xz-utils \
+    socat cron bash-completion ntpsec-ntpdate xz-utils \
     apt-transport-https gnupg2 dnsutils lsb-release chrony \
     figlet iputils-ping wget python3 python3-pip
 
 # Remove conflicting packages
 apt-get remove --purge ufw firewalld exim4 -y
 
-# Install Node.js
-curl -sSL https://deb.nodesource.com/setup_18.x | bash -
-apt-get install nodejs -y
+# Install Node.js (skipped: Node.js LTS already installed on this system)
+green "Node.js already installed (v$(node --version)), skipping NodeSource setup"
 
 # Install Xray/V2Ray
 blue "---> ★ Installing Xray/V2Ray ★"
@@ -151,8 +150,8 @@ green "Xray/V2Ray installed and configured"
 apt install -y \
     libnss3-dev libnspr4-dev pkg-config libpam0g-dev \
     libcap-ng-dev libcap-ng-utils libselinux1-dev \
-    libcurl4-nss-dev flex bison make libnss3-tools \
-    libevent-dev xl2tpd pptpd
+    libcurl4-openssl-dev flex bison make libnss3-tools \
+    libevent-dev xl2tpd cmake
 
 # Configure vnstat
 if ! command -v vnstat &> /dev/null; then
@@ -179,9 +178,8 @@ fi
 blue "---> ★ Configuring Enhanced DNS System ★"
 echo ""
 
-# Disable systemd-resolved
-systemctl stop systemd-resolved 2>/dev/null || true
-systemctl disable systemd-resolved 2>/dev/null || true
+# Keep systemd-resolved enabled (skipped disabling to avoid breaking DNS on Ubuntu 26)
+green "systemd-resolved kept enabled (DNS override skipped)"
 
 # Install DNS caching services
 apt install -y dnscrypt-proxy unbound
@@ -238,19 +236,9 @@ require_nofilter = true
   prefix = ''
 EOF
 
-# Configure enhanced resolv.conf
-cat > /etc/resolv.conf << EOF
-# Enhanced DNS Configuration for VIP-Autoscript
-# Use local DNS caching services first
-nameserver 127.0.0.1
-nameserver 127.0.0.1
-# Fallback to external DNS servers
-nameserver 1.1.1.1
-nameserver 8.8.8.8
-nameserver 9.9.9.9
-# DNS Optimization Options
-options timeout:1 attempts:2 rotate single-request-reopen edns0
-EOF
+# Skip overwriting /etc/resolv.conf with nameserver 127.0.0.1
+# (systemd-resolved manages resolv.conf; hardcoding localhost would break DNS if unbound/dnscrypt fail)
+green "resolv.conf override skipped (systemd-resolved manages DNS)"
 
 # Start DNS services
 systemctl enable unbound dnscrypt-proxy
@@ -397,7 +385,7 @@ After=network.target
 [Service]
 Type=simple
 User=root
-ExecStart=/bin/bash -c 'for port in 7100 7900; do /usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:$port --max-clients 1000 --max-connections-for-client 10 & done; wait'
+ExecStart=/bin/bash -c 'for port in 7100 7200 7900; do /usr/local/bin/badvpn-udpgw --listen-addr 127.0.0.1:$port --max-clients 1000 --max-connections-for-client 10 & done; wait'
 Restart=always
 RestartSec=3
 
@@ -411,6 +399,7 @@ if [ ! -f "/usr/local/bin/badvpn-udpgw" ]; then
     wget -q https://github.com/ambrop72/badvpn/archive/master.zip
     unzip -q master.zip
     cd badvpn-master
+    cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DBUILD_NOTHING=ON -DBUILD_UDPGW=ON . > /dev/null 2>&1
     make > /dev/null 2>&1
     cp udpgw/badvpn-udpgw /usr/local/bin/
     cd ..
@@ -505,13 +494,20 @@ if [[ "$setup_domain" =~ ^[Yy]$ ]]; then
     fi
 fi
 
+# Apply working-state finalization (idempotent)
+if [ -x /root/mastermindvps/VIP-Autoscript/finalize-install.sh ]; then
+    echo ""
+    green "---> ★ Finalizing Working State ★"
+    bash /root/mastermindvps/VIP-Autoscript/finalize-install.sh
+fi
+
 # Verify service installation
 blue "---> ★ Verifying Service Installation ★"
 echo ""
 
 # Check services status
 services=("ssh.service" "nginx.service" "xray.service" "v2ray.service" "dropbear.service" "stunnel4.service" "WebSocket.SSH.service" "WebSocket.service" "WebSocket.OVPN.service" "badvpn.service")
-ports=("22" "80" "443" "81" "8443" "2095" "2086" "700" "109" "143" "447" "778" "779")
+ports=("22" "80" "443" "81" "89" "8080" "143" "109" "110" "69" "50000" "222" "777" "442" "2096" "2086" "700" "7100" "7200" "7900")
 
 echo -e "${yell}Service Status:${NC}"
 for service in "${services[@]}"; do

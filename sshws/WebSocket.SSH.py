@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
-import socket, threading, thread, select, signal, sys, time, getopt
+import socket, threading, _thread, select, signal, sys, time, getopt, hashlib, base64
 
 # Listen
 LISTENING_ADDR = '0.0.0.0'
@@ -10,8 +10,31 @@ PASS = ''
 BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:22'
-STATUS_RESP = u'101 <span style="color: #00ffff;"><strong>Developer: 𓆩 mastermind 𓆪</strong></span>'
-RESPONSE = (u"HTTP/1.1 " + STATUS_RESP + u'\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n\r\n').encode('utf-8')
+STATUS_RESP = u'101 Developer: Mastermind'
+CRLF = chr(13) + chr(10)
+WS_GUID = b'258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
+_EXTRA_HEADERS = ('Upgrade: websocket', 'Connection: Upgrade',)
+
+def _find_header(head, header):
+    if isinstance(head, bytes):
+        head = head.decode('utf-8', errors='replace')
+    i = head.find(header + ': ')
+    if i == -1:
+        return ''
+    j = head.find(CRLF, i)
+    if j == -1:
+        return ''
+    return head[i + len(header) + 2:j].strip()
+
+def build_response(head):
+    key = _find_header(head, 'Sec-WebSocket-Key')
+    resp = u'HTTP/1.1 ' + STATUS_RESP + CRLF + CRLF.join(_EXTRA_HEADERS) + CRLF
+    if key:
+        accept = base64.b64encode(hashlib.sha1(key.encode('utf-8') + WS_GUID).digest()).decode()
+        resp += u'Sec-WebSocket-Accept: ' + accept + CRLF
+    resp += CRLF
+    return resp.encode('utf-8')
+
 
 
 class Server(threading.Thread):
@@ -50,7 +73,7 @@ class Server(threading.Thread):
 
     def printLog(self, log):
         self.logLock.acquire()
-        print log
+        print(log)
         self.logLock.release()
 
     def addConn(self, conn):
@@ -115,7 +138,7 @@ class ConnectionHandler(threading.Thread):
 
             request_str = self.client_buffer.decode('utf-8', errors='replace')
             if "upgrade" in request_str.lower() and "websocket" in request_str.lower():
-                self.client.send(RESPONSE)
+                self.client.send(build_response(self.client_buffer))
                 hostPort = self.findHeader(self.client_buffer, 'Host')
                 if hostPort:
                     self.target = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -136,28 +159,29 @@ class ConnectionHandler(threading.Thread):
 
             if hostPort != '':
                 passwd = self.findHeader(self.client_buffer, 'X-Pass')
-				
+                                
                 if len(PASS) != 0 and passwd == PASS:
                     self.method_CONNECT(hostPort)
                 elif len(PASS) != 0 and passwd != PASS:
-                    self.client.send('HTTP/1.1 400 WrongPass!\r\n\r\n')
+                    self.client.send(b'HTTP/1.1 400 WrongPass!\r\n\r\n')
                 elif hostPort.startswith('127.0.0.1') or hostPort.startswith('localhost'):
                     self.method_CONNECT(hostPort)
                 else:
-                    self.client.send('HTTP/1.1 403 Forbidden!\r\n\r\n')
+                    self.client.send(b'HTTP/1.1 403 Forbidden!\r\n\r\n')
             else:
-                print '- No X-Real-Host!'
-                self.client.send('HTTP/1.1 400 NoXRealHost!\r\n\r\n')
+                print('- No X-Real-Host!')
+                self.client.send(b'HTTP/1.1 400 NoXRealHost!\r\n\r\n')
 
         except Exception as e:
             self.log += ' - error: ' + str(e)
             self.server.printLog(self.log)
-	    pass
+            pass
         finally:
             self.close()
             self.server.removeConn(self)
 
     def findHeader(self, head, header):
+        head = head.decode('utf-8', errors='replace')
         aux = head.find(header + ': ')
 
         if aux == -1:
@@ -193,7 +217,7 @@ class ConnectionHandler(threading.Thread):
         self.log += ' - CONNECT ' + path
 
         self.connect_target(path)
-        self.client.sendall(RESPONSE)
+        self.client.sendall(build_response(self.client_buffer))
         self.client_buffer = ''
 
         self.server.printLog(self.log)
@@ -210,20 +234,20 @@ class ConnectionHandler(threading.Thread):
                 error = True
             if recv:
                 for in_ in recv:
-		    try:
+                    try:
                         data = in_.recv(BUFLEN)
                         if data:
-			    if in_ is self.target:
-				self.client.send(data)
+                            if in_ is self.target:
+                                self.client.send(data)
                             else:
                                 while data:
                                     byte = self.target.send(data)
                                     data = data[byte:]
 
                             count = 0
-			else:
-			    break
-		    except:
+                        else:
+                            break
+                    except:
                         error = True
                         break
             if count == TIMEOUT:
@@ -233,9 +257,9 @@ class ConnectionHandler(threading.Thread):
 
 
 def print_usage():
-    print 'Usage: proxy.py -p <port>'
-    print '       proxy.py -b <bindAddr> -p <port>'
-    print '       proxy.py -b 0.0.0.0 -p 80'
+    print('Usage: proxy.py -p <port>')
+    print('       proxy.py -b <bindAddr> -p <port>')
+    print('       proxy.py -b 0.0.0.0 -p 80')
 
 def parse_args(argv):
     global LISTENING_ADDR
@@ -258,10 +282,10 @@ def parse_args(argv):
 
 def main(host=LISTENING_ADDR, port=LISTENING_PORT):
     
-    print "\033[0;34m•"*8,"\033[1;32m PROXY PYTHON WEBSOCKET","\033[0;34m•"*8,"\n"
-    print "\033[1;33mIP:\033[1;32m " + LISTENING_ADDR
-    print "\033[1;33mPORT:\033[1;32m " + str(LISTENING_PORT) + "\n"
-    print "\033[0;34m•"*10,"\033[1;32m Developer: MASTERMIND VIP AUTO SCRIPT","\033[0;34m•\033[1;37m"*11,"\n"
+    print("\033[0;34m•"*8,"\033[1;32m PROXY PYTHON WEBSOCKET","\033[0;34m•"*8,"\n")
+    print("\033[1;33mIP:\033[1;32m " + LISTENING_ADDR)
+    print("\033[1;33mPORT:\033[1;32m " + str(LISTENING_PORT) + "\n")
+    print("\033[0;34m•"*10,"\033[1;32m Developer: MASTERMIND VIP AUTO SCRIPT","\033[0;34m•\033[1;37m"*11,"\n")
     
     
     server = Server(LISTENING_ADDR, LISTENING_PORT)
@@ -271,7 +295,7 @@ def main(host=LISTENING_ADDR, port=LISTENING_PORT):
         try:
             time.sleep(2)
         except KeyboardInterrupt:
-            print 'Stopping...'
+            print('Stopping...')
             server.close()
             break
     
