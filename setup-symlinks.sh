@@ -38,20 +38,13 @@ ln -sf /root/mastermindvps/VIP-Autoscript/xray/renew-tr.sh /usr/local/bin/renew-
 ln -sf /root/mastermindvps/VIP-Autoscript/xray/del-tr.sh /usr/local/bin/del-tr
 ln -sf /root/mastermindvps/VIP-Autoscript/xray/cek-tr.sh /usr/local/bin/cek-tr
 
-# Menu Scripts
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-ssh.sh /usr/local/bin/menu-ssh
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-vmess.sh /usr/local/bin/menu-vmess
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-vless.sh /usr/local/bin/menu-vless
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-trojan.sh /usr/local/bin/menu-trojan
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-set.sh /usr/local/bin/menu-set
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-trial.sh /usr/local/bin/menu-trial
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-backup.sh /usr/local/bin/menu-backup
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/running.sh /usr/local/bin/running
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/wsport.sh /usr/local/bin/wsport
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/bw.sh /usr/local/bin/bw
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-domain.sh /usr/local/bin/menu-domain
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-webmin.sh /usr/local/bin/menu-webmin
-ln -sf /root/mastermindvps/VIP-Autoscript/menu/menu-theme.sh /usr/local/bin/menu-theme
+# Menu Scripts (auto-link every sub-menu so new menus work immediately)
+for f in /root/mastermindvps/VIP-Autoscript/menu/*.sh; do
+    [ -f "$f" ] || continue
+    cmd="$(basename "$f")"; cmd="${cmd%.sh}"
+    [ "$cmd" = "menu.sh" ] && continue
+    ln -sf "$f" "/usr/local/bin/$cmd"
+done
 ln -sf /root/mastermindvps/VIP-Autoscript/menu/custom-banner /usr/local/bin/custom-banner
 
 # System Scripts
