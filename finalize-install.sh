@@ -364,6 +364,8 @@ server {
     root /home/vps/public_html;
 
     location = /vless {
+        add_header Developer "Mastermind" always;
+        add_header X-Tunnel "Xray" always;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:14016;
         proxy_http_version 1.1;
@@ -374,6 +376,8 @@ server {
         proxy_set_header Host \$http_host;
     }
     location = /vmess {
+        add_header Developer "Mastermind" always;
+        add_header X-Tunnel "Xray" always;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:23456;
         proxy_http_version 1.1;
@@ -384,6 +388,8 @@ server {
         proxy_set_header Host \$http_host;
     }
     location = /trojan-ws {
+        add_header Developer "Mastermind" always;
+        add_header X-Tunnel "Xray" always;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:25432;
         proxy_http_version 1.1;
@@ -404,6 +410,8 @@ server {
         proxy_set_header Host \$http_host;
     }
     location = /ss-ws {
+        add_header Developer "Mastermind" always;
+        add_header X-Tunnel "Xray" always;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:30300;
         proxy_http_version 1.1;

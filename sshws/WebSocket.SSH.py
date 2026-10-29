@@ -10,10 +10,10 @@ PASS = ''
 BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:22'
-STATUS_RESP = u'101 Developer: Mastermind'
+STATUS_RESP = u'101 Developer: 𓆩 mastermind 𓆪'
 CRLF = chr(13) + chr(10)
 WS_GUID = b'258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
-_EXTRA_HEADERS = ('Upgrade: websocket', 'Connection: Upgrade',)
+_EXTRA_HEADERS = ('Upgrade: websocket', 'Connection: Upgrade', 'Developer: 𓆩 mastermind 𓆪',)
 
 def _find_header(head, header):
     if isinstance(head, bytes):
