@@ -28,6 +28,24 @@ def _find_header(head, header):
         return ''
     return head[i + len(header) + 2:j].strip()
 
+
+def _hs_log(raw):
+    import re as _re, datetime as _dt
+    try:
+        s = raw.decode('utf-8', errors='replace') if isinstance(raw, bytes) else raw
+        if 'websocket' not in s.lower():
+            return
+        def _h(name):
+            m = _re.search(r'(?im)^%s:[ \t]*(.*)$' % name, s)
+            return m.group(1).strip()[:80] if m else '-'
+        first = s.split('\r\n', 1)[0].replace('\n', ' ')[:70]
+        ts = _dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        line = '[%s] req="%s" upg=%s key=%s ver=%s ua=%s' % (ts, first, _h('Upgrade'), _h('Sec-WebSocket-Key'), _h('Sec-WebSocket-Version'), _h('User-Agent'))
+        with open('/var/log/ws-bridge.log', 'a') as _f:
+            _f.write(line + '\n')
+    except Exception:
+        pass
+
 def build_response(head):
     key = _find_header(head, 'Sec-WebSocket-Key')
     low = (head.decode('utf-8', errors='replace') if isinstance(head, bytes) else head).lower()
@@ -141,6 +159,7 @@ class ConnectionHandler(threading.Thread):
     def run(self):
         try:
             self.client_buffer = self.client.recv(BUFLEN)
+            _hs_log(self.client_buffer)
 
             request_str = self.client_buffer.decode('utf-8', errors='replace')
             if "upgrade" in request_str.lower() and "websocket" in request_str.lower():
