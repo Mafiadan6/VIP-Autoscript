@@ -267,6 +267,9 @@ else
     ws8080="${red}OFF${NC}"
 fi
 
+echo -e "${BICyan}- SSH WS (via nginx) : ${BIWhite}700${NC} [${ws700}${NC}]"
+echo -e "${BICyan}- SSH WS (direct)    : ${BIWhite}8080${NC} [${ws8080}${NC}]"
+
 # Check BadVPN on port 7200
 if pgrep -f "badvpn-udpgw.*7200" > /dev/null; then
     badvpn7200="${green}ON${NC}"
