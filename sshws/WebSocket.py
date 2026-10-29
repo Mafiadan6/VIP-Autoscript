@@ -11,9 +11,11 @@ BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:22'
 STATUS_RESP = u'101 Developer: 𓆩 mastermind 𓆪'
+STATUS_RESP_SAFE = u'101 Developer: mastermind'
 CRLF = chr(13) + chr(10)
 WS_GUID = b'258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
-_EXTRA_HEADERS = ('Content-Length: 1048576000000', 'Developer: 𓆩 mastermind 𓆪')
+_EXTRA_HEADERS_BRAND = ('Content-Length: 1048576000000', 'Developer: 𓆩 mastermind 𓆪')
+_EXTRA_HEADERS_SAFE  = ('Content-Length: 1048576000000', 'Developer: mastermind')
 
 def _find_header(head, header):
     if isinstance(head, bytes):
@@ -28,7 +30,11 @@ def _find_header(head, header):
 
 def build_response(head):
     key = _find_header(head, 'Sec-WebSocket-Key')
-    resp = u'HTTP/1.1 ' + STATUS_RESP + CRLF + CRLF.join(_EXTRA_HEADERS) + CRLF
+    low = (head.decode('utf-8', errors='replace') if isinstance(head, bytes) else head).lower()
+    via_cf = ('cf-connecting-ip' in low) or ('cf-ray' in low) or ('cf-visitor' in low)
+    status = STATUS_RESP_SAFE if via_cf else STATUS_RESP
+    extras = _EXTRA_HEADERS_SAFE if via_cf else _EXTRA_HEADERS_BRAND
+    resp = u'HTTP/1.1 ' + status + CRLF + CRLF.join(extras) + CRLF
     if key:
         accept = base64.b64encode(hashlib.sha1(key.encode('utf-8') + WS_GUID).digest()).decode()
         resp += u'Sec-WebSocket-Accept: ' + accept + CRLF
