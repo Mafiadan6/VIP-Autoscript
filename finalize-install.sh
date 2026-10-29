@@ -37,7 +37,7 @@ fi
 # -----------------------------------------------------------------------------
 blue "---> Configuring WebSocket proxy services (py3) ..."
 mkdir -p /usr/local/bin /etc/ws
-[ -f "$REPO/sshws/WebSocket.py" ] && cp "$REPO"/sshws/WebSocket.py* /usr/local/bin/ 2>/dev/null
+[ -f "$REPO/sshws/WebSocket.py" ] && cp "$REPO"/sshws/WebSocket*.py* /usr/local/bin/ 2>/dev/null
 chmod +x /usr/local/bin/WebSocket*.py 2>/dev/null
 
 cat > /etc/systemd/system/WebSocket.service <<'EOF'

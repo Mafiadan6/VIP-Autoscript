@@ -16,6 +16,8 @@ NC='\e[0m'
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 blue() { echo -e "\\033[34;1m${*}\\033[0m"; }
+# yell exists both as a color variable (${yell}) and as a function (yell "text")
+yell() { echo -e "\\033[33;1m${*}\\033[0m"; }
 
 # Banner
 clear
@@ -78,8 +80,8 @@ echo ""
 # Install Xray
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 
-# Install V2Ray (alternative)
-curl -L https://install.direct/go.sh | bash
+# Install V2Ray (alternative) - official fhs-install-v2ray (install.direct/go.sh is DISCARDED)
+bash <(curl -Ls https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 
 # Create Xray configuration directory
 mkdir -p /etc/xray
@@ -377,7 +379,10 @@ blue "---> ★ Configuring BadVPN UDP Gateway ★"
 echo ""
 
 # Create BadVPN systemd service
-cat > /etc/systemd/system/badvpn.service << EOF
+# NOTE: heredoc MUST be quoted (<< 'EOF') so $port stays literal and is expanded
+# by the inner bash -c loop at runtime. Unquoted, $port is expanded here (empty)
+# and the unit ends up with a broken --listen-addr 127.0.0.1: .
+cat > /etc/systemd/system/badvpn.service << 'EOF'
 [Unit]
 Description=BadVPN UDP Gateway
 After=network.target
